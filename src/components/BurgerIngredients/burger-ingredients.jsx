@@ -6,6 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import "./burger-ingredients.css";
 import data from "/Users/olesiati/Desktop/react-burger/src/utils/data.js";
+import PropTypes from "prop-types";
 
 export default function BurgerIngredients() {
   const [current, setCurrent] = React.useState("one");
@@ -25,6 +26,7 @@ export default function BurgerIngredients() {
           Начинки
         </Tab>
       </div>
+
       <IngredientsContainer
         header="Булки"
         cardsArr={data.filter((el) => {
@@ -49,7 +51,6 @@ export default function BurgerIngredients() {
 }
 
 function IngredientsContainer({ header, cardsArr }) {
-  console.log(cardsArr);
   return (
     <>
       <h2 className="secondary-header">{header}</h2>
@@ -57,7 +58,12 @@ function IngredientsContainer({ header, cardsArr }) {
       <div className="burger-ingredients__container">
         {cardsArr.map((el) => {
           return (
-            <Ingredient name={el.name} price={el.price} image={el.image} />
+            <Ingredient
+              name={el.name}
+              price={el.price}
+              image={el.image}
+              key={el._id}
+            />
           );
         })}
       </div>
@@ -67,7 +73,6 @@ function IngredientsContainer({ header, cardsArr }) {
 
 function Ingredient({ name, price, image }) {
   const [count, setCount] = useState(0);
-  console.log(count);
 
   const handleClick = () => {
     setCount((prev) => {
@@ -88,3 +93,19 @@ function Ingredient({ name, price, image }) {
     </>
   );
 }
+
+IngredientsContainer.propTypes = {
+  header: PropTypes.string,
+  cardsArr: PropTypes.array,
+};
+
+Ingredient.propTypes = {
+  name: PropTypes.string,
+  price: PropTypes.number,
+  image: PropTypes.string,
+};
+
+Tab.propTypes = {
+  value: PropTypes.string,
+  active: PropTypes.bool,
+};
