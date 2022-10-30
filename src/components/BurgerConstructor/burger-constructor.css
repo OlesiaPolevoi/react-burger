@@ -2,9 +2,8 @@ section {
   padding-top: 100px;
   padding-left: 16px;
   padding-right: 16px;
-
   width: 600px;
-  border: 2px solid #4c4cff;
+  /* border: 2px solid #4c4cff; */
   font-family: "JetBrains Mono";
   background: #1c1c21;
 }
@@ -14,4 +13,27 @@ section {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 8px;
+}
+
+.burger-constructor__total {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  gap: 40px;
+}
+
+.burger-constructor__price-number {
+  font-family: "Iceland";
+
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 36px;
+}
+
+.burger-constructor__scroller {
+  height: 100%;
+  overflow-y: scroll;
+  scrollbar-width: thin;
 }

@@ -3,7 +3,6 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  /* border: 2px solid red; */
   width: 1240px;
   font-family: "JetBrains Mono";
   font-style: normal;
@@ -21,7 +20,6 @@ nav {
   width: 1240px;
 }
 .nav-link {
-  /* height: 56px; */
   display: flex;
   align-items: center;
   border-radius: 40px;
@@ -30,7 +28,7 @@ nav {
   text-decoration: none;
   cursor: pointer;
   color: #f2f2f3;
-  border: 1px dashed #4c4cff;
+  /* border: 1px dashed #4c4cff; */
 }
 
 .nav-inactive {
