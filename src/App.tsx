@@ -5,15 +5,17 @@ import data from "/Users/olesiati/Desktop/react-burger/src/utils/data.js";
 
 import AppHeader from "./components/AppHeader/app-header";
 import BurgerIngredients from "./components/BurgerIngredients/burger-ingredients";
+import BurgerConstructor from "./components/BurgerConstructor/burger-constructor";
 
 function App() {
-  console.log(data);
   return (
-    <div className="App">
-      <header className="App-header">
-        <AppHeader />
+    <div className="app">
+      <AppHeader />
+
+      <div className="app-container">
         <BurgerIngredients />
-      </header>
+        <BurgerConstructor />
+      </div>
     </div>
   );
 }

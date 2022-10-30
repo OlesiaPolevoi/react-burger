@@ -3,6 +3,7 @@ main {
   border: 2px solid #4c4cff;
   font-family: "JetBrains Mono";
   background: #1c1c21;
+  margin-right: 40px;
 }
 
 .main-header {
@@ -45,6 +46,7 @@ main {
   align-items: center;
   justify-content: space-around;
   margin-bottom: 40px;
+  flex-wrap: wrap;
 }
 .price-number {
   font-family: "Iceland", cursive;
@@ -58,4 +60,5 @@ main {
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
+  width: 272px;
 }

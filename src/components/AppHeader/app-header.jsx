@@ -13,23 +13,36 @@ export default function AppHeader() {
     <header className="app-header">
       <nav>
         <div className="nav-elements">
-          <a href="#" className="nav-link">
-            <BurgerIcon type="primary" className="nav-icon" />
-            <span className="nav-text">Конструктор</span>
-          </a>
+          <NavigationLink
+            text="Конструктор"
+            icon={<BurgerIcon type="primary" className="nav-icon" />}
+          />
 
-          <a href="#" className="nav-link nav-inactive">
-            <ListIcon type="secondary" />
-            <span className="nav-text"> Лента заказов</span>
-          </a>
+          <NavigationLink
+            text="Лента заказов"
+            icon={<ListIcon type="secondary" />}
+            inactive={true}
+          />
         </div>
         <Logo />
 
-        <a href="#" className="nav-link nav-inactive">
-          <ProfileIcon type="secondary" />
-          <span className="nav-text"> Личный кабинет</span>
-        </a>
+        <NavigationLink
+          text="Личный кабинет"
+          icon={<ProfileIcon type="secondary" />}
+          inactive={true}
+        />
       </nav>
     </header>
+  );
+}
+
+function NavigationLink({ text, icon, inactive }) {
+  return (
+    <>
+      <a href="#" className={`nav-link ${inactive ? "nav-inactive" : ""}`}>
+        {icon}
+        <span className="nav-text">{text}</span>
+      </a>
+    </>
   );
 }

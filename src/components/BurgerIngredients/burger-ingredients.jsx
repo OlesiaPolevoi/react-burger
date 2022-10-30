@@ -17,14 +17,14 @@ export default function BurgerIngredients() {
           Булки
         </Tab>
         <Tab value="two" active={current === "two"} onClick={setCurrent}>
-          Соусы{" "}
+          Соусы
         </Tab>
         <Tab value="three" active={current === "three"} onClick={setCurrent}>
           Начинки
         </Tab>
       </div>
 
-      <h2 className="secondary-header">Булки</h2>
+      {/* <h2 className="secondary-header">Булки</h2>
 
       <div className="container">
         <div className="ingredient">
@@ -46,8 +46,8 @@ export default function BurgerIngredients() {
 
           <div className="description">Флюоресцентная булка R2-D3</div>
         </div>
-      </div>
-
+      </div> */}
+      <IngredientsContainer header="Булки" />
       <h2 className="secondary-header">Соусы</h2>
 
       <div className="container">
@@ -70,12 +70,92 @@ export default function BurgerIngredients() {
 
           <div className="description">Соус фирменный Space Sauce</div>
         </div>
+
+        <div className="ingredient">
+          <img src="https://code.s3.yandex.net/react/code/sauce-03.png" />
+          <div className="price">
+            <div className="price-number">30</div>
+            <CurrencyIcon type="primary" />
+          </div>
+
+          <div className="description">Соус традиционный галактический</div>
+        </div>
+
+        <div className="ingredient">
+          <img src="https://code.s3.yandex.net/react/code/sauce-01.png" />
+          <div className="price">
+            <div className="price-number">30</div>
+            <CurrencyIcon type="primary" />
+          </div>
+
+          <div className="description">
+            Соус с шипами Антарианского плоскоходца
+          </div>
+        </div>
       </div>
 
       <h2 className="secondary-header">Начинки</h2>
 
+      <div className="container">
+        <div className="ingredient">
+          <img src="https://code.s3.yandex.net/react/code/sp_1.png" />
+          <div className="price">
+            <div className="price-number">80</div>
+            <CurrencyIcon type="primary" />
+          </div>
+
+          <div className="description">Плоды Фалленианского дерева</div>
+        </div>
+        <div className="ingredient">
+          <img src="https://code.s3.yandex.net/react/code/mineral_rings.png" />
+          <div className="price">
+            <div className="price-number">80</div>
+            <CurrencyIcon type="primary" />
+          </div>
+
+          <div className="description">Хрустящие минеральные кольца</div>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function IngredientsContainer({ header }) {
+  return (
+    <>
+      <h2 className="secondary-header">{header}</h2>
+
+      <div className="container">
+        {/* <div className="ingredient">
+          <img src="https://code.s3.yandex.net/react/code/bun-02.png" />
+          <div className="price">
+            <div className="price-number">20</div>
+            <CurrencyIcon type="primary" />
+          </div>
+
+          <div className="description">Краторная булка N-200i</div>
+        </div> */}
+        <Ingredient />
+
+        <div className="ingredient">
+          <img src="https://code.s3.yandex.net/react/code/bun-01.png" />
+          <div className="price">
+            <div className="price-number">20</div>
+            <CurrencyIcon type="primary" />
+          </div>
+
+          <div className="description">Флюоресцентная булка R2-D3</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function Ingredient() {
+  return (
+    <>
       <div className="ingredient">
-        <img src="https://code.s3.yandex.net/react/code/bun-01.png" />
+        <img src="https://code.s3.yandex.net/react/code/bun-02.png" />
         <div className="price">
           <div className="price-number">20</div>
           <CurrencyIcon type="primary" />
@@ -83,14 +163,8 @@ export default function BurgerIngredients() {
 
         <div className="description">Краторная булка N-200i</div>
       </div>
-    </main>
+    </>
   );
 }
 
-// Из библиотеки UI-компонентов возьмите следующие:
-// счётчики,
-// иконки,
-// переключатели,
-// типографику,
-// систему отступов.
 // У компонента свой кастомизированный скроллбар. Подумайте над реализацией и возможным ограничением высоты блока, в том числе и на разных разрешениях экранов.
