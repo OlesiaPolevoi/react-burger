@@ -5,8 +5,6 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
-import "./burger-ingredients.css";
 import burgerIngredients from './burger-ingredients.module.css';
 import PropTypes from "prop-types";
 
