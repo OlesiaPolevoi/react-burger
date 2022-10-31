@@ -1,5 +1,5 @@
 import React from "react";
-import "./burger-constructor.css";
+import burgerConstructor from './burger-constructor.module.css';
 import {
   ConstructorElement,
   DragIcon,
@@ -10,9 +10,9 @@ import PropTypes from "prop-types";
 
 export default function BurgerConstructor() {
   return (
-    <section>
+    <section className={burgerConstructor.section}>
       <div
-        className="burger-constructor__scroller"
+        className={burgerConstructor.scroller}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -21,7 +21,7 @@ export default function BurgerConstructor() {
         }}
       >
         <div
-          className="burger-constructor-container"
+          className={burgerConstructor.container}
           style={{ marginLeft: "32px" }}
         >
           <ConstructorElement
@@ -35,7 +35,7 @@ export default function BurgerConstructor() {
           />
         </div>
 
-        <div className="burger-constructor-container">
+        <div className={burgerConstructor.container}>
           <DragIcon type="primary" />
           <ConstructorElement
             text="Краторная булка N-200i "
@@ -46,7 +46,7 @@ export default function BurgerConstructor() {
           />
         </div>
 
-        <div className="burger-constructor-container">
+        <div className={burgerConstructor.container}>
           <DragIcon type="primary" />
           <ConstructorElement
             text="Краторная булка N-200i "
@@ -56,7 +56,7 @@ export default function BurgerConstructor() {
             }
           />
         </div>
-        <div className="burger-constructor-container">
+        <div className={burgerConstructor.container}>
           <DragIcon type="primary" />
           <ConstructorElement
             text="Краторная булка N-200i "
@@ -66,7 +66,7 @@ export default function BurgerConstructor() {
             }
           />
         </div>
-        <div className="burger-constructor-container">
+        <div className={burgerConstructor.container}>
           <DragIcon type="primary" />
           <ConstructorElement
             text="Краторная булка N-200i "
@@ -76,7 +76,7 @@ export default function BurgerConstructor() {
             }
           />
         </div>
-        <div className="burger-constructor-container">
+        <div className={burgerConstructor.container}>
           <DragIcon type="primary" />
           <ConstructorElement
             text="Краторная булка N-200i "
@@ -87,7 +87,7 @@ export default function BurgerConstructor() {
           />
         </div>
         <div
-          className="burger-constructor-container"
+          className={burgerConstructor.container}
           style={{ marginLeft: "32px" }}
         >
           <ConstructorElement
@@ -102,9 +102,9 @@ export default function BurgerConstructor() {
         </div>
       </div>
 
-      <div className="burger-constructor__total">
+      <div className={burgerConstructor.total}>
         <div className="price">
-          <div className="burger-constructor__price-number price-number">
+          <div className={burgerConstructor.price}>
             {610}
           </div>
           <CurrencyIcon type="primary" />

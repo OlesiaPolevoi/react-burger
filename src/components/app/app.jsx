@@ -1,16 +1,17 @@
 import React from "react";
-import "./app.css";
+import styles from './app.module.css';
 
-import AppHeader from "../AppHeader/app-header";
-import BurgerIngredients from "../BurgerIngredients/burger-ingredients";
-import BurgerConstructor from "../../components/BurgerConstructor/burger-constructor";
+
+import AppHeader from "../appHeader/app-header";
+import BurgerIngredients from "../burgerIngredients/burger-ingredients";
+import BurgerConstructor from "../burgerConstructor/burger-constructor";
 
 function App() {
   return (
-    <div className="app">
+    <div className={styles.app}>
       <AppHeader />
 
-      <div className="app-container">
+      <div className={styles.container}>
         <BurgerIngredients />
         <BurgerConstructor />
       </div>

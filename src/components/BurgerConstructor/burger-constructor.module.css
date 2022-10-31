@@ -1,4 +1,4 @@
-section {
+.section {
   padding-top: 100px;
   padding-left: 16px;
   padding-right: 16px;
@@ -8,7 +8,7 @@ section {
   background: #131316;
 }
 
-.burger-constructor-container {
+.container {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -16,7 +16,7 @@ section {
   gap: 8px;
 }
 
-.burger-constructor__total {
+.total {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -25,15 +25,15 @@ section {
   margin-right: 10px;
 }
 
-.burger-constructor__price-number {
+.price {
   font-family: "Iceland";
-
   font-weight: 400;
   font-size: 48px;
   line-height: 36px;
+  margin-right: 8px;
 }
 
-.burger-constructor__scroller {
+.scroller {
   height: 100%;
   overflow-y: scroll;
   scrollbar-width: thin;

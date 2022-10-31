@@ -1,4 +1,4 @@
-.app-header {
+.header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -13,14 +13,14 @@
   margin-bottom: 40px;
   background: #1c1c21;
 }
-nav {
+.container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 1240px;
   height: 88px;
 }
-.nav-link {
+.link {
   display: flex;
   align-items: center;
   border-radius: 40px;
@@ -32,23 +32,19 @@ nav {
   /* border: 1px dashed #4c4cff; */
 }
 
-.nav-inactive {
+.inactive {
   color: #8585ad;
 }
 
-.nav-icon {
-  width: 24px;
-  height: 24px;
-}
-.nav-text {
+.text {
   margin-left: 8px;
 }
 
-.nav-elements {
+.elements {
   display: flex;
   flex-direction: row;
 }
 
-.nav-elements .nav-link {
+.elements .link {
   margin-right: 8px;
 }

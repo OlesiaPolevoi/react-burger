@@ -1,21 +1,24 @@
 import React, { useState } from "react";
+import data from "../../utils/data.js";
 import {
   Tab,
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import "./burger-ingredients.css";
-import data from "/Users/olesiati/Desktop/react-burger/src/utils/data.js";
+import burgerIngredients from './burger-ingredients.module.css';
 import PropTypes from "prop-types";
+
+
 
 export default function BurgerIngredients() {
   const [current, setCurrent] = React.useState("one");
-
   return (
-    <main className="scroller">
-      <h1 className="main-header">Соберите бургер</h1>
+    <main className={burgerIngredients.scroller} >
+      <h1 className={burgerIngredients.heading}>Соберите бургер</h1>
 
-      <div style={{ display: "flex" }} className="main-tab">
+      <div style={{ display: "flex" }} className={burgerIngredients.tab}>
         <Tab value="one" active={current === "one"} onClick={setCurrent}>
           Булки
         </Tab>
@@ -53,9 +56,9 @@ export default function BurgerIngredients() {
 function IngredientsContainer({ header, cardsArr }) {
   return (
     <>
-      <h2 className="secondary-header">{header}</h2>
+      <h2 className={burgerIngredients.header}>{header}</h2>
 
-      <div className="burger-ingredients__container">
+      <div className={burgerIngredients.container}>
         {cardsArr.map((el) => {
           return (
             <Ingredient
@@ -81,14 +84,14 @@ function Ingredient({ name, price, image }) {
   };
   return (
     <>
-      <div className="ingredient" onClick={handleClick}>
+      <div className={burgerIngredients.ingredient} onClick={handleClick}>
         <img src={`${image}`} />
         {count > 0 && <Counter count={count} size="default" />}
-        <div className="price">
-          <div className="price-number">{price}</div>
+        <div className={burgerIngredients.price}>
+          <div className={burgerIngredients.number}>{price}</div>
           <CurrencyIcon type="primary" />
         </div>
-        <div className="description">{name}</div>
+        <div className={burgerIngredients.description}>{name}</div>
       </div>
     </>
   );

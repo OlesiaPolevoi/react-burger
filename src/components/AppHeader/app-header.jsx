@@ -1,6 +1,5 @@
 import React from "react";
-import "./app-header.css";
-
+import appHeader from './app-header.module.css';
 import {
   Logo,
   BurgerIcon,
@@ -10,9 +9,9 @@ import {
 
 export default function AppHeader() {
   return (
-    <header className="app-header">
-      <nav>
-        <div className="nav-elements">
+    <header className={appHeader.header}>
+      <nav className={appHeader.container}>
+        <div className={appHeader.elements}>
           <NavigationLink
             text="Конструктор"
             icon={<BurgerIcon type="primary" className="nav-icon" />}
@@ -39,10 +38,12 @@ export default function AppHeader() {
 function NavigationLink({ text, icon, inactive }) {
   return (
     <>
-      <a href="#" className={`nav-link ${inactive ? "nav-inactive" : ""}`}>
+      <a href="#" className={`${appHeader.link} ${inactive ? appHeader.inactive : ""}`}>
         {icon}
-        <span className="nav-text">{text}</span>
+        <span className={appHeader.text}>{text}</span>
       </a>
     </>
   );
 }
+
+
