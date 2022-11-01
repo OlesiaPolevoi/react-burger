@@ -26,11 +26,19 @@
 }
 
 .price {
+  
   font-family: "Iceland";
   font-weight: 400;
   font-size: 48px;
   line-height: 36px;
   margin-right: 8px;
+}
+
+.ammount{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
 .scroller {

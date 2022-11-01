@@ -81,7 +81,7 @@ function Ingredient({ name, price, image }) {
     });
   };
   return (
-    <>
+    
       <div className={burgerIngredients.ingredient} onClick={handleClick}>
         <img src={`${image}`} />
         {count > 0 && <Counter count={count} size="default" />}
@@ -91,22 +91,27 @@ function Ingredient({ name, price, image }) {
         </div>
         <div className={burgerIngredients.description}>{name}</div>
       </div>
-    </>
+  
   );
 }
 
 IngredientsContainer.propTypes = {
-  header: PropTypes.string,
-  cardsArr: PropTypes.array,
+  header: PropTypes.string.isRequired,
+  cardsArr: PropTypes.array.isRequired
 };
 
 Ingredient.propTypes = {
-  name: PropTypes.string,
-  price: PropTypes.number,
-  image: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
 };
 
 Tab.propTypes = {
   value: PropTypes.string,
   active: PropTypes.bool,
 };
+
+CurrencyIcon.propTypes={
+  type: PropTypes.string
+}
+

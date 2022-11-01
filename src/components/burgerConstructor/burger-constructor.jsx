@@ -103,7 +103,7 @@ export default function BurgerConstructor() {
       </div>
 
       <div className={burgerConstructor.total}>
-        <div className="price">
+        <div className={burgerConstructor.ammount}>
           <div className={burgerConstructor.price}>
             {610}
           </div>
@@ -119,5 +119,25 @@ export default function BurgerConstructor() {
 }
 
 Button.propTypes = {
-  type: PropTypes.string,
+  type: PropTypes.string.isRequired,
+  size: PropTypes.string.isRequired
 };
+
+CurrencyIcon.propTypes={
+  type: PropTypes.string.isRequired
+
+}
+
+ConstructorElement.propTypes={
+  type: PropTypes.string,
+  isLocked: PropTypes.bool,
+  text: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  thumbnail: PropTypes.string.isRequired
+}
+
+DragIcon.propTypes={
+  type: PropTypes.string
+
+}
+

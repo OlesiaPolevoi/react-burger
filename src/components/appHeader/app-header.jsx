@@ -6,6 +6,8 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
+
 
 export default function AppHeader() {
   return (
@@ -37,13 +39,19 @@ export default function AppHeader() {
 
 function NavigationLink({ text, icon, inactive }) {
   return (
-    <>
+    
       <a href="#" className={`${appHeader.link} ${inactive ? appHeader.inactive : ""}`}>
         {icon}
         <span className={appHeader.text}>{text}</span>
       </a>
-    </>
+   
   );
 }
 
 
+
+NavigationLink.propTypes = {
+  text: PropTypes.string.isRequired,
+  inactive: PropTypes.bool,
+  icon: PropTypes.object.isRequired
+};
