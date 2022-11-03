@@ -10,6 +10,8 @@ main {
   overflow-y: scroll;
   overflow-x: hidden;
   scrollbar-width: thin;
+  padding-top: 40px;
+
 }
 
 ::-webkit-scrollbar {
@@ -39,7 +41,6 @@ main {
 }
 
 .tab {
-  margin-bottom: 40px;
   display: flex;
 }
 
@@ -81,3 +82,4 @@ main {
   line-height: 24px;
   width: 272px;
 }
+

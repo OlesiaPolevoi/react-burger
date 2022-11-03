@@ -9,7 +9,7 @@ import {
 import PropTypes from "prop-types";
 
 
-export default function AppHeader() {
+export function AppHeader() {
   return (
     <header className={appHeader.header}>
       <nav className={appHeader.container}>
@@ -48,10 +48,9 @@ function NavigationLink({ text, icon, inactive }) {
   );
 }
 
-
-
 NavigationLink.propTypes = {
   text: PropTypes.string.isRequired,
   inactive: PropTypes.bool,
   icon: PropTypes.object.isRequired
 };
+

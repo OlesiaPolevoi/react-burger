@@ -6,10 +6,10 @@ import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import data from "../../utils/data.js";
-// import PropTypes from "prop-types";
+import {data} from "../../utils/data.js";
+import PropTypes from "prop-types";
 
-export default function BurgerConstructor() {
+export function BurgerConstructor() {
   return (
     <section className={burgerConstructor.section}>
       <div
@@ -50,77 +50,19 @@ function ConstructorIngredient({dataArr}) {
           thumbnail={el.image}
         />
       </div>
-    )
-
-    // if(index === 0) {
-    //   return (
-    //     <div key={el._id} className={burgerConstructor.container}   className={burgerConstructor.margin}>
-    //        <ConstructorElement 
-    //       type="top" 
-    //       isLocked={true}    
-    //       text={el.name}
-    //       price={el.price}
-    //       thumbnail={el.image}/>
-    //     </div>
-    //   )
-    // }
-    // if(index !== 0 && index !== dataArr.length-1){
-    //   return(
-    //     <div key={el._id} className={burgerConstructor.container}>
-    //       <DragIcon type="primary" />
-    //       <ConstructorElement
-    //         text={el.name}
-    //         price={el.price}
-    //         thumbnail={el.image}
-    //       />
-    //     </div>
-    //   )
-    // }
-    // if(index === dataArr.length-1){
-    //   return(
-    //     <div key={el._id} className={burgerConstructor.container}   className={burgerConstructor.margin}>
-    //       <ConstructorElement 
-    //         type="bottom" 
-    //         isLocked={true}    
-    //         text={el.name}
-    //         price={el.price}
-    //         thumbnail={el.image}
-    //        />
-    //     </div>
-    //   )
-    // }
-
+    ) 
   }
 ))}  
-// { index !== 0 && index !==dataArr.length-1 && < key={el._id} className={burgerConstructor.container}> 
-//     {index !== 0 && index !==dataArr.length-1 && <DragIcon type="primary"/>}
-//     {index !== 0 && index !==dataArr.length-1 && <ConstructorElement
-//     text={el.name}
-//     price={el.price}
-//     thumbnail={el.image}
-//     /> }
-//   }
 
-// {index === dataArr.length-1 && <div key={el._id} className={burgerConstructor.container}   className={burgerConstructor.margin}>
-// {index===dataArr.length-1 && 
-// <ConstructorElement 
-// type="bottom" 
-// isLocked={true}    
-// text={el.name}
-// price={el.price}
-// thumbnail={el.image}/>}
-// </div>
-// }
-// </>  
-// )}))
-    
-// }
 
-// Button.propTypes = {
-//   type: PropTypes.string.isRequired,
-//   size: PropTypes.string.isRequired
-// };
+Button.propTypes = {
+  type: PropTypes.string.isRequired,
+  size: PropTypes.string.isRequired
+};
 
+ConstructorIngredient.propTypes = {
+  dataArr: PropTypes.array.isRequired
+};
 
 
 

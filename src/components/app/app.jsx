@@ -2,11 +2,11 @@ import React from "react";
 import styles from './app.module.css';
 
 
-import AppHeader from "../appHeader/app-header";
-import BurgerIngredients from "../burgerIngredients/burger-ingredients";
-import BurgerConstructor from "../burgerConstructor/burger-constructor";
+import {AppHeader} from "../appHeader/app-header";
+import {BurgerIngredients} from "../burgerIngredients/burger-ingredients";
+import {BurgerConstructor} from "../burgerConstructor/burger-constructor";
 
-function App() {
+export function App() {
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -19,4 +19,5 @@ function App() {
   );
 }
 
-export default App;
+
+
