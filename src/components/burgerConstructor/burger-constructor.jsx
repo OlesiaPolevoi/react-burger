@@ -6,6 +6,7 @@ import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import data from "../../utils/data.js";
 import PropTypes from "prop-types";
 
 export default function BurgerConstructor() {
@@ -13,93 +14,8 @@ export default function BurgerConstructor() {
     <section className={burgerConstructor.section}>
       <div
         className={burgerConstructor.scroller}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-          marginBottom: "40px",
-        }}
       >
-        <div
-          className={burgerConstructor.container}
-          style={{ marginLeft: "32px" }}
-        >
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-            thumbnail={
-              "https://code.s3.yandex.net/react/code/mineral_rings.png"
-            }
-          />
-        </div>
-
-        <div className={burgerConstructor.container}>
-          <DragIcon type="primary" />
-          <ConstructorElement
-            text="Краторная булка N-200i "
-            price={50}
-            thumbnail={
-              "https://code.s3.yandex.net/react/code/mineral_rings.png"
-            }
-          />
-        </div>
-
-        <div className={burgerConstructor.container}>
-          <DragIcon type="primary" />
-          <ConstructorElement
-            text="Краторная булка N-200i "
-            price={50}
-            thumbnail={
-              "https://code.s3.yandex.net/react/code/mineral_rings.png"
-            }
-          />
-        </div>
-        <div className={burgerConstructor.container}>
-          <DragIcon type="primary" />
-          <ConstructorElement
-            text="Краторная булка N-200i "
-            price={50}
-            thumbnail={
-              "https://code.s3.yandex.net/react/code/mineral_rings.png"
-            }
-          />
-        </div>
-        <div className={burgerConstructor.container}>
-          <DragIcon type="primary" />
-          <ConstructorElement
-            text="Краторная булка N-200i "
-            price={50}
-            thumbnail={
-              "https://code.s3.yandex.net/react/code/mineral_rings.png"
-            }
-          />
-        </div>
-        <div className={burgerConstructor.container}>
-          <DragIcon type="primary" />
-          <ConstructorElement
-            text="Краторная булка N-200i "
-            price={50}
-            thumbnail={
-              "https://code.s3.yandex.net/react/code/mineral_rings.png"
-            }
-          />
-        </div>
-        <div
-          className={burgerConstructor.container}
-          style={{ marginLeft: "32px" }}
-        >
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text="Краторная булка N-200i (низ)"
-            price={200}
-            thumbnail={
-              "https://code.s3.yandex.net/react/code/mineral_rings.png"
-            }
-          />
-        </div>
+        <ConstructorIngredient dataArr={data}/>
       </div>
 
       <div className={burgerConstructor.total}>
@@ -110,12 +26,47 @@ export default function BurgerConstructor() {
           <CurrencyIcon type="primary" />
         </div>
 
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" >
           Оформить заказ
         </Button>
       </div>
     </section>
   );
+}
+ function ConstructorIngredient({dataArr}) {
+return (dataArr.map((el, index)=>{
+return(<>
+{index === 0 && <div key={el._id} className={burgerConstructor.container}   className={burgerConstructor.margin}>
+{index===0 && <ConstructorElement 
+type="top" 
+isLocked={true}    
+text={el.name}
+price={el.price}
+thumbnail={el.image}/>}
+</div>
+}
+
+{ index !== 0 && index !==dataArr.length-1 && <div key={el._id} className={burgerConstructor.container}> 
+    {index !== 0 && index !==dataArr.length-1 && <DragIcon type="primary"/>}
+    {index !== 0 && index !==dataArr.length-1 && <ConstructorElement
+    text={el.name}
+    price={el.price}
+    thumbnail={el.image}
+    /> }
+  </div>}
+
+{index === dataArr.length-1 && <div key={el._id} className={burgerConstructor.container}   className={burgerConstructor.margin}>
+{index===dataArr.length-1 && <ConstructorElement 
+type="bottom" 
+isLocked={true}    
+text={el.name}
+price={el.price}
+thumbnail={el.image}/>}
+</div>
+}
+</>  
+  )}))
+    
 }
 
 Button.propTypes = {
@@ -123,21 +74,6 @@ Button.propTypes = {
   size: PropTypes.string.isRequired
 };
 
-CurrencyIcon.propTypes={
-  type: PropTypes.string.isRequired
 
-}
 
-ConstructorElement.propTypes={
-  type: PropTypes.string,
-  isLocked: PropTypes.bool,
-  text: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  thumbnail: PropTypes.string.isRequired
-}
-
-DragIcon.propTypes={
-  type: PropTypes.string
-
-}
 

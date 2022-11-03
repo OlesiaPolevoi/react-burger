@@ -15,7 +15,10 @@
   align-items: center;
   gap: 8px;
 }
+.margin{
+  margin-left: 32px;
 
+}
 .total {
   display: flex;
   flex-direction: row;
@@ -45,4 +48,10 @@
   height: 100%;
   overflow-y: scroll;
   scrollbar-width: thin;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 40px;
 }
+
+

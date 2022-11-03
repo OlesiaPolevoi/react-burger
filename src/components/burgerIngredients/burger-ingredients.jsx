@@ -16,7 +16,7 @@ export default function BurgerIngredients() {
     <main className={burgerIngredients.scroller} >
       <h1 className={burgerIngredients.heading}>Соберите бургер</h1>
 
-      <div style={{ display: "flex" }} className={burgerIngredients.tab}>
+      <div  className={burgerIngredients.tab}>
         <Tab value="one" active={current === "one"} onClick={setCurrent}>
           Булки
         </Tab>
@@ -57,6 +57,7 @@ function IngredientsContainer({ header, cardsArr }) {
       <h2 className={burgerIngredients.header}>{header}</h2>
 
       <div className={burgerIngredients.container}>
+        
         {cardsArr.map((el) => {
           return (
             <Ingredient
@@ -83,7 +84,7 @@ function Ingredient({ name, price, image }) {
   return (
     
       <div className={burgerIngredients.ingredient} onClick={handleClick}>
-        <img src={`${image}`} />
+        <img src={`${image}`} alt={name}/>
         {count > 0 && <Counter count={count} size="default" />}
         <div className={burgerIngredients.price}>
           <div className={burgerIngredients.number}>{price}</div>
@@ -106,12 +107,5 @@ Ingredient.propTypes = {
   image: PropTypes.string.isRequired,
 };
 
-Tab.propTypes = {
-  value: PropTypes.string,
-  active: PropTypes.bool,
-};
 
-CurrencyIcon.propTypes={
-  type: PropTypes.string
-}
 

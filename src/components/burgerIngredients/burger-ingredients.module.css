@@ -41,6 +41,7 @@ main {
 
 .tab {
   margin-bottom: 40px;
+  display: flex;
 }
 
 .price {
