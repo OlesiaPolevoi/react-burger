@@ -34,6 +34,8 @@ export function BurgerConstructor() {
   );
 }
 function ConstructorIngredient({dataArr}) {
+
+
   return (dataArr.map((el, index)=>{
     return (
       <div key={el._id} className={`${burgerConstructor.container} ${index === 0 || 
@@ -46,6 +48,7 @@ function ConstructorIngredient({dataArr}) {
           type={index === 0 ? "top" : index === dataArr.length - 1 ? "bottom" : undefined} 
           isLocked={index === 0 || index === dataArr.length - 1}    
           text={el.name}
+
           price={el.price}
           thumbnail={el.image}
         />
@@ -63,6 +66,7 @@ Button.propTypes = {
 ConstructorIngredient.propTypes = {
   dataArr: PropTypes.array.isRequired
 };
+
 
 
 
