@@ -34,28 +34,50 @@ export function BurgerConstructor() {
   );
 }
 function ConstructorIngredient({dataArr}) {
+  const outerBun = dataArr.find((el)=>{
+    return el.type === "bun"
+  })
 
+  const ingredientsArray = dataArr.filter((el)=>{
+  return el.type !== "bun"
+  })
 
-  return (dataArr.map((el, index)=>{
-    return (
-      <div key={el._id} className={`${burgerConstructor.container} ${index === 0 || 
-        index ===dataArr.length -1 ? burgerConstructor.margin : ""}`}  
-      >
-        {
-          index !== 0 && index !== dataArr.length -1 && <DragIcon type="primary" />
-        }
-        <ConstructorElement 
-          type={index === 0 ? "top" : index === dataArr.length - 1 ? "bottom" : undefined} 
-          isLocked={index === 0 || index === dataArr.length - 1}    
+  return (
+   <>
+    <div className={burgerConstructor.container} className={burgerConstructor.margin}>
+      <ConstructorElement
+        type="top"
+        isLocked={true}
+        text={`${outerBun.name} (верх)`}
+        price={outerBun.price}
+        thumbnail={outerBun.image}
+      />
+    </div>
+
+    {ingredientsArray.map((el)=>{
+      return <div key={el._id} className={burgerConstructor.container}>
+        <DragIcon type="primary" />
+        <ConstructorElement
           text={el.name}
-
           price={el.price}
           thumbnail={el.image}
-        />
-      </div>
-    ) 
-  }
-))}  
+          />
+
+      </div>})}
+
+
+    <div className={burgerConstructor.container} className={burgerConstructor.margin}>
+      <ConstructorElement
+        type="bottom"
+        isLocked={true}
+        text={`${outerBun.name} (низ)`}
+        price={outerBun.price}
+        thumbnail={outerBun.image}
+      />
+    </div>
+  </>
+  )
+}  
 
 
 Button.propTypes = {
@@ -66,6 +88,7 @@ Button.propTypes = {
 ConstructorIngredient.propTypes = {
   dataArr: PropTypes.array.isRequired
 };
+
 
 
 

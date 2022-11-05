@@ -21,7 +21,7 @@
 }
 .margin{
   margin-left: 32px;
-
+  width: 510px;
 }
 .total {
   display: flex;
@@ -58,8 +58,5 @@
   margin-bottom: 40px;
 
 }
-
-
-
 
 
