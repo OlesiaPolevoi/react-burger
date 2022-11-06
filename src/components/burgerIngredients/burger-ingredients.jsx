@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import {data} from "../../utils/data.js";
 import {
   Tab,
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import burgerIngredients from './burger-ingredients.module.css';
+import burgerIngredients from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
 
-export  function BurgerIngredients() {
+export function BurgerIngredients({ data }) {
   const [current, setCurrent] = React.useState("one");
   return (
-    <main  >
+    <main>
       <h1 className={burgerIngredients.heading}>Соберите бургер</h1>
 
-      <div  className={burgerIngredients.tab}>
+      <div className={burgerIngredients.tab}>
         <Tab value="one" active={current === "one"} onClick={setCurrent}>
           Булки
         </Tab>
@@ -26,26 +25,26 @@ export  function BurgerIngredients() {
         </Tab>
       </div>
 
-    <section className={burgerIngredients.scroller}>
-      <IngredientsContainer
-        header="Булки"
-        cardsArr={data.filter((el) => {
-          return el.type === "bun";
-        })}
-      />
-      <IngredientsContainer
-        header="Соусы"
-        cardsArr={data.filter((el) => {
-          return el.type === "sauce";
-        })}
-      />
-      <IngredientsContainer
-        header="Начинки"
-        cardsArr={data.filter((el) => {
-          return el.type === "main";
-        })}
-      />
-    </section>
+      <section className={burgerIngredients.scroller}>
+        <IngredientsContainer
+          header="Булки"
+          cardsArr={data.filter((el) => {
+            return el.type === "bun";
+          })}
+        />
+        <IngredientsContainer
+          header="Соусы"
+          cardsArr={data.filter((el) => {
+            return el.type === "sauce";
+          })}
+        />
+        <IngredientsContainer
+          header="Начинки"
+          cardsArr={data.filter((el) => {
+            return el.type === "main";
+          })}
+        />
+      </section>
     </main>
   );
 }
@@ -54,7 +53,7 @@ function IngredientsContainer({ header, cardsArr }) {
   return (
     <>
       <h2 className={burgerIngredients.header}>{header}</h2>
-      <div className={burgerIngredients.container}>     
+      <div className={burgerIngredients.container}>
         {cardsArr.map((el) => {
           return (
             <Ingredient
@@ -79,22 +78,21 @@ function Ingredient({ name, price, image }) {
     });
   };
   return (
-      <section className={burgerIngredients.ingredient} onClick={handleClick}>
-        <img src={`${image}`} alt={name}/>
-        {count > 0 && <Counter count={count} size="default" />}
-        <div className={burgerIngredients.price}>
-          <div className={burgerIngredients.number}>{price}</div>
-          <CurrencyIcon type="primary" />
-        </div>
-        <div className={burgerIngredients.description}>{name}</div>
-      </section>
-  
+    <section className={burgerIngredients.ingredient} onClick={handleClick}>
+      <img src={`${image}`} alt={name} />
+      {count > 0 && <Counter count={count} size="default" />}
+      <div className={burgerIngredients.price}>
+        <div className={burgerIngredients.number}>{price}</div>
+        <CurrencyIcon type="primary" />
+      </div>
+      <div className={burgerIngredients.description}>{name}</div>
+    </section>
   );
 }
 
 IngredientsContainer.propTypes = {
   header: PropTypes.string.isRequired,
-  cardsArr: PropTypes.array.isRequired
+  cardsArr: PropTypes.array.isRequired,
 };
 
 Ingredient.propTypes = {
@@ -102,8 +100,3 @@ Ingredient.propTypes = {
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
 };
-
-
-
-
-
