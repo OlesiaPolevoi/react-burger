@@ -19,3 +19,11 @@
 .closeIcon {
   cursor: pointer;
 }
+
+.title {
+  font-family: "JetBrains Mono";
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  color: #f2f2f3;
+}

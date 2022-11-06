@@ -1,6 +1,7 @@
 import React from "react";
-import orderDetails from "./orderDetails.module.css";
+import orderDetails from "./order-details.module.css";
 import check from "../../images/check.png";
+
 export function OrderDetails() {
   return (
     <div className={orderDetails.container}>

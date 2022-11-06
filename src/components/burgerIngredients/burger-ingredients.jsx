@@ -6,9 +6,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredients from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
+import { Modal } from "../modal/modal";
+import { IngredientDetails } from "../ingredientDetails/ingredient-details";
 
 export function BurgerIngredients({ data }) {
   const [current, setCurrent] = React.useState("one");
+
   return (
     <main>
       <h1 className={burgerIngredients.heading}>Соберите бургер</h1>
@@ -61,6 +64,10 @@ function IngredientsContainer({ header, cardsArr }) {
               price={el.price}
               image={el.image}
               key={el._id}
+              calories={el.calories}
+              carbohydrates={el.carbohydrates}
+              fat={el.fat}
+              proteins={el.proteins}
             />
           );
         })}
@@ -69,26 +76,55 @@ function IngredientsContainer({ header, cardsArr }) {
   );
 }
 
-function Ingredient({ name, price, image }) {
+function Ingredient({
+  name,
+  price,
+  image,
+  calories,
+  carbohydrates,
+  fat,
+  proteins,
+}) {
   const [count, setCount] = useState(0);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const handleClick = () => {
-    setCount((prev) => {
-      return (prev += 1);
-    });
-  };
+  const handleModalClose = () => setModalIsOpen(false);
+
   return (
-    <section className={burgerIngredients.ingredient} onClick={handleClick}>
-      <img src={`${image}`} alt={name} />
-      {count > 0 && <Counter count={count} size="default" />}
-      <div className={burgerIngredients.price}>
-        <div className={burgerIngredients.number}>{price}</div>
-        <CurrencyIcon type="primary" />
-      </div>
-      <div className={burgerIngredients.description}>{name}</div>
-    </section>
+    <>
+      <section
+        className={burgerIngredients.ingredient}
+        onClick={() => setModalIsOpen(true)}
+      >
+        <img src={`${image}`} alt={name} />
+        {count > 0 && <Counter count={count} size="default" />}
+        <div className={burgerIngredients.price}>
+          <div className={burgerIngredients.number}>{price}</div>
+          <CurrencyIcon type="primary" />
+        </div>
+        <div className={burgerIngredients.description}>{name}</div>
+      </section>
+
+      <Modal
+        modalIsOpen={modalIsOpen}
+        onClose={handleModalClose}
+        title="Детали ингредиента"
+      >
+        <IngredientDetails
+          name={name}
+          image={image}
+          calories={calories}
+          carbohydrates={carbohydrates}
+          fat={fat}
+          proteins={proteins}
+        />
+      </Modal>
+    </>
   );
 }
+BurgerIngredients.propTypes = {
+  data: PropTypes.array.isRequired,
+};
 
 IngredientsContainer.propTypes = {
   header: PropTypes.string.isRequired,
@@ -99,4 +135,8 @@ Ingredient.propTypes = {
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
+  calories: PropTypes.number.isRequired,
+  carbohydrates: PropTypes.number.isRequired,
+  fat: PropTypes.number.isRequired,
+  proteins: PropTypes.number.isRequired,
 };

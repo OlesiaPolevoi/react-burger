@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import ReactDom from "react-dom";
 import modal from "./modal.module.css";
-import { ModalOverlay } from "../modalOverlay/modalOverlay";
+import { ModalOverlay } from "../modalOverlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 
-export function Modal({ children, modalIsOpen, onClose }) {
+export function Modal({ children, modalIsOpen, onClose, title }) {
   const handleEscKeyPress = (event) => {
     if (event.isComposing || event.keyCode === 27) {
       onClose();
@@ -23,11 +24,10 @@ export function Modal({ children, modalIsOpen, onClose }) {
   if (!modalIsOpen) return null;
   return ReactDom.createPortal(
     <>
-      {/* need to change state of Modal - which is defined in App components - when clicking on Modal */}
       <ModalOverlay onClick={onClose} />
       <div className={modal.container}>
         <header className={modal.header}>
-          <h2></h2>
+          <h2 className={modal.title}>{title}</h2>
           <div className={modal.closeIcon}>
             <CloseIcon type="primary" onClick={onClose} />
           </div>
@@ -38,3 +38,10 @@ export function Modal({ children, modalIsOpen, onClose }) {
     document.getElementById("portal")
   );
 }
+
+Modal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  title: PropTypes.string,
+  modalIsOpen: PropTypes.bool.isRequired,
+  children: PropTypes.object,
+};

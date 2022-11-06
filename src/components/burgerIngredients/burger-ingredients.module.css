@@ -11,10 +11,8 @@ main {
   overflow-x: hidden;
   scrollbar-width: thin;
   padding-top: 40px;
-
-
-  
 }
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 492px;
@@ -23,7 +21,6 @@ main {
   background: #8585ad;
   width: 8px;
 }
-
 
 .heading {
   text-align: left;
@@ -84,5 +81,3 @@ main {
   line-height: 24px;
   width: 272px;
 }
-
-

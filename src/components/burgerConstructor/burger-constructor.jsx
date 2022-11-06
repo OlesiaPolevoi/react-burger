@@ -8,7 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
-import { OrderDetails } from "../orderDetails/orderDetails";
+import { OrderDetails } from "../orderDetails/order-details";
 
 export function BurgerConstructor({ data }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -35,8 +35,7 @@ export function BurgerConstructor({ data }) {
         </Button>
       </div>
 
-      {/* <button onClick={() => setModalIsOpen(true)}>Open Modal</button> */}
-      <Modal modalIsOpen={modalIsOpen} onClose={handleModalClose}>
+      <Modal modalIsOpen={modalIsOpen} onClose={handleModalClose} title={null}>
         <OrderDetails />
       </Modal>
     </section>
@@ -102,4 +101,8 @@ Button.propTypes = {
 
 ConstructorIngredient.propTypes = {
   dataArr: PropTypes.array.isRequired,
+};
+
+BurgerConstructor.propTypes = {
+  dataArr: PropTypes.array,
 };
