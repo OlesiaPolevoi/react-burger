@@ -8,3 +8,14 @@
   padding: 50px;
   z-index: 100;
 }
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.closeIcon {
+  cursor: pointer;
+}

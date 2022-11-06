@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import burgerConstructor from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -7,8 +7,13 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
+import { Modal } from "../modal/modal";
+import { OrderDetails } from "../orderDetails/orderDetails";
 
 export function BurgerConstructor({ data }) {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const handleModalClose = () => setModalIsOpen(false);
+
   return (
     <section className={burgerConstructor.section}>
       <div className={burgerConstructor.scroller}>
@@ -21,10 +26,19 @@ export function BurgerConstructor({ data }) {
           <CurrencyIcon type="primary" />
         </div>
 
-        <Button type="primary" size="medium">
+        <Button
+          type="primary"
+          size="medium"
+          onClick={() => setModalIsOpen(true)}
+        >
           Оформить заказ
         </Button>
       </div>
+
+      {/* <button onClick={() => setModalIsOpen(true)}>Open Modal</button> */}
+      <Modal modalIsOpen={modalIsOpen} onClose={handleModalClose}>
+        <OrderDetails />
+      </Modal>
     </section>
   );
 }

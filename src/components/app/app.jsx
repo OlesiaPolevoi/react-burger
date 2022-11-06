@@ -5,19 +5,19 @@ import axios from "axios";
 import { AppHeader } from "../appHeader/app-header";
 import { BurgerIngredients } from "../burgerIngredients/burger-ingredients";
 import { BurgerConstructor } from "../burgerConstructor/burger-constructor";
-import { Modal } from "../modal/modal";
+//import { Modal } from "../modal/modal";
 
-function Test() {
-  return <div>Hi Im test!!!</div>;
-}
+// function Test() {
+//   return <div>Hi Im test!!!</div>;
+// }
 
 export function App() {
   const [data, setData] = useState([]);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  //const [modalIsOpen, setModalIsOpen] = useState(false);
   // initial state for modalIsOpen is false - change <button>onClick={()=>setModalIsOpen(true)}</button>
   const apiUrl = "https://norma.nomoreparties.space/api/ingredients";
 
-  const handleModalClose = () => setModalIsOpen(false);
+  //  const handleModalClose = () => setModalIsOpen(false);
 
   useEffect(() => {
     const config = {
@@ -47,11 +47,11 @@ export function App() {
           <BurgerConstructor data={data} />
         </div>
         {/* NOTEremove this button later - make different elems change the state */}
-        <button onClick={() => setModalIsOpen(true)}>Open Modal</button>
       </div>
+      {/* <button onClick={() => setModalIsOpen(true)}>Open Modal</button>
       <Modal modalIsOpen={modalIsOpen} onClose={handleModalClose}>
         <Test />
-      </Modal>
+      </Modal> */}
     </>
   );
 }

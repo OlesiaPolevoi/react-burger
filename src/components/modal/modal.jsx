@@ -26,8 +26,13 @@ export function Modal({ children, modalIsOpen, onClose }) {
       {/* need to change state of Modal - which is defined in App components - when clicking on Modal */}
       <ModalOverlay onClick={onClose} />
       <div className={modal.container}>
-        <h1>{children}</h1>
-        <CloseIcon type="primary" onClick={onClose} />
+        <header className={modal.header}>
+          <h2></h2>
+          <div className={modal.closeIcon}>
+            <CloseIcon type="primary" onClick={onClose} />
+          </div>
+        </header>
+        <div>{children}</div>
       </div>
     </>,
     document.getElementById("portal")
