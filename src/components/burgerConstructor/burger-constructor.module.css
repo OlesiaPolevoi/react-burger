@@ -17,9 +17,8 @@
   box-sizing: border-box;
 
   margin-right: 16px;
-
 }
-.margin{
+.margin {
   margin-left: 32px;
   width: 510px;
 }
@@ -29,11 +28,10 @@
   align-items: center;
   justify-content: flex-end;
   gap: 40px;
-  margin-right: 10px;
+  margin-right: 25px;
 }
 
 .price {
-  
   font-family: "Iceland";
   font-weight: 400;
   font-size: 48px;
@@ -41,7 +39,7 @@
   margin-right: 8px;
 }
 
-.ammount{
+.ammount {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,7 +54,4 @@
   flex-direction: column;
   gap: 10px;
   margin-bottom: 40px;
-
 }
-
-
