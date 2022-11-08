@@ -28,7 +28,6 @@
   text-decoration: none;
   cursor: pointer;
   color: #f2f2f3;
-  /* border: 1px dashed #4c4cff; */
 }
 
 .inactive {
@@ -47,4 +46,3 @@
 .elements .link {
   margin-right: 8px;
 }
-

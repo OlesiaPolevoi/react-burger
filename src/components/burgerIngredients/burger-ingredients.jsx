@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Tab,
   CurrencyIcon,
@@ -8,12 +8,13 @@ import burgerIngredients from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../ingredientDetails/ingredient-details";
+import { ingredientType } from "../../utils/types";
 
 export function BurgerIngredients({ data }) {
   const [current, setCurrent] = React.useState("one");
 
   return (
-    <main>
+    <section>
       <h1 className={burgerIngredients.heading}>Соберите бургер</h1>
 
       <div className={burgerIngredients.tab}>
@@ -48,7 +49,7 @@ export function BurgerIngredients({ data }) {
           })}
         />
       </section>
-    </main>
+    </section>
   );
 }
 
@@ -58,37 +59,18 @@ function IngredientsContainer({ header, cardsArr }) {
       <h2 className={burgerIngredients.header}>{header}</h2>
       <div className={burgerIngredients.container}>
         {cardsArr.map((el) => {
-          return (
-            <Ingredient
-              name={el.name}
-              price={el.price}
-              image={el.image}
-              key={el._id}
-              calories={el.calories}
-              carbohydrates={el.carbohydrates}
-              fat={el.fat}
-              proteins={el.proteins}
-            />
-          );
+          return <Ingredient el={el} key={el._id} />;
         })}
       </div>
     </>
   );
 }
 
-function Ingredient({
-  name,
-  price,
-  image,
-  calories,
-  carbohydrates,
-  fat,
-  proteins,
-}) {
+function Ingredient({ el }) {
   const [count, setCount] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const handleModalClose = () => setModalIsOpen(false);
+  const handleModalClose = useCallback(() => setModalIsOpen(false), []);
 
   return (
     <>
@@ -96,32 +78,24 @@ function Ingredient({
         className={burgerIngredients.ingredient}
         onClick={() => setModalIsOpen(true)}
       >
-        <img src={`${image}`} alt={name} />
-        {count > 0 && <Counter count={count} size="default" />}
+        <img src={`${el.image}`} alt={el.name} />
+        {el.count > 0 && <Counter count={el.count} size="default" />}
         <div className={burgerIngredients.price}>
-          <div className={burgerIngredients.number}>{price}</div>
+          <div className={burgerIngredients.number}>{el.price}</div>
           <CurrencyIcon type="primary" />
         </div>
-        <div className={burgerIngredients.description}>{name}</div>
+        <div className={burgerIngredients.description}>{el.name}</div>
       </section>
 
-      <Modal
-        modalIsOpen={modalIsOpen}
-        onClose={handleModalClose}
-        title="Детали ингредиента"
-      >
-        <IngredientDetails
-          name={name}
-          image={image}
-          calories={calories}
-          carbohydrates={carbohydrates}
-          fat={fat}
-          proteins={proteins}
-        />
-      </Modal>
+      {modalIsOpen && (
+        <Modal onClose={handleModalClose} title="Детали ингредиента">
+          <IngredientDetails el={el} />
+        </Modal>
+      )}
     </>
   );
 }
+
 BurgerIngredients.propTypes = {
   data: PropTypes.array.isRequired,
 };
@@ -131,12 +105,10 @@ IngredientsContainer.propTypes = {
   cardsArr: PropTypes.array.isRequired,
 };
 
+// Ingredient.propTypes = {
+//   el: PropTypes.object.isRequired,
+// };
+
 Ingredient.propTypes = {
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  calories: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  proteins: PropTypes.number.isRequired,
+  el: ingredientType,
 };

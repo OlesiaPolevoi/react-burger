@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import burgerConstructor from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -12,13 +12,11 @@ import { OrderDetails } from "../orderDetails/order-details";
 
 export function BurgerConstructor({ data }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const handleModalClose = () => setModalIsOpen(false);
+  const handleModalClose = useCallback(() => setModalIsOpen(false), []);
 
   return (
     <section className={burgerConstructor.section}>
-      <div className={burgerConstructor.scroller}>
-        {data.length !== 0 && <ConstructorIngredient dataArr={data} />}
-      </div>
+      {data.length !== 0 && <ConstructorIngredient dataArr={data} />}
 
       <div className={burgerConstructor.total}>
         <div className={burgerConstructor.ammount}>
@@ -35,9 +33,11 @@ export function BurgerConstructor({ data }) {
         </Button>
       </div>
 
-      <Modal modalIsOpen={modalIsOpen} onClose={handleModalClose} title={null}>
-        <OrderDetails />
-      </Modal>
+      {modalIsOpen && (
+        <Modal onClose={handleModalClose} title={null}>
+          <OrderDetails />
+        </Modal>
+      )}
     </section>
   );
 }
@@ -52,10 +52,7 @@ function ConstructorIngredient({ dataArr }) {
 
   return (
     <>
-      <div
-        className={burgerConstructor.container}
-        className={burgerConstructor.margin}
-      >
+      <div className={burgerConstructor.margin}>
         <ConstructorElement
           type="top"
           isLocked={true}
@@ -65,23 +62,22 @@ function ConstructorIngredient({ dataArr }) {
         />
       </div>
 
-      {ingredientsArray.map((el) => {
-        return (
-          <div key={el._id} className={burgerConstructor.container}>
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text={el.name}
-              price={el.price}
-              thumbnail={el.image}
-            />
-          </div>
-        );
-      })}
+      <div className={burgerConstructor.scroller}>
+        {ingredientsArray.map((el) => {
+          return (
+            <div key={el._id} className={burgerConstructor.container}>
+              <DragIcon type="primary" />
+              <ConstructorElement
+                text={el.name}
+                price={el.price}
+                thumbnail={el.image}
+              />
+            </div>
+          );
+        })}
+      </div>
 
-      <div
-        className={burgerConstructor.container}
-        className={burgerConstructor.margin}
-      >
+      <div className={burgerConstructor.margin}>
         <ConstructorElement
           type="bottom"
           isLocked={true}

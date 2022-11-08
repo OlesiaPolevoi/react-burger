@@ -30,15 +30,13 @@ export function App() {
   }, []);
 
   return (
-    <>
-      <div className={styles.app}>
-        <AppHeader />
+    <div className={styles.app}>
+      <AppHeader />
 
-        <div className={styles.container}>
-          <BurgerIngredients data={data} />
-          <BurgerConstructor data={data} />
-        </div>
-      </div>
-    </>
+      <main className={styles.container}>
+        <BurgerIngredients data={data} />
+        <BurgerConstructor data={data} />
+      </main>
+    </div>
   );
 }
