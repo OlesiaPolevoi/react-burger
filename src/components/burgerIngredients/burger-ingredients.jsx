@@ -105,10 +105,6 @@ IngredientsContainer.propTypes = {
   cardsArr: PropTypes.array.isRequired,
 };
 
-// Ingredient.propTypes = {
-//   el: PropTypes.object.isRequired,
-// };
-
 Ingredient.propTypes = {
   el: ingredientType,
 };
