@@ -1,0 +1,29 @@
+.container {
+  position: fixed;
+  width: 720px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #1c1c21;
+  padding: 50px;
+  z-index: 100;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.closeIcon {
+  cursor: pointer;
+}
+
+.title {
+  font-family: "JetBrains Mono";
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  color: #f2f2f3;
+}

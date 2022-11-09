@@ -1,0 +1,21 @@
+main {
+  display: block;
+  font-family: "JetBrains Mono";
+  margin: 0 auto;
+  background: #131316;
+}
+.app {
+  display: block;
+  width: 1240px;
+  margin: 0 auto;
+  text-align: center;
+  background: #131316;
+  padding-bottom: 50px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}

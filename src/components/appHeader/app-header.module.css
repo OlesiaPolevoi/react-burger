@@ -1,0 +1,48 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 1240px;
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 40px;
+  background: #1c1c21;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1240px;
+  height: 88px;
+}
+.link {
+  display: flex;
+  align-items: center;
+  border-radius: 40px;
+  padding: 16px 20px;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  color: #f2f2f3;
+}
+
+.inactive {
+  color: #8585ad;
+}
+
+.text {
+  margin-left: 8px;
+}
+
+.elements {
+  display: flex;
+  flex-direction: row;
+}
+
+.elements .link {
+  margin-right: 8px;
+}
