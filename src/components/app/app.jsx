@@ -5,20 +5,12 @@ import axios from "axios";
 import { AppHeader } from "../appHeader/app-header";
 import { BurgerIngredients } from "../burgerIngredients/burger-ingredients";
 import { BurgerConstructor } from "../burgerConstructor/burger-constructor";
-
+import { getIngredients } from "../../utils/burger-api";
 export function App() {
   const [data, setData] = useState([]);
 
-  const apiUrl = "https://norma.nomoreparties.space/api/ingredients";
-
   useEffect(() => {
-    const config = {
-      method: "get",
-      url: apiUrl,
-      headers: {},
-    };
-
-    axios(config)
+    axios(getIngredients)
       .then(function (response) {
         const data = JSON.parse(JSON.stringify(response?.data?.data));
 
