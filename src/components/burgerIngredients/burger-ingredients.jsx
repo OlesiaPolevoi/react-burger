@@ -11,20 +11,44 @@ import { IngredientDetails } from "../ingredientDetails/ingredient-details";
 import { ingredientType } from "../../utils/types";
 
 export function BurgerIngredients({ data }) {
-  const [current, setCurrent] = React.useState("one");
+  const [current, setCurrent] = React.useState("buns");
+
+  const onTabClick = (tab) => {
+    setCurrent(tab);
+    const element = document.getElementById(tab);
+    if (element) element.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <section>
       <h1 className={burgerIngredients.heading}>Соберите бургер</h1>
 
       <div className={burgerIngredients.tab}>
-        <Tab value="one" active={current === "one"} onClick={setCurrent}>
+        <Tab
+          value="buns"
+          active={current === "buns"}
+          onClick={() => {
+            onTabClick("buns");
+          }}
+        >
           Булки
         </Tab>
-        <Tab value="two" active={current === "two"} onClick={setCurrent}>
+        <Tab
+          value="sauce"
+          active={current === "sauce"}
+          onClick={() => {
+            onTabClick("sauce");
+          }}
+        >
           Соусы
         </Tab>
-        <Tab value="three" active={current === "three"} onClick={setCurrent}>
+        <Tab
+          value="main"
+          active={current === "main"}
+          onClick={() => {
+            onTabClick("main");
+          }}
+        >
           Начинки
         </Tab>
       </div>
@@ -32,18 +56,21 @@ export function BurgerIngredients({ data }) {
       <section className={burgerIngredients.scroller}>
         <IngredientsContainer
           header="Булки"
+          id="buns"
           cardsArr={data.filter((el) => {
             return el.type === "bun";
           })}
         />
         <IngredientsContainer
           header="Соусы"
+          id="sauce"
           cardsArr={data.filter((el) => {
             return el.type === "sauce";
           })}
         />
         <IngredientsContainer
           header="Начинки"
+          id="main"
           cardsArr={data.filter((el) => {
             return el.type === "main";
           })}
@@ -53,10 +80,12 @@ export function BurgerIngredients({ data }) {
   );
 }
 
-function IngredientsContainer({ header, cardsArr }) {
+function IngredientsContainer({ header, cardsArr, id }) {
   return (
     <>
-      <h2 className={burgerIngredients.header}>{header}</h2>
+      <h2 className={burgerIngredients.header} id={id}>
+        {header}
+      </h2>
       <div className={burgerIngredients.container}>
         {cardsArr.map((el) => {
           return <Ingredient el={el} key={el._id} />;
