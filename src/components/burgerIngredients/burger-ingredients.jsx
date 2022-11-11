@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import {
   Tab,
   CurrencyIcon,
@@ -9,8 +9,11 @@ import PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../ingredientDetails/ingredient-details";
 import { ingredientType } from "../../utils/types";
+import { AppContext } from "../../utils/appContext";
 
-export function BurgerIngredients({ data }) {
+export function BurgerIngredients() {
+  const { data } = useContext(AppContext);
+
   const [current, setCurrent] = React.useState("buns");
 
   const onTabClick = (tab) => {
@@ -126,7 +129,7 @@ function Ingredient({ el }) {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array,
 };
 
 IngredientsContainer.propTypes = {

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import burgerConstructor from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -9,9 +9,13 @@ import {
 import PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../orderDetails/order-details";
+import { AppContext } from "../../utils/appContext";
 
-export function BurgerConstructor({ data }) {
+export function BurgerConstructor() {
+  const { data } = useContext(AppContext);
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const handleModalClose = useCallback(() => setModalIsOpen(false), []);
 
   return (
@@ -23,7 +27,6 @@ export function BurgerConstructor({ data }) {
           <div className={burgerConstructor.price}>{610}</div>
           <CurrencyIcon type="primary" />
         </div>
-
         <Button
           type="primary"
           size="medium"
@@ -41,6 +44,7 @@ export function BurgerConstructor({ data }) {
     </section>
   );
 }
+
 function ConstructorIngredient({ dataArr }) {
   const outerBun = dataArr.find((el) => {
     return el.type === "bun";
