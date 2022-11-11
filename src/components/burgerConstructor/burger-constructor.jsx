@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import burgerConstructor from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -15,16 +15,19 @@ export function BurgerConstructor() {
   const { data } = useContext(AppContext);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const handleModalClose = useCallback(() => setModalIsOpen(false), []);
 
   return (
     <section className={burgerConstructor.section}>
-      {data.length !== 0 && <ConstructorIngredient dataArr={data} />}
+      {data.length !== 0 && (
+        <ConstructorIngredient dataArr={data} setTotalPrice={setTotalPrice} />
+      )}
 
       <div className={burgerConstructor.total}>
         <div className={burgerConstructor.ammount}>
-          <div className={burgerConstructor.price}>{610}</div>
+          <div className={burgerConstructor.price}>{totalPrice}</div>
           <CurrencyIcon type="primary" />
         </div>
         <Button
@@ -45,13 +48,21 @@ export function BurgerConstructor() {
   );
 }
 
-function ConstructorIngredient({ dataArr }) {
+function ConstructorIngredient({ dataArr, setTotalPrice }) {
   const outerBun = dataArr.find((el) => {
     return el.type === "bun";
   });
 
   const ingredientsArray = dataArr.filter((el) => {
     return el.type !== "bun";
+  });
+
+  useEffect(() => {
+    const sum = ingredientsArray.reduce((prev, current) => {
+      return prev + current.price;
+    }, 0);
+    const totalPrice = sum + outerBun.price * 2;
+    setTotalPrice(totalPrice);
   });
 
   return (
