@@ -15,7 +15,6 @@ export function App() {
     axios(getIngredients)
       .then(function (response) {
         const data = JSON.parse(JSON.stringify(response?.data?.data));
-
         setData(data ?? []);
       })
       .catch(function (error) {

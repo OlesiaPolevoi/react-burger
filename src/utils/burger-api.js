@@ -1,7 +1,9 @@
-const apiUrl = "https://norma.nomoreparties.space/api/ingredients";
+const BASE_URL = "https://norma.nomoreparties.space/api";
 
-export const getIngredients = {
+const getIngredients = {
   method: "get",
-  url: apiUrl,
+  url: `${BASE_URL}/ingredients`,
   headers: {},
 };
+
+export { BASE_URL, getIngredients };

@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+  useMemo,
+} from "react";
 import burgerConstructor from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -10,19 +16,72 @@ import PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../orderDetails/order-details";
 import { AppContext } from "../../utils/appContext";
+import { BASE_URL } from "../../utils/burger-api";
+import axios from "axios";
 
 export function BurgerConstructor() {
   const { data } = useContext(AppContext);
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [orderNumber, setOrderNumber] = useState(null);
+
+  const outerBun = useMemo(
+    () =>
+      data.find((el) => {
+        return el.type === "bun";
+      }),
+    [data]
+  );
+
+  const ingredientsArray = useMemo(
+    () =>
+      data.filter((el) => {
+        return el.type !== "bun";
+      }),
+    [data]
+  );
+
+  const handleOrder = (dataArray) => {
+    const arrayOfIds = dataArray.map((el) => {
+      return el._id;
+    });
+
+    const data = JSON.stringify({
+      ingredients: arrayOfIds,
+    });
+
+    const getOrderNum = {
+      method: "post",
+      url: `${BASE_URL}/orders`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios(getOrderNum)
+      .then(function (response) {
+        const order = JSON.parse(JSON.stringify(response.data));
+        const orderNum = order.order.number;
+        setOrderNumber(orderNum ?? []);
+        setModalIsOpen(true);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   const handleModalClose = useCallback(() => setModalIsOpen(false), []);
 
   return (
     <section className={burgerConstructor.section}>
       {data.length !== 0 && (
-        <ConstructorIngredient dataArr={data} setTotalPrice={setTotalPrice} />
+        <ConstructorIngredient
+          outerBun={outerBun}
+          ingredientsArray={ingredientsArray}
+          dataArr={data}
+          setTotalPrice={setTotalPrice}
+        />
       )}
 
       <div className={burgerConstructor.total}>
@@ -33,7 +92,9 @@ export function BurgerConstructor() {
         <Button
           type="primary"
           size="medium"
-          onClick={() => setModalIsOpen(true)}
+          onClick={() => {
+            handleOrder(data);
+          }}
         >
           Оформить заказ
         </Button>
@@ -41,22 +102,14 @@ export function BurgerConstructor() {
 
       {modalIsOpen && (
         <Modal onClose={handleModalClose} title={null}>
-          <OrderDetails />
+          <OrderDetails orderNumber={orderNumber} />
         </Modal>
       )}
     </section>
   );
 }
 
-function ConstructorIngredient({ dataArr, setTotalPrice }) {
-  const outerBun = dataArr.find((el) => {
-    return el.type === "bun";
-  });
-
-  const ingredientsArray = dataArr.filter((el) => {
-    return el.type !== "bun";
-  });
-
+function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
   useEffect(() => {
     const sum = ingredientsArray.reduce((prev, current) => {
       return prev + current.price;
@@ -111,9 +164,7 @@ Button.propTypes = {
 };
 
 ConstructorIngredient.propTypes = {
-  dataArr: PropTypes.array.isRequired,
-};
-
-BurgerConstructor.propTypes = {
-  dataArr: PropTypes.array,
+  ingredientsArray: PropTypes.array.isRequired,
+  outerBun: PropTypes.object.isRequired,
+  setTotalPrice: PropTypes.func,
 };

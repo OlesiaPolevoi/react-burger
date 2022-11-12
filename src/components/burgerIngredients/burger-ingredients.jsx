@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useMemo } from "react";
 import {
   Tab,
   CurrencyIcon,
@@ -13,8 +13,22 @@ import { AppContext } from "../../utils/appContext";
 
 export function BurgerIngredients() {
   const { data } = useContext(AppContext);
-
   const [current, setCurrent] = React.useState("buns");
+
+  const bunsArray = useMemo(
+    () => data.filter((el) => el.type === "bun"),
+    [data]
+  );
+
+  const saucesArray = useMemo(
+    () => data.filter((el) => el.type === "sauce"),
+    [data]
+  );
+
+  const mainsArray = useMemo(
+    () => data.filter((el) => el.type === "main"),
+    [data]
+  );
 
   const onTabClick = (tab) => {
     setCurrent(tab);
@@ -57,26 +71,16 @@ export function BurgerIngredients() {
       </div>
 
       <section className={burgerIngredients.scroller}>
-        <IngredientsContainer
-          header="Булки"
-          id="buns"
-          cardsArr={data.filter((el) => {
-            return el.type === "bun";
-          })}
-        />
+        <IngredientsContainer header="Булки" id="buns" cardsArr={bunsArray} />
         <IngredientsContainer
           header="Соусы"
           id="sauce"
-          cardsArr={data.filter((el) => {
-            return el.type === "sauce";
-          })}
+          cardsArr={saucesArray}
         />
         <IngredientsContainer
           header="Начинки"
           id="main"
-          cardsArr={data.filter((el) => {
-            return el.type === "main";
-          })}
+          cardsArr={mainsArray}
         />
       </section>
     </section>
@@ -128,13 +132,10 @@ function Ingredient({ el }) {
   );
 }
 
-BurgerIngredients.propTypes = {
-  data: PropTypes.array,
-};
-
 IngredientsContainer.propTypes = {
   header: PropTypes.string.isRequired,
   cardsArr: PropTypes.array.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 Ingredient.propTypes = {

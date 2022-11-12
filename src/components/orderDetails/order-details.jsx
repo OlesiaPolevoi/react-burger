@@ -1,13 +1,14 @@
 import React from "react";
 import orderDetails from "./order-details.module.css";
-import check from "../../images/check.png";
+import checkIcon from "../../images/check.png";
+import PropTypes from "prop-types";
 
-export function OrderDetails() {
+export function OrderDetails({ orderNumber }) {
   return (
     <div className={orderDetails.container}>
-      <h2 className={orderDetails.number}>034536</h2>
+      <h2 className={orderDetails.number}>{orderNumber}</h2>
       <h3 className={orderDetails.info}>идентификатор заказа</h3>
-      <img src={check} alt="checkmark icon" className={orderDetails.img} />
+      <img src={checkIcon} alt="checkmark icon" className={orderDetails.img} />
       <div className={orderDetails.message}>Ваш заказ начали готовить</div>
       <div className={orderDetails.wait}>
         Дождитесь готовности на орбитальной станции
@@ -15,3 +16,7 @@ export function OrderDetails() {
     </div>
   );
 }
+
+OrderDetails.propTypes = {
+  orderNumber: PropTypes.number.isRequired,
+};
