@@ -1,5 +1,4 @@
-import React from "react";
-import appHeader from './app-header.module.css';
+import appHeader from "./app-header.module.css";
 import {
   Logo,
   BurgerIcon,
@@ -7,7 +6,6 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-
 
 export function AppHeader() {
   return (
@@ -39,18 +37,18 @@ export function AppHeader() {
 
 function NavigationLink({ text, icon, inactive }) {
   return (
-    
-      <a href="#" className={`${appHeader.link} ${inactive ? appHeader.inactive : ""}`}>
-        {icon}
-        <span className={appHeader.text}>{text}</span>
-      </a>
-   
+    <a
+      href="#"
+      className={`${appHeader.link} ${inactive ? appHeader.inactive : ""}`}
+    >
+      {icon}
+      <span className={appHeader.text}>{text}</span>
+    </a>
   );
 }
 
 NavigationLink.propTypes = {
   text: PropTypes.string.isRequired,
   inactive: PropTypes.bool,
-  icon: PropTypes.object.isRequired
+  icon: PropTypes.object.isRequired,
 };
-

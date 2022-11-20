@@ -1,12 +1,13 @@
-import React from "react";
 import orderDetails from "./order-details.module.css";
 import checkIcon from "../../images/check.png";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
-export function OrderDetails({ orderNumber }) {
+export function OrderDetails() {
+  const orderNumberObj = useSelector((store) => store.orderDetailsReducer);
+
   return (
     <div className={orderDetails.container}>
-      <h2 className={orderDetails.number}>{orderNumber}</h2>
+      <h2 className={orderDetails.number}>{orderNumberObj.orderNumber}</h2>
       <h3 className={orderDetails.info}>идентификатор заказа</h3>
       <img src={checkIcon} alt="checkmark icon" className={orderDetails.img} />
       <div className={orderDetails.message}>Ваш заказ начали готовить</div>
@@ -16,7 +17,3 @@ export function OrderDetails({ orderNumber }) {
     </div>
   );
 }
-
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number.isRequired,
-};

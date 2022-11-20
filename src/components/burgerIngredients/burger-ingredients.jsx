@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import {
   Tab,
   CurrencyIcon,
@@ -9,29 +9,53 @@ import PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../ingredientDetails/ingredient-details";
 import { ingredientType } from "../../utils/types";
-import { AppContext } from "../../utils/appContext";
+import { useSelector } from "react-redux";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
+
+const getVisibleTab = (bunsInView, saucesInView, mainsInView) => {
+  if (bunsInView) return "buns";
+  if (saucesInView) return "sauce";
+  if (mainsInView) return "main";
+};
 
 export function BurgerIngredients() {
-  const { data } = useContext(AppContext);
-  const [current, setCurrent] = React.useState("buns");
+  const [currentTab, setCurrentTab] = React.useState("buns");
+  const ingredients = useSelector((store) => store.ingredientsReducer);
+
+  const bunsObj = useInView({ threshold: 0 });
+  const bunsRef = bunsObj.ref;
+  const bunsInView = bunsObj.inView;
+
+  const saucesObj = useInView({ threshold: 0 });
+  const saucesRef = saucesObj.ref;
+  const saucesInView = saucesObj.inView;
+
+  const mainsObj = useInView({ threshold: 0 });
+  const mainsRef = mainsObj.ref;
+  const mainsInView = mainsObj.inView;
+
+  useEffect(() => {
+    setCurrentTab(getVisibleTab(bunsInView, saucesInView, mainsInView));
+  }, [bunsInView, saucesInView, mainsInView]);
 
   const bunsArray = useMemo(
-    () => data.filter((el) => el.type === "bun"),
-    [data]
+    () => ingredients.items.filter((el) => el.type === "bun"),
+    [ingredients.items]
   );
 
   const saucesArray = useMemo(
-    () => data.filter((el) => el.type === "sauce"),
-    [data]
+    () => ingredients.items.filter((el) => el.type === "sauce"),
+    [ingredients.items]
   );
 
   const mainsArray = useMemo(
-    () => data.filter((el) => el.type === "main"),
-    [data]
+    () => ingredients.items.filter((el) => el.type === "main"),
+    [ingredients.items]
   );
 
   const onTabClick = (tab) => {
-    setCurrent(tab);
+    setCurrentTab(tab);
     const element = document.getElementById(tab);
     if (element) element.scrollIntoView({ behavior: "smooth" });
   };
@@ -43,7 +67,7 @@ export function BurgerIngredients() {
       <div className={burgerIngredients.tab}>
         <Tab
           value="buns"
-          active={current === "buns"}
+          active={currentTab === "buns"}
           onClick={() => {
             onTabClick("buns");
           }}
@@ -52,7 +76,7 @@ export function BurgerIngredients() {
         </Tab>
         <Tab
           value="sauce"
-          active={current === "sauce"}
+          active={currentTab === "sauce"}
           onClick={() => {
             onTabClick("sauce");
           }}
@@ -61,7 +85,7 @@ export function BurgerIngredients() {
         </Tab>
         <Tab
           value="main"
-          active={current === "main"}
+          active={currentTab === "main"}
           onClick={() => {
             onTabClick("main");
           }}
@@ -71,25 +95,32 @@ export function BurgerIngredients() {
       </div>
 
       <section className={burgerIngredients.scroller}>
-        <IngredientsContainer header="Булки" id="buns" cardsArr={bunsArray} />
+        <IngredientsContainer
+          header="Булки"
+          id="buns"
+          cardsArr={bunsArray}
+          myRef={bunsRef}
+        />
         <IngredientsContainer
           header="Соусы"
           id="sauce"
           cardsArr={saucesArray}
+          myRef={saucesRef}
         />
         <IngredientsContainer
           header="Начинки"
           id="main"
           cardsArr={mainsArray}
+          myRef={mainsRef}
         />
       </section>
     </section>
   );
 }
 
-function IngredientsContainer({ header, cardsArr, id }) {
+function IngredientsContainer({ header, cardsArr, id, myRef }) {
   return (
-    <>
+    <div ref={myRef}>
       <h2 className={burgerIngredients.header} id={id}>
         {header}
       </h2>
@@ -98,12 +129,11 @@ function IngredientsContainer({ header, cardsArr, id }) {
           return <Ingredient el={el} key={el._id} />;
         })}
       </div>
-    </>
+    </div>
   );
 }
 
 function Ingredient({ el }) {
-  const [count, setCount] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleModalClose = useCallback(() => setModalIsOpen(false), []);

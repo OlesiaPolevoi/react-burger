@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useContext,
-  useMemo,
-} from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import burgerConstructor from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -15,71 +9,50 @@ import {
 import PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../orderDetails/order-details";
-import { AppContext } from "../../utils/appContext";
-import { BASE_URL } from "../../utils/burger-api";
-import axios from "axios";
+
+import { useSelector, useDispatch } from "react-redux";
+import { clearOrderNumber } from "../../services/actions/index.js";
+import { makeOrderAndGetRequestId } from "../../services/actions";
 
 export function BurgerConstructor() {
-  const { data } = useContext(AppContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [orderNumber, setOrderNumber] = useState(null);
+
+  const ingredients = useSelector((store) => store.ingredientsReducer);
+  const dispatch = useDispatch();
 
   const outerBun = useMemo(
     () =>
-      data.find((el) => {
+      ingredients.items.find((el) => {
         return el.type === "bun";
       }),
-    [data]
+    [ingredients.items]
   );
 
   const ingredientsArray = useMemo(
     () =>
-      data.filter((el) => {
+      ingredients.items.filter((el) => {
         return el.type !== "bun";
       }),
-    [data]
+    [ingredients.items]
   );
 
   const handleOrder = (dataArray) => {
-    const arrayOfIds = dataArray.map((el) => {
-      return el._id;
-    });
-
-    const data = JSON.stringify({
-      ingredients: arrayOfIds,
-    });
-
-    const getOrderNum = {
-      method: "post",
-      url: `${BASE_URL}/orders`,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-
-    axios(getOrderNum)
-      .then(function (response) {
-        const order = JSON.parse(JSON.stringify(response.data));
-        const orderNum = order.order.number;
-        setOrderNumber(orderNum ?? []);
-        setModalIsOpen(true);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    dispatch(makeOrderAndGetRequestId(dataArray, () => setModalIsOpen(true)));
   };
 
-  const handleModalClose = useCallback(() => setModalIsOpen(false), []);
+  const handleModalClose = useCallback(() => {
+    setModalIsOpen(false);
+    dispatch(clearOrderNumber());
+  }, []);
 
   return (
     <section className={burgerConstructor.section}>
-      {data.length !== 0 && (
+      {ingredients.items.length !== 0 && (
         <ConstructorIngredient
           outerBun={outerBun}
           ingredientsArray={ingredientsArray}
-          dataArr={data}
+          dataArr={ingredients.items}
           setTotalPrice={setTotalPrice}
         />
       )}
@@ -93,7 +66,7 @@ export function BurgerConstructor() {
           type="primary"
           size="medium"
           onClick={() => {
-            handleOrder(data);
+            handleOrder(ingredients.items);
           }}
         >
           Оформить заказ
@@ -102,7 +75,7 @@ export function BurgerConstructor() {
 
       {modalIsOpen && (
         <Modal onClose={handleModalClose} title={null}>
-          <OrderDetails orderNumber={orderNumber} />
+          <OrderDetails />
         </Modal>
       )}
     </section>

@@ -1,4 +1,3 @@
-import React from "react";
 import ingredientDetails from "./ingredient-details.module.css";
 import { ingredientType } from "../../utils/types";
 
