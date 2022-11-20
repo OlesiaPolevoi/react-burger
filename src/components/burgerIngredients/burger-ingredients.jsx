@@ -12,6 +12,7 @@ import { ingredientType } from "../../utils/types";
 import { useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
+import { useDrag } from "react-dnd";
 
 const getVisibleTab = (bunsInView, saucesInView, mainsInView) => {
   if (bunsInView) return "buns";
@@ -138,14 +139,29 @@ function Ingredient({ el }) {
 
   const handleModalClose = useCallback(() => setModalIsOpen(false), []);
 
+  const id = el["_id"];
+
+  const [, dragRef] = useDrag({
+    type: "ingredient",
+    item: { id },
+    collect: (monitor) => ({
+      isDrag: monitor.isDragging(),
+    }),
+  });
+
   return (
     <>
       <section
         className={burgerIngredients.ingredient}
         onClick={() => setModalIsOpen(true)}
+        ref={dragRef}
       >
         <img src={`${el.image}`} alt={el.name} />
-        {el.count > 0 && <Counter count={el.count} size="default" />}
+
+        {el.orderedQuantity && el.orderedQuantity > 0 && (
+          <Counter count={el.orderedQuantity} size="default" />
+        )}
+
         <div className={burgerIngredients.price}>
           <div className={burgerIngredients.number}>{el.price}</div>
           <CurrencyIcon type="primary" />
