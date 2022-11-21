@@ -9,18 +9,19 @@ import {
 import PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../orderDetails/order-details";
-
 import { useSelector, useDispatch } from "react-redux";
-import { clearOrderNumber } from "../../services/actions/index.js";
-import { makeOrderAndGetRequestId } from "../../services/actions";
+import { clearOrderNumber } from "../../services/actions/submit-order";
+import { submitOrderAndGetId } from "../../services/actions/submit-order";
 import { useDrag, useDrop } from "react-dnd";
+import {
+  INCREMENT_INGREDIENT_QUANTITY,
+  DECREMENT_INGREDIENT_QUANTITY,
+} from "../../services/actions/fetch-ingredients";
 import {
   CONSTRUCTOR_ADD_ELEMENT,
   CONSTRUCTOR_REMOVE_ELEMENT,
   CONSTRUCTOR_CHANGE_ELEMENT_POSITION,
-  INCREMENT_INGREDIENT_QUANTITY,
-  DECREMENT_INGREDIENT_QUANTITY,
-} from "../../services/actions";
+} from "../../services/actions/burger-constructor";
 
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -57,9 +58,7 @@ export function BurgerConstructor() {
 
     if (bunIsPresent && (mainIsPresent || sauceIsPresent)) {
       dispatch(
-        makeOrderAndGetRequestId(ingredientsArrayCopy, () =>
-          setModalIsOpen(true)
-        )
+        submitOrderAndGetId(ingredientsArrayCopy, () => setModalIsOpen(true))
       );
     }
   };

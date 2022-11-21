@@ -6,7 +6,7 @@ import { BurgerIngredients } from "../burgerIngredients/burger-ingredients";
 import { BurgerConstructor } from "../burgerConstructor/burger-constructor";
 
 import { useDispatch } from "react-redux";
-import { getIngredientsFunc } from "../../services/actions";
+import { getIngredientsFunc } from "../../services/actions/fetch-ingredients";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 

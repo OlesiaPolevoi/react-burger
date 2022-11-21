@@ -1,48 +1,5 @@
 import axios from "axios";
 import { BASE_URL } from "../../utils/burger-api";
-import { getIngredients } from "../../utils/burger-api";
-
-export const FETCH_USER_REQUEST = "FETCH_USER_REQUEST";
-export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
-export const FETCH_USER_FAILURE = "FETCH_USER_FAILURE";
-
-export const INCREMENT_INGREDIENT_QUANTITY = "INCREMENT_INGREDIENT_QUANTITY";
-export const DECREMENT_INGREDIENT_QUANTITY = "DECREMENT_INGREDIENT_QUANTITY";
-
-export const fetchUserRequest = () => {
-  return {
-    type: FETCH_USER_REQUEST,
-  };
-};
-
-export const fetchUserSuccess = (orderNumber) => {
-  return {
-    type: FETCH_USER_SUCCESS,
-    payload: orderNumber,
-  };
-};
-
-export const fetchUserFailure = (error) => {
-  return {
-    type: FETCH_USER_FAILURE,
-    payload: error,
-  };
-};
-
-export const getIngredientsFunc = () => {
-  return function (dispatch) {
-    dispatch(fetchUserRequest());
-    axios(getIngredients)
-      .then(function (response) {
-        const data = response?.data?.data;
-        dispatch(fetchUserSuccess(data ?? []));
-      })
-      .catch(function (error) {
-        console.log(error);
-        dispatch(fetchUserFailure(error.message));
-      });
-  };
-};
 
 export const ORDER_NUMBER_REQUEST = "ORDER_NUMBER_REQUEST";
 export const ORDER_NUMBER_SUCCESS = "ORDER_NUMBER_SUCCESS";
@@ -75,7 +32,7 @@ export const clearOrderNumber = () => {
   };
 };
 
-export const makeOrderAndGetRequestId = (dataArray, callback) => {
+export const submitOrderAndGetId = (dataArray, callback) => {
   return function (dispatch) {
     const arrayOfIds = dataArray.map((el) => {
       return el._id;
@@ -109,8 +66,3 @@ export const makeOrderAndGetRequestId = (dataArray, callback) => {
       });
   };
 };
-
-export const CONSTRUCTOR_ADD_ELEMENT = "CONSTRUCTOR_ADD_ELEMENT";
-export const CONSTRUCTOR_REMOVE_ELEMENT = "CONSTRUCTOR_REMOVE_ELEMENT";
-export const CONSTRUCTOR_CHANGE_ELEMENT_POSITION =
-  "CONSTRUCTOR_CHANGE_ELEMENT_POSITION";

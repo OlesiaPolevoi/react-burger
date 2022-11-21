@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import {
   Tab,
   CurrencyIcon,
@@ -11,7 +11,6 @@ import { IngredientDetails } from "../ingredientDetails/ingredient-details";
 import { ingredientType } from "../../utils/types";
 import { useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
 import { useDrag } from "react-dnd";
 
 const getVisibleTab = (bunsInView, saucesInView, mainsInView) => {
