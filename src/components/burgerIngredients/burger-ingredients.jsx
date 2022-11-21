@@ -9,9 +9,13 @@ import PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from "../ingredientDetails/ingredient-details";
 import { ingredientType } from "../../utils/types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 import { useDrag } from "react-dnd";
+import {
+  getIngredientInfo,
+  clearIngredientInfo,
+} from "../../services/actions/ingredient-details.js";
 
 const getVisibleTab = (bunsInView, saucesInView, mainsInView) => {
   if (bunsInView) return "buns";
@@ -135,8 +139,17 @@ function IngredientsContainer({ header, cardsArr, id, myRef }) {
 
 function Ingredient({ el }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleModalClose = useCallback(() => setModalIsOpen(false), []);
+  const openIngredientDetailModal = () => {
+    dispatch(getIngredientInfo(el));
+    setModalIsOpen(true);
+  };
+
+  const handleModalClose = useCallback(() => {
+    dispatch(clearIngredientInfo());
+    setModalIsOpen(false);
+  }, []);
 
   const id = el["_id"];
 
@@ -152,7 +165,7 @@ function Ingredient({ el }) {
     <>
       <section
         className={burgerIngredients.ingredient}
-        onClick={() => setModalIsOpen(true)}
+        onClick={openIngredientDetailModal}
         ref={dragRef}
       >
         <img src={`${el.image}`} alt={el.name} />
@@ -170,7 +183,7 @@ function Ingredient({ el }) {
 
       {modalIsOpen && (
         <Modal onClose={handleModalClose} title="Детали ингредиента">
-          <IngredientDetails el={el} />
+          <IngredientDetails />
         </Modal>
       )}
     </>
