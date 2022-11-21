@@ -158,7 +158,7 @@ function Ingredient({ el }) {
       >
         <img src={`${el.image}`} alt={el.name} />
 
-        {el.orderedQuantity && el.orderedQuantity > 0 && (
+        {"orderedQuantity" in el && el.orderedQuantity > 0 && (
           <Counter count={el.orderedQuantity} size="default" />
         )}
 

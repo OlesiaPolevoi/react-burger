@@ -136,6 +136,11 @@ const constructorReducer = (state = [], action) => {
 
       const newArr = [...state];
 
+      // const firstEl = newArr[firstElIndex];
+      // const secondEl = newArr[secondElIndex];
+      // newArr.splice(firstElIndex, 1, secondEl);
+      // newArr.splice(secondElIndex, 1, firstEl);
+
       return update(newArr, {
         $splice: [
           [firstElIndex, 1],

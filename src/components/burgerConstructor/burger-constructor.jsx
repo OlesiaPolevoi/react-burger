@@ -45,8 +45,23 @@ export function BurgerConstructor() {
     [ingredients]
   );
 
-  const handleOrder = (dataArray) => {
-    dispatch(makeOrderAndGetRequestId(dataArray, () => setModalIsOpen(true)));
+  const submitOrder = (ingredientsArray) => {
+    const ingredientTypes = ingredientsArray.map((el) => el.type);
+    const bunIsPresent = ingredientTypes.some((el) => el === "bun");
+    const mainIsPresent = ingredientTypes.some((el) => el === "main");
+    const sauceIsPresent = ingredientTypes.some((el) => el === "sauce");
+
+    const ingredientsArrayCopy = [...ingredientsArray];
+    const bunIngredient = ingredientsArrayCopy.find((el) => el.type === "bun");
+    ingredientsArrayCopy.push(bunIngredient);
+
+    if (bunIsPresent && (mainIsPresent || sauceIsPresent)) {
+      dispatch(
+        makeOrderAndGetRequestId(ingredientsArrayCopy, () =>
+          setModalIsOpen(true)
+        )
+      );
+    }
   };
 
   const handleModalClose = useCallback(() => {
@@ -72,7 +87,7 @@ export function BurgerConstructor() {
           type="primary"
           size="medium"
           onClick={() => {
-            handleOrder(ingredients);
+            submitOrder(ingredients);
           }}
         >
           Оформить заказ
