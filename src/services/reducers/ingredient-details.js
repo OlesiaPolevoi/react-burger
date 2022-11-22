@@ -3,7 +3,7 @@ import {
   CLEAR_INGREDIENT_INFO,
 } from "../actions/ingredient-details";
 
-const defaultIngredientState = {};
+const defaultIngredientState = null;
 
 export const ingredientDetailsReducer = (
   state = defaultIngredientState,
@@ -14,7 +14,7 @@ export const ingredientDetailsReducer = (
       return { ...action.payload };
     }
     case CLEAR_INGREDIENT_INFO: {
-      return {};
+      return null;
     }
     default:
       return state;
