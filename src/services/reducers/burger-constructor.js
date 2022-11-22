@@ -16,24 +16,35 @@ export const constructorReducer = (state = [], action) => {
       return [...state, action.payload];
     }
     case CONSTRUCTOR_REMOVE_ELEMENT: {
-      return state.filter((el, index) => index !== action.payload);
+      if (state.some((el) => el.type === "bun")) {
+        const filtered = state.filter(
+          (el, index) => index !== action.payload + 1
+        );
+        return filtered;
+      }
+      const filtered = state.filter((el, index) => index !== action.payload);
+      return filtered;
     }
     case CONSTRUCTOR_CHANGE_ELEMENT_POSITION: {
       const { firstElIndex, secondElIndex } = action.payload;
 
       const newArr = [...state];
+      const filtered = newArr.filter((el) => el.type !== "bun");
 
-      // const firstEl = newArr[firstElIndex];
-      // const secondEl = newArr[secondElIndex];
-      // newArr.splice(firstElIndex, 1, secondEl);
-      // newArr.splice(secondElIndex, 1, firstEl);
-
-      return update(newArr, {
+      const updated = update(filtered, {
         $splice: [
           [firstElIndex, 1],
-          [secondElIndex, 0, newArr[firstElIndex]],
+          [secondElIndex, 0, filtered[firstElIndex]],
         ],
       });
+
+      const bunIngredient = newArr.find((el) => {
+        return el.type === "bun";
+      });
+
+      updated.push(bunIngredient);
+      updated.unshift(bunIngredient);
+      return updated;
     }
 
     default: {

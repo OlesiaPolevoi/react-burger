@@ -1,5 +1,4 @@
 import ingredientDetails from "./ingredient-details.module.css";
-//import { ingredientType } from "../../utils/types";
 import { useSelector } from "react-redux";
 
 export function IngredientDetails() {
@@ -30,7 +29,3 @@ export function IngredientDetails() {
     </div>
   );
 }
-
-// IngredientDetails.propTypes = {
-//   el: ingredientType,
-// };

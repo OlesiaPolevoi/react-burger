@@ -32,21 +32,21 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
         ...state,
         items: state.items.map((el) => {
           if (el.type === "bun" && el._id === ingredientId) {
-            el["orderedQuantity"] = 2;
+            el.orderedQuantity = 2;
             return el;
           }
 
           if (el.type === "bun" && el._id !== ingredientId && isBun) {
-            el["orderedQuantity"] = 0;
+            el.orderedQuantity = 0;
             return el;
           }
 
           if (el._id === ingredientId) {
             if (!("orderedQuantity" in el)) {
-              el["orderedQuantity"] = 1;
+              el.orderedQuantity = 1;
               return el;
             }
-            el["orderedQuantity"] = el["orderedQuantity"] + 1;
+            el.orderedQuantity = el.orderedQuantity + 1;
           }
           return el;
         }),
@@ -61,9 +61,8 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
             if (!("orderedQuantity" in el)) {
               return el;
             }
-            const decrementedValue = el["orderedQuantity"] - 1;
-            el["orderedQuantity"] =
-              decrementedValue >= 0 ? decrementedValue : 0;
+            const decrementedValue = el.orderedQuantity - 1;
+            el.orderedQuantity = decrementedValue >= 0 ? decrementedValue : 0;
           }
           return el;
         }),

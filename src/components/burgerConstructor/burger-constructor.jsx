@@ -22,6 +22,7 @@ import {
   CONSTRUCTOR_REMOVE_ELEMENT,
   CONSTRUCTOR_CHANGE_ELEMENT_POSITION,
 } from "../../services/actions/burger-constructor";
+import { ingredientType } from "../../utils/types";
 
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -272,7 +273,12 @@ Button.propTypes = {
 };
 
 ConstructorIngredient.propTypes = {
-  ingredientsArray: PropTypes.array.isRequired,
-  outerBun: PropTypes.object,
+  ingredientsArray: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
+  outerBun: ingredientType,
   setTotalPrice: PropTypes.func,
+};
+
+InnerIngredient.propTypes = {
+  index: PropTypes.number.isRequired,
+  el: PropTypes.object.isRequired,
 };

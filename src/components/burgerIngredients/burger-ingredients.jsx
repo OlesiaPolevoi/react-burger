@@ -149,7 +149,7 @@ function Ingredient({ el }) {
   const handleModalClose = useCallback(() => {
     dispatch(clearIngredientInfo());
     setModalIsOpen(false);
-  }, []);
+  }, [dispatch]);
 
   const id = el["_id"];
 
@@ -189,13 +189,13 @@ function Ingredient({ el }) {
     </>
   );
 }
-
 IngredientsContainer.propTypes = {
   header: PropTypes.string.isRequired,
-  cardsArr: PropTypes.array.isRequired,
+
+  cardsArr: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
   id: PropTypes.string.isRequired,
 };
 
 Ingredient.propTypes = {
-  el: ingredientType,
+  el: ingredientType.isRequired,
 };
