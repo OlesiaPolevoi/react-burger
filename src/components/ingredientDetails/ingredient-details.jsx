@@ -1,8 +1,9 @@
-import React from "react";
 import ingredientDetails from "./ingredient-details.module.css";
-import { ingredientType } from "../../utils/types";
+import { useSelector } from "react-redux";
 
-export function IngredientDetails({ el }) {
+export function IngredientDetails() {
+  const el = useSelector((store) => store.ingredientDetailsReducer);
+
   return (
     <div className={ingredientDetails.container}>
       <img src={el.image} className={ingredientDetails.img} alt={el.name} />
@@ -28,7 +29,3 @@ export function IngredientDetails({ el }) {
     </div>
   );
 }
-
-IngredientDetails.propTypes = {
-  el: ingredientType,
-};

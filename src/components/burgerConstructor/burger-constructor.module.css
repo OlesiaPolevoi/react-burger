@@ -16,6 +16,7 @@
   gap: 8px;
   box-sizing: border-box;
   margin-right: 16px;
+  margin-bottom: 16px;
 }
 .margin {
   display: flex;
@@ -24,7 +25,7 @@
   align-items: center;
   gap: 8px;
   box-sizing: border-box;
-  margin: 8px 8px 8px 32px;
+  margin: 0px 8px 8px 32px;
 }
 .total {
   display: flex;
@@ -51,7 +52,7 @@
 }
 
 .scroller {
-  height: 730px;
+  height: 740px;
   width: 584px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -59,4 +60,12 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 20px;
+  margin-top: 15px;
+}
+
+.empty {
+  margin: auto;
+  text-align: center;
+  font-size: 18px;
 }
