@@ -16,6 +16,7 @@ import {
   getIngredientInfo,
   clearIngredientInfo,
 } from "../../services/actions/ingredient-details.js";
+import { Link, useLocation, Route, useHistory } from "react-router-dom";
 
 const getVisibleTab = (bunsInView, saucesInView, mainsInView) => {
   if (bunsInView) return "buns";
@@ -123,6 +124,7 @@ export function BurgerIngredients() {
 }
 
 function IngredientsContainer({ header, cardsArr, id, myRef }) {
+  let location = useLocation();
   return (
     <div ref={myRef}>
       <h2 className={burgerIngredients.header} id={id}>
@@ -130,14 +132,33 @@ function IngredientsContainer({ header, cardsArr, id, myRef }) {
       </h2>
       <div className={burgerIngredients.container}>
         {cardsArr.map((el) => {
-          return <Ingredient el={el} key={el._id} />;
+          // console.log(location, "Link Click Location");
+          // console.log("ELEM", el);
+          return (
+            <Link
+              key={el._id}
+              to={{
+                pathname: `/ingredients/${el._id}`,
+                state: { background: location },
+              }}
+            >
+              <Ingredient el={el} key={el._id} />
+            </Link>
+          );
         })}
+
+        {/* {cardsArr.map((el) => {
+          return <Ingredient el={el} key={el._id} />;
+        })} */}
       </div>
     </div>
   );
 }
 
 function Ingredient({ el }) {
+  const history = useHistory();
+  const location = useLocation();
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -149,6 +170,13 @@ function Ingredient({ el }) {
   const handleModalClose = useCallback(() => {
     dispatch(clearIngredientInfo());
     setModalIsOpen(false);
+    //NOTE ?
+    // history.push({ pathname: "/", state: { background: location } });
+    // let { id } = useParams();
+    // console.log(children, "CHILDREN");
+    // let back = (e) => {
+    //   e.stopPropagation();
+    // };
   }, [dispatch]);
 
   const id = el["_id"];
@@ -160,7 +188,11 @@ function Ingredient({ el }) {
       isDrag: monitor.isDragging(),
     }),
   });
-
+  //NOTE
+  // let location = useLocation();
+  // console.log("BI-location----", location);
+  // let background = location.state && location.state.background;
+  // console.log(background, "BI-background---");
   return (
     <>
       <section
@@ -180,6 +212,16 @@ function Ingredient({ el }) {
         </div>
         <div className={burgerIngredients.description}>{el.name}</div>
       </section>
+
+      {/* {background && <Route path="/img/:id" children={<Modal />} />} */}
+
+      {/* {modalIsOpen && background && (
+        <Route path="/ingredients/:id" exact>
+          <Modal onClose={handleModalClose} title="Детали ингредиента">
+            <IngredientDetails />
+          </Modal>
+        </Route>
+      )} */}
 
       {modalIsOpen && (
         <Modal onClose={handleModalClose} title="Детали ингредиента">

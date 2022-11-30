@@ -7,7 +7,8 @@ import { useDispatch } from "react-redux";
 import { getIngredientsFunc } from "../../services/actions/fetch-ingredients";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useLocation } from "react-router-dom";
+import { Modal } from "../modal/modal";
 import {
   Profile,
   CurrentOrders,
@@ -16,8 +17,14 @@ import {
   ForgotPassword,
   ResetPassword,
 } from "../../pages";
+import { IngredientDetails } from "../ingredientDetails/ingredient-details";
 
 export function App() {
+  let location = useLocation();
+  // console.log("location--", location);
+  let background = location.state && location.state.background;
+  // console.log("background---", background);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,8 +36,8 @@ export function App() {
       <AppHeader />
       <main className={styles.container}>
         <DndProvider backend={HTML5Backend}>
-          <Switch>
-            <Route path="/" exact>
+          <Switch location={background || location}>
+            <Route path={["/", "/ingredients"]} exact>
               <BurgerIngredients />
               <BurgerConstructor />
             </Route>
@@ -51,14 +58,23 @@ export function App() {
               <ResetPassword />
             </Route>
 
-            {/* NOTE - modal - ish 
-            <Route path="/ingredients/:id" exact>
-              <Ingredient-Details />?
-            </Route> */}
+            <Route path="/ingredients/:_id" exact>
+              <IngredientDetails />
+            </Route>
 
             <Route path="/current-orders" exact>
               <CurrentOrders />
             </Route>
+
+            {/* {background && <Route path="/img/:id" children={<Modal />} />} */}
+
+            {/* Show the modal when a background page is set */}
+            {background && (
+              <Route path="/ingredients/:_id" exact>
+                <button>IM BUTTON</button>
+              </Route>
+            )}
+
             <Route>Страница не найдена</Route>
           </Switch>
         </DndProvider>
