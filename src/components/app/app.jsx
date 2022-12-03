@@ -42,7 +42,10 @@ export function App() {
               <BurgerConstructor />
             </Route>
 
-            <Route path="/profile" exact>
+            {/* <Route path="/profile/orders" exact>
+              <OrderHistory />
+            </Route> */}
+            <Route path="/profile">
               <Profile />
             </Route>
             <Route path="/login" exact>

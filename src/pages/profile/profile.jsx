@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import profile from "./profile.module.css";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import {
   EmailInput,
   PasswordInput,
@@ -9,16 +9,39 @@ import {
   EditIcon,
   Tab,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
+import { useSelector, useDispatch } from "react-redux";
+import {
+  profileInfoRequest,
+  profileInfoUpdate,
+} from "../../services/actions/profile-data";
 export function Profile() {
-  //const [value, setValue] = React.useState("");
+  const isProfile = !!useRouteMatch({ path: "/profile", exact: true });
+  const isOrderHistory = !!useRouteMatch("/profile/orders");
+  const isExit = !!useRouteMatch("/profile/exit");
+
+  const userInfo = useSelector((store) => store.userDataReducer);
+
   const [userData, setUserData] = React.useState({
-    name: "",
-    email: "",
+    name: `${userInfo.name}`,
+    email: `${userInfo.email}`,
     password: "",
   });
 
-  // const [currentTab, setCurrentTab] = React.useState("one");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(profileInfoRequest());
+  }, []);
+
+  useEffect(() => {
+    if (!userInfo.loading) {
+      setUserData({
+        name: userInfo.name,
+        email: userInfo.email,
+        password: "",
+      });
+    }
+  }, [userInfo]);
 
   const onChange = (event) => {
     const { name, value } = event.target;
@@ -30,54 +53,41 @@ export function Profile() {
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0);
   };
-  function handleSubmit() {
-    // NOTE submitToApi(userData)
-    console.log(userData);
+
+  function submitProfileChanges() {
+    dispatch(profileInfoUpdate(userData));
   }
+
+  const toPreviousInput = () => {
+    setUserData({
+      name: `${userInfo.name}`,
+      email: `${userInfo.email}`,
+      password: "",
+    });
+  };
 
   return (
     <div className={profile.wrapper}>
       <div>
-        <div
-          className={profile.tabs}
-          // style={{
-          //   display: "flex",
-          //   flexDirection: "column",
-          //   marginBottom: "80px",
-          // }}
-        >
-          <Link to="/profile" className={profile.tab}>
-            Профиль
-          </Link>
-          <Link to="/profile/orders" className={profile.tabInactive}>
-            {" "}
-            История заказов
-          </Link>
-          <Link to="/profile/orders/:id" className={profile.tabInactive}>
-            Выход
-          </Link>
-
-          {/* <Tab
-            value="one"
-            active={currentTab === "one"}
-            onClick={setCurrentTab}
+        <div className={profile.tabs}>
+          <Link
+            to="/profile"
+            className={isProfile ? profile.tab : profile.tabInactive}
           >
             Профиль
-          </Tab>
-          <Tab
-            value="two"
-            active={currentTab === "two"}
-            onClick={setCurrentTab}
+          </Link>
+          <Link
+            to="/profile/orders"
+            className={isOrderHistory ? profile.tab : profile.tabInactive}
           >
             История заказов
-          </Tab>
-          <Tab
-            value="three"
-            active={currentTab === "three"}
-            onClick={setCurrentTab}
+          </Link>
+          <Link
+            to="/profile/exit"
+            className={isExit ? profile.tab : profile.tabInactive}
           >
             Выход
-          </Tab> */}
+          </Link>
         </div>
         <p className={profile.paragraph}>
           В этом разделе вы можете изменить свои персональные данные
@@ -92,10 +102,8 @@ export function Profile() {
           value={userData.name}
           name={"name"}
           error={false}
-          //ref={inputRef}
           errorText={"Ошибка"}
           size={"default"}
-          // extraClass="ml-1"
           icon={"EditIcon"}
           onIconClick={onIconClick}
           ref={inputRef}
@@ -108,7 +116,6 @@ export function Profile() {
             name={"email"}
             placeholder="Логин"
             isIcon={true}
-            //extraClass="mb-2"
           />
         </div>
 
@@ -122,7 +129,14 @@ export function Profile() {
         </div>
 
         <div className={profile.buttons}>
-          <Button htmlType="button" type="secondary" size="medium">
+          <Button
+            htmlType="button"
+            type="secondary"
+            size="medium"
+            onClick={() => {
+              toPreviousInput();
+            }}
+          >
             Отмена
           </Button>
           <Button
@@ -130,7 +144,7 @@ export function Profile() {
             type="primary"
             size="medium"
             onClick={() => {
-              handleSubmit();
+              submitProfileChanges();
             }}
           >
             Сохранить
@@ -140,20 +154,3 @@ export function Profile() {
     </div>
   );
 }
-
-// () => {
-//   const [currentTab, setCurrentTab] = React.useState('one')
-//   return (
-//     <div style={{ display: 'flex', flexDirection: "column" }}>
-//       <Tab value="one" active={currentTab === 'one'} onClick={setCurrentTab}>
-//         One
-//       </Tab>
-//       <Tab value="two" active={currentTab === 'two'} onClick={setCurrentTab}>
-//         Two
-//       </Tab>
-//       <Tab value="three" active={currentTab === 'three'} onClick={setCurrentTab}>
-//         Three
-//       </Tab>
-//     </div>
-//   )
-// }

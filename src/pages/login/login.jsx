@@ -5,17 +5,25 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
+import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { userLoginRequest } from "../../services/actions/user-data";
 
 export function Login() {
   const history = useHistory();
 
   //const [value, setValue] = React.useState("");
+
   const [userData, setUserData] = React.useState({
     email: "",
     password: "",
   });
+
+  //NOTE NOTE - need this - uncomment
+  const userData1 = useSelector((store) => store.userDataReducer);
+  //  console.log("current STATE LOGIN- ", userData1);
+  const dispatch = useDispatch();
 
   const onChange = (event) => {
     const { name, value } = event.target;
@@ -27,14 +35,23 @@ export function Login() {
   const goToRegister = useCallback(() => {
     history.replace({ pathname: "/register" });
   }, [history]);
+
   const goToForgotPassword = useCallback(() => {
     history.replace({ pathname: "/forgot-password" });
   }, [history]);
 
   //goToForgotPassword
   function handleSubmit() {
-    // NOTE submitToApi(userData)
-    console.log(userData);
+    // dispatch(
+    //   submitOrderAndGetId(ingredientsArrayCopy, () => setModalIsOpen(true))
+    // )
+    //NOTE history?
+
+    dispatch(
+      userLoginRequest(userData, () =>
+        history.replace({ pathname: "/profile" })
+      )
+    );
   }
 
   return (

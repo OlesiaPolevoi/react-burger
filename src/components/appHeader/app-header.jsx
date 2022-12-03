@@ -6,23 +6,40 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 
 export function AppHeader() {
+  const isConstructor = !!useRouteMatch({ path: "/", exact: true });
+  const isCurrentOrders = !!useRouteMatch("/current-orders");
+  const isProfile = !!useRouteMatch("/profile");
+
   return (
     <header className={appHeader.header}>
       <nav className={appHeader.container}>
         <div className={appHeader.elements}>
           <NavigationLink
             text="Конструктор"
-            icon={<BurgerIcon type="primary" className="nav-icon" />}
+            icon={
+              isConstructor ? (
+                <BurgerIcon type="primary" />
+              ) : (
+                <BurgerIcon type="secondary" />
+              )
+            }
+            inactive={isConstructor ? false : true}
             path="/"
           />
 
           <NavigationLink
             text="Лента заказов"
-            icon={<ListIcon type="secondary" />}
-            inactive={true}
+            icon={
+              isCurrentOrders ? (
+                <ListIcon type="primary" />
+              ) : (
+                <ListIcon type="secondary" />
+              )
+            }
+            inactive={isCurrentOrders ? false : true}
             path="/current-orders"
           />
         </div>
@@ -30,8 +47,15 @@ export function AppHeader() {
 
         <NavigationLink
           text="Личный кабинет"
-          icon={<ProfileIcon type="secondary" />}
-          inactive={true}
+          icon={
+            isProfile ? (
+              <ProfileIcon type="primary" />
+            ) : (
+              <ProfileIcon type="secondary" />
+            )
+          }
+          inactive={isProfile ? false : true}
+          //inactive={!isProfile}
           path="/profile"
         />
       </nav>

@@ -7,8 +7,14 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { userRegisterRequest } from "../../services/actions/user-data";
 
 export function Register() {
+  // const userData1 = useSelector((store) => store.userDataReducer);
+  // console.log("current STATE - ", userData1);
+  const dispatch = useDispatch();
   //const [value, setValue] = React.useState("");
   const history = useHistory();
   const [userData, setUserData] = React.useState({
@@ -30,7 +36,33 @@ export function Register() {
 
   function handleSubmit() {
     // NOTE submitToApi(userData)
-    //console.log(userData);
+    // console.log(userData);
+
+    dispatch(
+      userRegisterRequest(userData, () =>
+        history.replace({ pathname: "/profile" })
+      )
+    );
+
+    // const data = JSON.stringify(userData);
+
+    // const registerUser = {
+    //   method: "post",
+    //   url: "https://norma.nomoreparties.space/api/auth/register",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   data: data,
+    // };
+
+    // axios(registerUser)
+    //   .then(function (response) {
+    //     console.log(JSON.stringify(response.data));
+    //     history.replace({ pathname: "/profile" });
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
   }
 
   return (

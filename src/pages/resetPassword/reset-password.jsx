@@ -8,6 +8,7 @@ import {
   ShowIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 export function ResetPassword() {
   const history = useHistory();
@@ -15,9 +16,7 @@ export function ResetPassword() {
   //const [value, setValue] = React.useState("");
   const [userData, setUserData] = React.useState({
     password: "",
-    password1: "",
-
-    code: "",
+    token: "",
   });
 
   const onChange = (event) => {
@@ -31,6 +30,26 @@ export function ResetPassword() {
   }, [history]);
 
   function handleSubmit() {
+    const data = JSON.stringify(userData);
+
+    const resetPassword = {
+      method: "post",
+      url: "https://norma.nomoreparties.space/api/password-reset/reset",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios(resetPassword)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        history.replace({ pathname: "/login" });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
     // NOTE submitToApi(userData)
     // console.log(userData);
   }
@@ -55,8 +74,8 @@ export function ResetPassword() {
           onChange={onChange}
           //onChange={(e) => setValue(e.target.value)}
           // icon={"CurrencyIcon"}
-          value={userData.code}
-          name={"code"}
+          value={userData.token}
+          name={"token"}
           //error={false}
           //ref={inputRef}
           // onIconClick={onIconClick}

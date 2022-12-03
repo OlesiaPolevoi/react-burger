@@ -7,6 +7,7 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 export function ForgotPassword() {
   const history = useHistory();
@@ -28,8 +29,30 @@ export function ForgotPassword() {
   }, [history]);
 
   function handleSubmit() {
+    const data = JSON.stringify(userData);
     // NOTE submitToApi(userData)
-    // console.log(userData);
+
+    //var axios = require("axios");
+
+    const getEmailCode = {
+      method: "post",
+      url: "https://norma.nomoreparties.space/api/password-reset",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data,
+    };
+
+    axios(getEmailCode)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        history.replace({ pathname: "/reset-password" });
+
+        ///reset-password
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   return (

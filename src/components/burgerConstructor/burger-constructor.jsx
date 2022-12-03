@@ -10,8 +10,11 @@ import PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../orderDetails/order-details";
 import { useSelector, useDispatch } from "react-redux";
-import { clearOrderNumber } from "../../services/actions/submit-order";
-import { submitOrderAndGetId } from "../../services/actions/submit-order";
+//import { clearOrderNumber } from "../../services/actions/submit-order";
+import {
+  submitOrderAndGetId,
+  clearOrderNumber,
+} from "../../services/actions/submit-order";
 import { useDrag, useDrop } from "react-dnd";
 import {
   INCREMENT_INGREDIENT_QUANTITY,
