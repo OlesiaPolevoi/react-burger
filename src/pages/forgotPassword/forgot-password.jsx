@@ -6,10 +6,14 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 export function ForgotPassword() {
+  const userStore = useSelector((store) => store.userDataReducer);
+  const isUserAuthorized = userStore.accessToken !== ""; //true
+
   const history = useHistory();
 
   //const [value, setValue] = React.useState("");
@@ -46,7 +50,9 @@ export function ForgotPassword() {
     axios(getEmailCode)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
-        history.replace({ pathname: "/reset-password" });
+        // history.push(`/device/detail`, { from: "device detail page" });
+        history.push("/reset-password", { from: "forgot-password" });
+        // history.replace({ pathname: "/reset-password" });
 
         ///reset-password
       })
@@ -54,7 +60,16 @@ export function ForgotPassword() {
         console.log(error);
       });
   }
-
+  if (isUserAuthorized) {
+    return (
+      // Переадресовываем авторизованного пользователя на главную страницу
+      <Redirect
+        to={{
+          pathname: "/profile",
+        }}
+      />
+    );
+  }
   return (
     <div>
       <form className={forgotPassword.container}>
@@ -77,6 +92,7 @@ export function ForgotPassword() {
           onClick={() => {
             handleSubmit();
           }}
+          disabled={userData.email === "" ? true : false}
         >
           Восстановить
         </Button>

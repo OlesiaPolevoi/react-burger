@@ -6,12 +6,15 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { userRegisterRequest } from "../../services/actions/user-data";
 
 export function Register() {
+  const userStore = useSelector((store) => store.userDataReducer);
+  const isUserAuthorized = userStore.accessToken !== ""; //true
+
   // const userData1 = useSelector((store) => store.userDataReducer);
   // console.log("current STATE - ", userData1);
   const dispatch = useDispatch();
@@ -64,7 +67,16 @@ export function Register() {
     //     console.log(error);
     //   });
   }
-
+  if (isUserAuthorized) {
+    return (
+      // Переадресовываем авторизованного пользователя на главную страницу
+      <Redirect
+        to={{
+          pathname: "/profile",
+        }}
+      />
+    );
+  }
   return (
     <div>
       <form className={register.container}>

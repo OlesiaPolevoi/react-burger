@@ -143,7 +143,8 @@ export const tokenRefreshRequest = (refreshToken) => {
         //console.log(JSON.stringify(response.data));
         const userData = response.data;
         saveAccessToken(userData.accessToken);
-        saveRefreshToken(userData.refreshToken);
+        ///NOTE SAVE TO REDUX TOO
+        // saveRefreshToken(userData.refreshToken);
       })
       .catch(function (error) {
         console.log(error);

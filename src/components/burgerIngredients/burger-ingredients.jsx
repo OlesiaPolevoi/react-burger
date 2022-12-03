@@ -25,6 +25,13 @@ const getVisibleTab = (bunsInView, saucesInView, mainsInView) => {
 };
 
 export function BurgerIngredients() {
+  const history = useHistory();
+  let location = useLocation();
+
+  // console.log(history?.location?.state);
+  // let background = !!history?.location?.state?.background;
+  // console.log("background", background);
+
   const [currentTab, setCurrentTab] = React.useState("buns");
   const ingredients = useSelector((store) => store.ingredientsReducer);
 
@@ -156,10 +163,13 @@ function IngredientsContainer({ header, cardsArr, id, myRef }) {
 }
 
 function Ingredient({ el }) {
-  const history = useHistory();
-  const location = useLocation();
+  // const history = useHistory();
+  // const location = useLocation();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  // if (modalIsOpen) {
+  //   console.log("HI THERE!");
+  // }
   const dispatch = useDispatch();
 
   const openIngredientDetailModal = () => {
@@ -231,6 +241,7 @@ function Ingredient({ el }) {
     </>
   );
 }
+
 IngredientsContainer.propTypes = {
   header: PropTypes.string.isRequired,
 

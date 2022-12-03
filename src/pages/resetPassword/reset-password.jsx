@@ -7,11 +7,22 @@ import {
   Input,
   ShowIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import axios from "axios";
 
 export function ResetPassword() {
+  // console.log("referrer", window.document.referrer);
+  const userStore = useSelector((store) => store.userDataReducer);
+  const isUserAuthorized = userStore.accessToken !== ""; //true
+
   const history = useHistory();
+  //NOTE NOTE
+  // console.log(
+  //   "history.location.state.from",
+  //   history.location.state.from === "forgot-password"
+  // );
 
   //const [value, setValue] = React.useState("");
   const [userData, setUserData] = React.useState({
@@ -54,6 +65,27 @@ export function ResetPassword() {
     // console.log(userData);
   }
 
+  if (isUserAuthorized) {
+    return (
+      // Переадресовываем авторизованного пользователя на главную страницу
+      <Redirect
+        to={{
+          pathname: "/profile",
+        }}
+      />
+    );
+  }
+
+  if (history?.location?.state?.from !== "forgot-password") {
+    return (
+      // Переадресовываем авторизованного пользователя на главную страницу
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
   return (
     <div>
       <form className={resetPassword.container}>

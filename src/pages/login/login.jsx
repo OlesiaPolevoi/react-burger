@@ -6,23 +6,25 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { userLoginRequest } from "../../services/actions/user-data";
+import { Redirect } from "react-router-dom";
 
 export function Login() {
-  const history = useHistory();
+  const userStore = useSelector((store) => store.userDataReducer);
+  const isUserAuthorized = userStore.accessToken !== ""; //true
 
-  //const [value, setValue] = React.useState("");
+  const history = useHistory();
 
   const [userData, setUserData] = React.useState({
     email: "",
     password: "",
   });
 
-  //NOTE NOTE - need this - uncomment
-  const userData1 = useSelector((store) => store.userDataReducer);
-  //  console.log("current STATE LOGIN- ", userData1);
+  // //NOTE NOTE - need this? - uncomment?
+  // const userData1 = useSelector((store) => store.userDataReducer);
+  // //  console.log("current STATE LOGIN- ", userData1);
   const dispatch = useDispatch();
 
   const onChange = (event) => {
@@ -54,6 +56,16 @@ export function Login() {
     );
   }
 
+  if (isUserAuthorized) {
+    return (
+      // Переадресовываем авторизованного пользователя на главную страницу
+      <Redirect
+        to={{
+          pathname: "/profile",
+        }}
+      />
+    );
+  }
   return (
     <div>
       <form className={login.container}>

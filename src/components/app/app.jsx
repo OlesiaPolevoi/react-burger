@@ -7,8 +7,8 @@ import { useDispatch } from "react-redux";
 import { getIngredientsFunc } from "../../services/actions/fetch-ingredients";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Switch, Route, useLocation } from "react-router-dom";
-import { Modal } from "../modal/modal";
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
+import { ProtectedRoute } from "../../pages/protected-route";
 import {
   Profile,
   CurrentOrders,
@@ -21,8 +21,11 @@ import { IngredientDetails } from "../ingredientDetails/ingredient-details";
 
 export function App() {
   let location = useLocation();
+  // const history = useHistory();
   // console.log("location--", location);
+  // console.log(history.location);
   let background = location.state && location.state.background;
+  console.log(background);
   // console.log("background---", background);
 
   const dispatch = useDispatch();
@@ -31,6 +34,15 @@ export function App() {
     dispatch(getIngredientsFunc());
   }, []);
 
+  const TestContainer = () => {
+    return (
+      <>
+        <BurgerIngredients />
+        <BurgerConstructor />
+      </>
+    );
+  };
+
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -38,16 +50,20 @@ export function App() {
         <DndProvider backend={HTML5Backend}>
           <Switch location={background || location}>
             <Route path={["/", "/ingredients"]} exact>
-              <BurgerIngredients />
-              <BurgerConstructor />
+              <>
+                <BurgerIngredients />
+                <BurgerConstructor />
+              </>
             </Route>
 
-            {/* <Route path="/profile/orders" exact>
-              <OrderHistory />
-            </Route> */}
-            <Route path="/profile">
+            {/* <Route path="/profile">
               <Profile />
-            </Route>
+            </Route> */}
+
+            <ProtectedRoute path="/profile">
+              <Profile />
+            </ProtectedRoute>
+
             <Route path="/login" exact>
               <Login />
             </Route>
@@ -72,11 +88,11 @@ export function App() {
             {/* {background && <Route path="/img/:id" children={<Modal />} />} */}
 
             {/* Show the modal when a background page is set */}
-            {background && (
-              <Route path="/ingredients/:_id" exact>
-                <button>IM BUTTON</button>
-              </Route>
-            )}
+            {/* {background && ( */}
+            <Route path="/ingredients/:_id" exact>
+              <button>IM BUTTON</button>
+            </Route>
+            {/* )} */}
 
             <Route>Страница не найдена</Route>
           </Switch>
