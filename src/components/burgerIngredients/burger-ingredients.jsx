@@ -25,13 +25,6 @@ const getVisibleTab = (bunsInView, saucesInView, mainsInView) => {
 };
 
 export function BurgerIngredients() {
-  const history = useHistory();
-  let location = useLocation();
-
-  // console.log(history?.location?.state);
-  // let background = !!history?.location?.state?.background;
-  // console.log("background", background);
-
   const [currentTab, setCurrentTab] = React.useState("buns");
   const ingredients = useSelector((store) => store.ingredientsReducer);
 
@@ -132,6 +125,7 @@ export function BurgerIngredients() {
 
 function IngredientsContainer({ header, cardsArr, id, myRef }) {
   let location = useLocation();
+
   return (
     <div ref={myRef}>
       <h2 className={burgerIngredients.header} id={id}>
@@ -139,8 +133,6 @@ function IngredientsContainer({ header, cardsArr, id, myRef }) {
       </h2>
       <div className={burgerIngredients.container}>
         {cardsArr.map((el) => {
-          // console.log(location, "Link Click Location");
-          // console.log("ELEM", el);
           return (
             <Link
               key={el._id}
@@ -163,13 +155,11 @@ function IngredientsContainer({ header, cardsArr, id, myRef }) {
 }
 
 function Ingredient({ el }) {
-  // const history = useHistory();
+  const history = useHistory();
   // const location = useLocation();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  // if (modalIsOpen) {
-  //   console.log("HI THERE!");
-  // }
+
   const dispatch = useDispatch();
 
   const openIngredientDetailModal = () => {
@@ -178,15 +168,10 @@ function Ingredient({ el }) {
   };
 
   const handleModalClose = useCallback(() => {
+    history.goBack();
+
     dispatch(clearIngredientInfo());
     setModalIsOpen(false);
-    //NOTE ?
-    // history.push({ pathname: "/", state: { background: location } });
-    // let { id } = useParams();
-    // console.log(children, "CHILDREN");
-    // let back = (e) => {
-    //   e.stopPropagation();
-    // };
   }, [dispatch]);
 
   const id = el["_id"];
@@ -198,11 +183,7 @@ function Ingredient({ el }) {
       isDrag: monitor.isDragging(),
     }),
   });
-  //NOTE
-  // let location = useLocation();
-  // console.log("BI-location----", location);
-  // let background = location.state && location.state.background;
-  // console.log(background, "BI-background---");
+
   return (
     <>
       <section
@@ -210,7 +191,7 @@ function Ingredient({ el }) {
         onClick={openIngredientDetailModal}
         ref={dragRef}
       >
-        <img src={`${el.image}`} alt={el.name} />
+        <img src={`${el?.image}`} alt={el.name} />
 
         {"orderedQuantity" in el && el.orderedQuantity > 0 && (
           <Counter count={el.orderedQuantity} size="default" />
@@ -222,16 +203,6 @@ function Ingredient({ el }) {
         </div>
         <div className={burgerIngredients.description}>{el.name}</div>
       </section>
-
-      {/* {background && <Route path="/img/:id" children={<Modal />} />} */}
-
-      {/* {modalIsOpen && background && (
-        <Route path="/ingredients/:id" exact>
-          <Modal onClose={handleModalClose} title="Детали ингредиента">
-            <IngredientDetails />
-          </Modal>
-        </Route>
-      )} */}
 
       {modalIsOpen && (
         <Modal onClose={handleModalClose} title="Детали ингредиента">

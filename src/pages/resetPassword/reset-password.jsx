@@ -13,18 +13,11 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 export function ResetPassword() {
-  // console.log("referrer", window.document.referrer);
   const userStore = useSelector((store) => store.userDataReducer);
   const isUserAuthorized = userStore.accessToken !== ""; //true
 
   const history = useHistory();
-  //NOTE NOTE
-  // console.log(
-  //   "history.location.state.from",
-  //   history.location.state.from === "forgot-password"
-  // );
 
-  //const [value, setValue] = React.useState("");
   const [userData, setUserData] = React.useState({
     password: "",
     token: "",
@@ -60,14 +53,10 @@ export function ResetPassword() {
       .catch(function (error) {
         console.log(error);
       });
-
-    // NOTE submitToApi(userData)
-    // console.log(userData);
   }
 
   if (isUserAuthorized) {
     return (
-      // Переадресовываем авторизованного пользователя на главную страницу
       <Redirect
         to={{
           pathname: "/profile",
@@ -78,7 +67,6 @@ export function ResetPassword() {
 
   if (history?.location?.state?.from !== "forgot-password") {
     return (
-      // Переадресовываем авторизованного пользователя на главную страницу
       <Redirect
         to={{
           pathname: "/",
@@ -96,7 +84,6 @@ export function ResetPassword() {
             value={userData.password}
             name={"password"}
             placeholder={"Введите новый пароль"}
-            //  extraClass="mb-2"
           />
         </div>
 
@@ -104,16 +91,9 @@ export function ResetPassword() {
           type={"text"}
           placeholder={"Введите код из письма"}
           onChange={onChange}
-          //onChange={(e) => setValue(e.target.value)}
-          // icon={"CurrencyIcon"}
           value={userData.token}
           name={"token"}
-          //error={false}
-          //ref={inputRef}
-          // onIconClick={onIconClick}
-          //errorText={"Ошибка"}
           size={"default"}
-          //extraClass="ml-1"
         />
 
         <Button

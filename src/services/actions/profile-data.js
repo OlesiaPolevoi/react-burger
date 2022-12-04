@@ -38,7 +38,6 @@ export const profileInfoRequest = () => {
   return function (dispatch) {
     const accessToken = getAccessToken();
 
-    //console.log(accessToken, "--accessToken");
     const getUserProfileData = {
       method: "get",
       url: `${USER_URL}/user`,

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useCallback, useState } from "react";
 import styles from "./app.module.css";
 import { AppHeader } from "../appHeader/app-header";
 import { BurgerIngredients } from "../burgerIngredients/burger-ingredients";
@@ -18,15 +18,13 @@ import {
   ResetPassword,
 } from "../../pages";
 import { IngredientDetails } from "../ingredientDetails/ingredient-details";
-
+import { Modal } from "../modal/modal";
+import { clearIngredientInfo } from "../../services/actions/ingredient-details.js";
 export function App() {
   let location = useLocation();
-  // const history = useHistory();
-  // console.log("location--", location);
-  // console.log(history.location);
+  const history = useHistory();
+
   let background = location.state && location.state.background;
-  console.log(background);
-  // console.log("background---", background);
 
   const dispatch = useDispatch();
 
@@ -34,14 +32,13 @@ export function App() {
     dispatch(getIngredientsFunc());
   }, []);
 
-  const TestContainer = () => {
-    return (
-      <>
-        <BurgerIngredients />
-        <BurgerConstructor />
-      </>
-    );
-  };
+  const [modalIsOpen, setModalIsOpen] = useState(true);
+
+  const handleModalClose = useCallback(() => {
+    history.goBack();
+    dispatch(clearIngredientInfo());
+    setModalIsOpen(false);
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
@@ -49,12 +46,22 @@ export function App() {
       <main className={styles.container}>
         <DndProvider backend={HTML5Backend}>
           <Switch location={background || location}>
-            <Route path={["/", "/ingredients"]} exact>
-              <>
-                <BurgerIngredients />
-                <BurgerConstructor />
-              </>
+            <Route path="/" exact>
+              <BurgerIngredients />
+              <BurgerConstructor />
             </Route>
+
+            {background && (
+              <Route
+                path="/ingredients/:_id"
+                exact
+                children={
+                  <Modal onClose={handleModalClose} title="Детали ингредиента">
+                    <IngredientDetails />
+                  </Modal>
+                }
+              />
+            )}
 
             {/* <Route path="/profile">
               <Profile />
@@ -85,13 +92,11 @@ export function App() {
               <CurrentOrders />
             </Route>
 
-            {/* {background && <Route path="/img/:id" children={<Modal />} />} */}
-
             {/* Show the modal when a background page is set */}
             {/* {background && ( */}
-            <Route path="/ingredients/:_id" exact>
+            {/* <Route path="/ingredients/:_id" exact>
               <button>IM BUTTON</button>
-            </Route>
+            </Route> */}
             {/* )} */}
 
             <Route>Страница не найдена</Route>

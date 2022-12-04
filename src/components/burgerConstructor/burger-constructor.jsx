@@ -259,9 +259,9 @@ const InnerIngredient = ({ index, el }) => {
     <div ref={ref} className={burgerConstructor.container}>
       <DragIcon type="primary" />
       <ConstructorElement
-        text={el.name}
-        price={el.price}
-        thumbnail={el.image}
+        text={el?.name}
+        price={el?.price}
+        thumbnail={el?.image}
         handleClose={() => {
           removeIngredient(el._id, index);
         }}

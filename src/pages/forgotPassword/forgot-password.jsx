@@ -50,11 +50,8 @@ export function ForgotPassword() {
     axios(getEmailCode)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
-        // history.push(`/device/detail`, { from: "device detail page" });
-        history.push("/reset-password", { from: "forgot-password" });
-        // history.replace({ pathname: "/reset-password" });
 
-        ///reset-password
+        history.push("/reset-password", { from: "forgot-password" });
       })
       .catch(function (error) {
         console.log(error);
@@ -62,7 +59,6 @@ export function ForgotPassword() {
   }
   if (isUserAuthorized) {
     return (
-      // Переадресовываем авторизованного пользователя на главную страницу
       <Redirect
         to={{
           pathname: "/profile",

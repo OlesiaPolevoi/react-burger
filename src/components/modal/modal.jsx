@@ -7,14 +7,6 @@ import PropTypes from "prop-types";
 import { useHistory, useParams } from "react-router-dom";
 
 export function Modal({ children, onClose, title }) {
-  // let history = useHistory();
-  // let { id } = useParams();
-  // console.log(children, "CHILDREN");
-  // let back = (e) => {
-  //   e.stopPropagation();
-  //   history.goBack();
-  // };
-
   useEffect(() => {
     const handleEscKeyPress = (event) => {
       if (event.isComposing || event.key === "Escape") {

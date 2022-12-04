@@ -15,10 +15,7 @@ export function Register() {
   const userStore = useSelector((store) => store.userDataReducer);
   const isUserAuthorized = userStore.accessToken !== ""; //true
 
-  // const userData1 = useSelector((store) => store.userDataReducer);
-  // console.log("current STATE - ", userData1);
   const dispatch = useDispatch();
-  //const [value, setValue] = React.useState("");
   const history = useHistory();
   const [userData, setUserData] = React.useState({
     email: "",
@@ -38,38 +35,14 @@ export function Register() {
   }, [history]);
 
   function handleSubmit() {
-    // NOTE submitToApi(userData)
-    // console.log(userData);
-
     dispatch(
       userRegisterRequest(userData, () =>
         history.replace({ pathname: "/profile" })
       )
     );
-
-    // const data = JSON.stringify(userData);
-
-    // const registerUser = {
-    //   method: "post",
-    //   url: "https://norma.nomoreparties.space/api/auth/register",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   data: data,
-    // };
-
-    // axios(registerUser)
-    //   .then(function (response) {
-    //     console.log(JSON.stringify(response.data));
-    //     history.replace({ pathname: "/profile" });
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
   }
   if (isUserAuthorized) {
     return (
-      // Переадресовываем авторизованного пользователя на главную страницу
       <Redirect
         to={{
           pathname: "/profile",
@@ -89,10 +62,8 @@ export function Register() {
           value={userData.name}
           name={"name"}
           error={false}
-          //ref={inputRef}
           errorText={"Ошибка"}
           size={"default"}
-          // extraClass="ml-1"
         />
 
         <div style={{ display: "flex", flexDirection: "column" }}>
