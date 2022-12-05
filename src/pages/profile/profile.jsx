@@ -26,7 +26,6 @@ export function Profile() {
     email: `${userInfo.email}`,
     password: "",
   });
-
   const dispatch = useDispatch();
 
   useEffect(() => {

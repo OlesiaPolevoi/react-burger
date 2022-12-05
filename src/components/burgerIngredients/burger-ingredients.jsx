@@ -206,7 +206,7 @@ function Ingredient({ el }) {
 
       {modalIsOpen && (
         <Modal onClose={handleModalClose} title="Детали ингредиента">
-          <IngredientDetails />
+          <IngredientDetails el={el} />
         </Modal>
       )}
     </>

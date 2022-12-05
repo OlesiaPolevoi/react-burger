@@ -1,8 +1,23 @@
 import ingredientDetails from "./ingredient-details.module.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  Link,
+  useLocation,
+  Route,
+  useHistory,
+  useParams,
+} from "react-router-dom";
+import { getIngredientInfo } from "../../services/actions/ingredient-details";
+import { useEffect } from "react";
 
 export function IngredientDetails() {
-  const el = useSelector((store) => store.ingredientDetailsReducer);
+  let el = useSelector((store) => store.ingredientDetailsReducer);
+
+  let { _id } = useParams();
+
+  const ingredientsStore = useSelector((store) => store.ingredientsReducer);
+  const newEl = (ingredientsStore?.items ?? []).find((el) => el._id === _id);
+  el = el ?? newEl;
 
   return (
     <div className={ingredientDetails.container}>

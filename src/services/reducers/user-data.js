@@ -10,6 +10,7 @@ import {
   PROFILE_DATA_UPDATE,
   PROFILE_DATA_SUCCESS,
   PROFILE_DATA_FAILURE,
+  ADD_TOKEN_TO_USER_STATE,
 } from "../actions/profile-data";
 
 const userDataState = {
@@ -74,6 +75,13 @@ export const userDataReducer = (state = userDataState, action) => {
         loading: false,
         name: action.payload.user.name,
         email: action.payload.user.email,
+      };
+    }
+    case ADD_TOKEN_TO_USER_STATE: {
+      return {
+        ...state,
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
       };
     }
     // case CLEAR_USER_DATA: {

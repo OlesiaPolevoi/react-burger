@@ -7,6 +7,7 @@ export const PROFILE_DATA_REQUEST = "PROFILE_DATA_REQUEST";
 export const PROFILE_DATA_SUCCESS = "PROFILE_DATA_SUCCESS";
 export const PROFILE_DATA_FAILURE = "PROFILE_DATA_FAILURE";
 export const PROFILE_DATA_UPDATE = "PROFILE_DATA_UPDATE";
+export const ADD_TOKEN_TO_USER_STATE = "ADD_TOKEN_TO_USER_STATE";
 
 export const profileDataRequest = () => {
   return {
@@ -34,6 +35,14 @@ export const profileDataUpdate = () => {
   };
 };
 
+export const addTokenToUserState = (tokenObject) => {
+  // console.log("tokenObject", tokenObject);
+  return {
+    type: ADD_TOKEN_TO_USER_STATE,
+    payload: tokenObject,
+  };
+};
+
 export const profileInfoRequest = () => {
   return function (dispatch) {
     const accessToken = getAccessToken();
@@ -49,7 +58,7 @@ export const profileInfoRequest = () => {
     axios(getUserProfileData)
       .then(function (response) {
         const userData = response.data;
-
+        // console.log("userData", userData);
         dispatch(profileDataSuccess(userData));
       })
       .catch(function (error) {

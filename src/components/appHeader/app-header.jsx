@@ -7,8 +7,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { Link, useRouteMatch } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export function AppHeader() {
+  const userInfo = useSelector((store) => store.userDataReducer);
+  const isUserAuthorized = userInfo.name !== ""; //true
+
   const isConstructor = !!useRouteMatch({ path: "/", exact: true });
   const isCurrentOrders = !!useRouteMatch("/current-orders");
   const isProfile = !!useRouteMatch("/profile");
@@ -46,7 +50,7 @@ export function AppHeader() {
         <Logo />
 
         <NavigationLink
-          text="Личный кабинет"
+          text={isUserAuthorized ? userInfo?.name : "Личный кабинет"}
           icon={
             isProfile ? (
               <ProfileIcon type="primary" />
@@ -55,7 +59,6 @@ export function AppHeader() {
             )
           }
           inactive={isProfile ? false : true}
-          //inactive={!isProfile}
           path="/profile"
         />
       </nav>
@@ -64,7 +67,6 @@ export function AppHeader() {
 }
 
 function NavigationLink({ text, icon, inactive, path }) {
-  //NOTE or Navlink here - to highlight active class??
   return (
     <Link
       to={`${path}`}

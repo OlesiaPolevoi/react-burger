@@ -26,12 +26,17 @@ import {
   CONSTRUCTOR_CHANGE_ELEMENT_POSITION,
 } from "../../services/actions/burger-constructor";
 import { ingredientType } from "../../utils/types";
+import { Redirect, useHistory } from "react-router-dom";
 
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const ingredients = useSelector((store) => store.constructorReducer);
+  const userInfo = useSelector((store) => store.userDataReducer);
+  const isUserAuthorized = userInfo.name !== ""; //true
+  const history = useHistory();
+
   const dispatch = useDispatch();
 
   const outerBun = useMemo(
@@ -50,21 +55,34 @@ export function BurgerConstructor() {
     [ingredients]
   );
 
+  //NOTE
+  // console.log(userInfo.name !== "");
+
   const submitOrder = (ingredientsArray) => {
-    const ingredientTypes = ingredientsArray.map((el) => el.type);
-    const bunIsPresent = ingredientTypes.some((el) => el === "bun");
-    const mainIsPresent = ingredientTypes.some((el) => el === "main");
-    const sauceIsPresent = ingredientTypes.some((el) => el === "sauce");
+    if (isUserAuthorized) {
+      const ingredientTypes = ingredientsArray.map((el) => el.type);
+      const bunIsPresent = ingredientTypes.some((el) => el === "bun");
+      const mainIsPresent = ingredientTypes.some((el) => el === "main");
+      const sauceIsPresent = ingredientTypes.some((el) => el === "sauce");
 
-    const ingredientsArrayCopy = [...ingredientsArray];
-    const bunIngredient = ingredientsArrayCopy.find((el) => el.type === "bun");
-    ingredientsArrayCopy.push(bunIngredient);
-
-    if (bunIsPresent && (mainIsPresent || sauceIsPresent)) {
-      dispatch(
-        submitOrderAndGetId(ingredientsArrayCopy, () => setModalIsOpen(true))
+      const ingredientsArrayCopy = [...ingredientsArray];
+      const bunIngredient = ingredientsArrayCopy.find(
+        (el) => el.type === "bun"
       );
+      ingredientsArrayCopy.push(bunIngredient);
+
+      if (bunIsPresent && (mainIsPresent || sauceIsPresent)) {
+        dispatch(
+          submitOrderAndGetId(ingredientsArrayCopy, () => setModalIsOpen(true))
+        );
+      }
     }
+
+    if (!isUserAuthorized) {
+      history.replace({ pathname: "/profile" });
+    }
+    // <Redirect to="/login" />;
+    //go to login page
   };
 
   const handleModalClose = useCallback(() => {

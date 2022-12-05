@@ -3,7 +3,7 @@ import styles from "./app.module.css";
 import { AppHeader } from "../appHeader/app-header";
 import { BurgerIngredients } from "../burgerIngredients/burger-ingredients";
 import { BurgerConstructor } from "../burgerConstructor/burger-constructor";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getIngredientsFunc } from "../../services/actions/fetch-ingredients";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -20,7 +20,11 @@ import {
 import { IngredientDetails } from "../ingredientDetails/ingredient-details";
 import { Modal } from "../modal/modal";
 import { clearIngredientInfo } from "../../services/actions/ingredient-details.js";
+import { getAccessToken, getRefreshToken } from "../../utils/local-storage";
+import { profileInfoRequest } from "../../services/actions/profile-data";
+import { addTokenToUserState } from "../../services/actions/profile-data";
 export function App() {
+  const userInfo = useSelector((store) => store.userDataReducer);
   let location = useLocation();
   const history = useHistory();
 
@@ -29,6 +33,31 @@ export function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    //check if redux if full
+    //if yes, we are happy
+    const isUserAuthorized = userInfo.accessToken !== ""; //true
+    // console.log("isUserAuthorized", isUserAuthorized);
+
+    //if not, check local storage for access token
+    //if not - we are done here
+    const refreshToken = getRefreshToken();
+    const accessToken = getAccessToken();
+    const isAccessTokenAvailable = accessToken !== "";
+
+    //NOTE if we have AT in local storage - fetch auth data and fill redux
+
+    //console.log("isAccessTokenAvailable", isAccessTokenAvailable);
+    //set access token and refresh token to redux
+    if (isAccessTokenAvailable) {
+      dispatch(profileInfoRequest());
+      dispatch(
+        addTokenToUserState({
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        })
+      );
+    }
+
     dispatch(getIngredientsFunc());
   }, []);
 
@@ -43,6 +72,7 @@ export function App() {
   return (
     <div className={styles.app}>
       <AppHeader />
+
       <main className={styles.container}>
         <DndProvider backend={HTML5Backend}>
           <Switch location={background || location}>
@@ -54,7 +84,6 @@ export function App() {
             {background && (
               <Route
                 path="/ingredients/:_id"
-                exact
                 children={
                   <Modal onClose={handleModalClose} title="Детали ингредиента">
                     <IngredientDetails />
@@ -62,10 +91,6 @@ export function App() {
                 }
               />
             )}
-
-            {/* <Route path="/profile">
-              <Profile />
-            </Route> */}
 
             <ProtectedRoute path="/profile">
               <Profile />
@@ -91,13 +116,6 @@ export function App() {
             <Route path="/current-orders" exact>
               <CurrentOrders />
             </Route>
-
-            {/* Show the modal when a background page is set */}
-            {/* {background && ( */}
-            {/* <Route path="/ingredients/:_id" exact>
-              <button>IM BUTTON</button>
-            </Route> */}
-            {/* )} */}
 
             <Route>Страница не найдена</Route>
           </Switch>
