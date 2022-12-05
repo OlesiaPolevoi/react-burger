@@ -22,9 +22,6 @@ export function Login() {
     password: "",
   });
 
-  // //NOTE NOTE - need this? - uncomment?
-  // const userData1 = useSelector((store) => store.userDataReducer);
-  // //  console.log("current STATE LOGIN- ", userData1);
   const dispatch = useDispatch();
 
   const onChange = (event) => {
@@ -50,18 +47,15 @@ export function Login() {
     //NOTE history?
 
     dispatch(
-      userLoginRequest(userData, () =>
-        history.replace({ pathname: "/profile" })
-      )
+      userLoginRequest(userData, () => history.replace({ pathname: "/" }))
     );
   }
 
   if (isUserAuthorized) {
     return (
-      // Переадресовываем авторизованного пользователя на главную страницу
       <Redirect
         to={{
-          pathname: "/profile",
+          pathname: "/",
         }}
       />
     );

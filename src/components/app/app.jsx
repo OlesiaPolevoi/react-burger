@@ -21,36 +21,33 @@ import { IngredientDetails } from "../ingredientDetails/ingredient-details";
 import { Modal } from "../modal/modal";
 import { clearIngredientInfo } from "../../services/actions/ingredient-details.js";
 import { getAccessToken, getRefreshToken } from "../../utils/local-storage";
-import { profileInfoRequest } from "../../services/actions/profile-data";
-import { addTokenToUserState } from "../../services/actions/profile-data";
+import {
+  profileInfoRequest,
+  addTokenToUserState,
+  tokenRefreshRequest,
+} from "../../services/actions/profile-data";
+import { isTokenExpired } from "../../utils/jwt-token";
+
 export function App() {
-  const userInfo = useSelector((store) => store.userDataReducer);
-  let location = useLocation();
-  const history = useHistory();
-
-  let background = location.state && location.state.background;
-
+  //const userInfo = useSelector((store) => store.userDataReducer);
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const background = location.state && location.state.background;
 
-  useEffect(() => {
-    //check if redux if full
-    //if yes, we are happy
-    const isUserAuthorized = userInfo.accessToken !== ""; //true
-    // console.log("isUserAuthorized", isUserAuthorized);
+  const refreshToken = getRefreshToken();
+  const requests = async () => {
+    // const isUserAuthorized = userInfo.accessToken !== "";
 
-    //if not, check local storage for access token
-    //if not - we are done here
-    const refreshToken = getRefreshToken();
     const accessToken = getAccessToken();
-    const isAccessTokenAvailable = accessToken !== "";
 
-    //NOTE if we have AT in local storage - fetch auth data and fill redux
+    if (accessToken) {
+      if (isTokenExpired(accessToken)) {
+        await dispatch(tokenRefreshRequest(refreshToken));
+      }
+      await dispatch(profileInfoRequest());
 
-    //console.log("isAccessTokenAvailable", isAccessTokenAvailable);
-    //set access token and refresh token to redux
-    if (isAccessTokenAvailable) {
-      dispatch(profileInfoRequest());
-      dispatch(
+      await dispatch(
         addTokenToUserState({
           accessToken: accessToken,
           refreshToken: refreshToken,
@@ -58,7 +55,11 @@ export function App() {
       );
     }
 
-    dispatch(getIngredientsFunc());
+    await dispatch(getIngredientsFunc());
+  };
+
+  useEffect(() => {
+    requests();
   }, []);
 
   const [modalIsOpen, setModalIsOpen] = useState(true);
@@ -91,7 +92,6 @@ export function App() {
                 }
               />
             )}
-
             <ProtectedRoute path="/profile">
               <Profile />
             </ProtectedRoute>
@@ -99,12 +99,15 @@ export function App() {
             <Route path="/login" exact>
               <Login />
             </Route>
+
             <Route path="/register" exact>
               <Register />
             </Route>
+
             <Route path="/forgot-password" exact>
               <ForgotPassword />
             </Route>
+
             <Route path="/reset-password" exact>
               <ResetPassword />
             </Route>

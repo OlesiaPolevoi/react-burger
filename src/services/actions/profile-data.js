@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAccessToken } from "../../utils/local-storage";
+import { getAccessToken, saveAccessToken } from "../../utils/local-storage";
 
 const USER_URL = "https://norma.nomoreparties.space/api/auth";
 
@@ -7,6 +7,8 @@ export const PROFILE_DATA_REQUEST = "PROFILE_DATA_REQUEST";
 export const PROFILE_DATA_SUCCESS = "PROFILE_DATA_SUCCESS";
 export const PROFILE_DATA_FAILURE = "PROFILE_DATA_FAILURE";
 export const PROFILE_DATA_UPDATE = "PROFILE_DATA_UPDATE";
+export const CLEAR_PROFILE_DATA = "CLEAR_PROFILE_DATA";
+
 export const ADD_TOKEN_TO_USER_STATE = "ADD_TOKEN_TO_USER_STATE";
 
 export const profileDataRequest = () => {
@@ -35,8 +37,13 @@ export const profileDataUpdate = () => {
   };
 };
 
+export const clearProfileData = () => {
+  return {
+    type: CLEAR_PROFILE_DATA,
+  };
+};
+
 export const addTokenToUserState = (tokenObject) => {
-  // console.log("tokenObject", tokenObject);
   return {
     type: ADD_TOKEN_TO_USER_STATE,
     payload: tokenObject,
@@ -54,11 +61,9 @@ export const profileInfoRequest = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-
     axios(getUserProfileData)
       .then(function (response) {
         const userData = response.data;
-        // console.log("userData", userData);
         dispatch(profileDataSuccess(userData));
       })
       .catch(function (error) {
@@ -97,6 +102,60 @@ export const profileInfoUpdate = (registerData) => {
       .catch(function (error) {
         console.log(error);
         dispatch(profileDataFailure(error.message));
+      });
+  };
+};
+
+export const tokenRefreshRequest = (refreshToken) => {
+  return function (dispatch) {
+    const data = JSON.stringify({
+      token: refreshToken,
+    });
+
+    const config = {
+      method: "post",
+      url: `${USER_URL}/token`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        const userData = response.data;
+        saveAccessToken(userData.accessToken);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+};
+
+export const userExitRequest = (refreshToken) => {
+  return function (dispatch) {
+    //var axios = require('axios');
+    const data = JSON.stringify({
+      token: refreshToken,
+    });
+
+    const config = {
+      method: "post",
+      url: `${USER_URL}/logout`,
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        dispatch(clearProfileData());
+        localStorage.clear();
+      })
+      .catch(function (error) {
+        console.log(error);
       });
   };
 };

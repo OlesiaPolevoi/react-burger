@@ -49,8 +49,8 @@ export function ForgotPassword() {
 
     axios(getEmailCode)
       .then(function (response) {
+        //NOTE - email; -sent - remove this
         console.log(JSON.stringify(response.data));
-
         history.push("/reset-password", { from: "forgot-password" });
       })
       .catch(function (error) {

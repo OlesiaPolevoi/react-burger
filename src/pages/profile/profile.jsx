@@ -6,15 +6,18 @@ import {
   PasswordInput,
   Button,
   Input,
-  EditIcon,
-  Tab,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from "react-redux";
 import {
   profileInfoRequest,
   profileInfoUpdate,
+  userExitRequest,
 } from "../../services/actions/profile-data";
+import { getRefreshToken } from "../../utils/local-storage";
+
 export function Profile() {
+  const refreshToken = getRefreshToken();
+
   const isProfile = !!useRouteMatch({ path: "/profile", exact: true });
   const isOrderHistory = !!useRouteMatch("/profile/orders");
   const isExit = !!useRouteMatch("/profile/exit");
@@ -65,6 +68,9 @@ export function Profile() {
     });
   };
 
+  const userLogout = (refreshToken) => {
+    dispatch(userExitRequest(refreshToken));
+  };
   return (
     <div className={profile.wrapper}>
       <div>
@@ -84,6 +90,9 @@ export function Profile() {
           <Link
             to="/profile/exit"
             className={isExit ? profile.tab : profile.tabInactive}
+            onClick={() => {
+              userLogout(refreshToken);
+            }}
           >
             Выход
           </Link>

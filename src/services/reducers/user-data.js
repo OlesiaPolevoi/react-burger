@@ -7,6 +7,7 @@ import {
 
 import {
   PROFILE_DATA_REQUEST,
+  CLEAR_PROFILE_DATA,
   PROFILE_DATA_UPDATE,
   PROFILE_DATA_SUCCESS,
   PROFILE_DATA_FAILURE,
@@ -82,6 +83,16 @@ export const userDataReducer = (state = userDataState, action) => {
         ...state,
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
+      };
+    }
+    case CLEAR_PROFILE_DATA: {
+      return {
+        email: "",
+        name: "",
+        accessToken: "",
+        refreshToken: "",
+        loading: false,
+        error: "",
       };
     }
     // case CLEAR_USER_DATA: {

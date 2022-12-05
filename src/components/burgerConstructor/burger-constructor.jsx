@@ -55,9 +55,6 @@ export function BurgerConstructor() {
     [ingredients]
   );
 
-  //NOTE
-  // console.log(userInfo.name !== "");
-
   const submitOrder = (ingredientsArray) => {
     if (isUserAuthorized) {
       const ingredientTypes = ingredientsArray.map((el) => el.type);
