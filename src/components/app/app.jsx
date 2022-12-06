@@ -3,7 +3,7 @@ import styles from "./app.module.css";
 import { AppHeader } from "../appHeader/app-header";
 import { BurgerIngredients } from "../burgerIngredients/burger-ingredients";
 import { BurgerConstructor } from "../burgerConstructor/burger-constructor";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getIngredientsFunc } from "../../services/actions/fetch-ingredients";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -29,7 +29,6 @@ import {
 import { isTokenExpired } from "../../utils/jwt-token";
 
 export function App() {
-  //const userInfo = useSelector((store) => store.userDataReducer);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -37,8 +36,6 @@ export function App() {
 
   const refreshToken = getRefreshToken();
   const requests = async () => {
-    // const isUserAuthorized = userInfo.accessToken !== "";
-
     const accessToken = getAccessToken();
 
     if (accessToken) {

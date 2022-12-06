@@ -2,7 +2,6 @@ import {
   USER_DATA_REQUEST,
   USER_DATA_SUCCESS,
   USER_DATA_FAILURE,
-  //CLEAR_USER_DATA,
 } from "../actions/user-data";
 
 import {
@@ -61,7 +60,7 @@ export const userDataReducer = (state = userDataState, action) => {
         email: action.payload.user.email,
       };
     }
-    //NOTE
+
     case PROFILE_DATA_FAILURE: {
       return {
         ...state,
@@ -71,7 +70,6 @@ export const userDataReducer = (state = userDataState, action) => {
     }
     case PROFILE_DATA_UPDATE: {
       return {
-        //NOTE ?
         ...state,
         loading: false,
         name: action.payload.user.name,
@@ -95,16 +93,7 @@ export const userDataReducer = (state = userDataState, action) => {
         error: "",
       };
     }
-    // case CLEAR_USER_DATA: {
-    //   return {
-    //     email: "",
-    //     name: "",
-    //     accessToken: "",
-    //     refreshToken: "",
-    //     loading: false,
-    //     error: "",
-    //   };
-    // }
+
     default: {
       return state;
     }

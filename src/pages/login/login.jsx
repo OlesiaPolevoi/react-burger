@@ -6,18 +6,18 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import axios from "axios";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { userLoginRequest } from "../../services/actions/user-data";
 import { Redirect } from "react-router-dom";
 
 export function Login() {
   const userStore = useSelector((store) => store.userDataReducer);
-  const isUserAuthorized = userStore.accessToken !== ""; //true
+  const isUserAuthorized = userStore.accessToken !== "";
 
   const history = useHistory();
 
-  const [userData, setUserData] = React.useState({
+  const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
@@ -39,13 +39,7 @@ export function Login() {
     history.replace({ pathname: "/forgot-password" });
   }, [history]);
 
-  //goToForgotPassword
   function handleSubmit() {
-    // dispatch(
-    //   submitOrderAndGetId(ingredientsArrayCopy, () => setModalIsOpen(true))
-    // )
-    //NOTE history?
-
     dispatch(
       userLoginRequest(userData, () => history.replace({ pathname: "/" }))
     );

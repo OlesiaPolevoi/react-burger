@@ -1,10 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import forgotPassword from "./forgot-password.module.css";
 import {
   EmailInput,
-  PasswordInput,
   Button,
-  Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useHistory, Redirect } from "react-router-dom";
 import axios from "axios";
@@ -12,11 +10,8 @@ import { useSelector } from "react-redux";
 
 export function ForgotPassword() {
   const userStore = useSelector((store) => store.userDataReducer);
-  const isUserAuthorized = userStore.accessToken !== ""; //true
-
+  const isUserAuthorized = userStore.accessToken !== "";
   const history = useHistory();
-
-  //const [value, setValue] = React.useState("");
   const [userData, setUserData] = React.useState({
     email: "",
   });
@@ -34,9 +29,6 @@ export function ForgotPassword() {
 
   function handleSubmit() {
     const data = JSON.stringify(userData);
-    // NOTE submitToApi(userData)
-
-    //var axios = require("axios");
 
     const getEmailCode = {
       method: "post",
@@ -49,8 +41,6 @@ export function ForgotPassword() {
 
     axios(getEmailCode)
       .then(function (response) {
-        //NOTE - email; -sent - remove this
-        console.log(JSON.stringify(response.data));
         history.push("/reset-password", { from: "forgot-password" });
       })
       .catch(function (error) {

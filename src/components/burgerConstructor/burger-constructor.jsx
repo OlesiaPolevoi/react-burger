@@ -10,7 +10,6 @@ import PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../orderDetails/order-details";
 import { useSelector, useDispatch } from "react-redux";
-//import { clearOrderNumber } from "../../services/actions/submit-order";
 import {
   submitOrderAndGetId,
   clearOrderNumber,
@@ -26,7 +25,7 @@ import {
   CONSTRUCTOR_CHANGE_ELEMENT_POSITION,
 } from "../../services/actions/burger-constructor";
 import { ingredientType } from "../../utils/types";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -34,7 +33,7 @@ export function BurgerConstructor() {
 
   const ingredients = useSelector((store) => store.constructorReducer);
   const userInfo = useSelector((store) => store.userDataReducer);
-  const isUserAuthorized = userInfo.name !== ""; //true
+  const isUserAuthorized = userInfo.name !== "";
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -78,8 +77,6 @@ export function BurgerConstructor() {
     if (!isUserAuthorized) {
       history.replace({ pathname: "/profile" });
     }
-    // <Redirect to="/login" />;
-    //go to login page
   };
 
   const handleModalClose = useCallback(() => {

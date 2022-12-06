@@ -4,7 +4,6 @@ import modal from "./modal.module.css";
 import { ModalOverlay } from "../modalOverlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { useHistory, useParams } from "react-router-dom";
 
 export function Modal({ children, onClose, title }) {
   useEffect(() => {

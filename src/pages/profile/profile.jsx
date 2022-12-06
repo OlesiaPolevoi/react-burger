@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import profile from "./profile.module.css";
 import { Link, useRouteMatch } from "react-router-dom";
 import {
@@ -21,10 +21,9 @@ export function Profile() {
   const isProfile = !!useRouteMatch({ path: "/profile", exact: true });
   const isOrderHistory = !!useRouteMatch("/profile/orders");
   const isExit = !!useRouteMatch("/profile/exit");
-
   const userInfo = useSelector((store) => store.userDataReducer);
 
-  const [userData, setUserData] = React.useState({
+  const [userData, setUserData] = useState({
     name: `${userInfo.name}`,
     email: `${userInfo.email}`,
     password: "",
@@ -162,3 +161,4 @@ export function Profile() {
     </div>
   );
 }
+

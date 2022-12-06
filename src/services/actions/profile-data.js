@@ -1,7 +1,6 @@
 import axios from "axios";
 import { getAccessToken, saveAccessToken } from "../../utils/local-storage";
-
-const USER_URL = "https://norma.nomoreparties.space/api/auth";
+import { USER_URL } from "../../utils/user-api";
 
 export const PROFILE_DATA_REQUEST = "PROFILE_DATA_REQUEST";
 export const PROFILE_DATA_SUCCESS = "PROFILE_DATA_SUCCESS";
@@ -134,7 +133,6 @@ export const tokenRefreshRequest = (refreshToken) => {
 
 export const userExitRequest = (refreshToken) => {
   return function (dispatch) {
-    //var axios = require('axios');
     const data = JSON.stringify({
       token: refreshToken,
     });

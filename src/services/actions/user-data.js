@@ -1,7 +1,6 @@
 import axios from "axios";
 import { saveAccessToken, saveRefreshToken } from "../../utils/local-storage";
-
-const USER_URL = "https://norma.nomoreparties.space/api/auth";
+import { USER_URL } from "../../utils/user-api";
 
 export const USER_DATA_REQUEST = "USER_DATA_REQUEST";
 export const USER_DATA_SUCCESS = "USER_DATA_SUCCESS";

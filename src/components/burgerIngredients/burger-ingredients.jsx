@@ -135,6 +135,7 @@ function IngredientsContainer({ header, cardsArr, id, myRef }) {
         {cardsArr.map((el) => {
           return (
             <Link
+              className={burgerIngredients.details}
               key={el._id}
               to={{
                 pathname: `/ingredients/${el._id}`,
@@ -145,10 +146,6 @@ function IngredientsContainer({ header, cardsArr, id, myRef }) {
             </Link>
           );
         })}
-
-        {/* {cardsArr.map((el) => {
-          return <Ingredient el={el} key={el._id} />;
-        })} */}
       </div>
     </div>
   );
@@ -156,7 +153,6 @@ function IngredientsContainer({ header, cardsArr, id, myRef }) {
 
 function Ingredient({ el }) {
   const history = useHistory();
-  // const location = useLocation();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 

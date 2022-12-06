@@ -7,17 +7,15 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useHistory, Redirect } from "react-router-dom";
-import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { userRegisterRequest } from "../../services/actions/user-data";
 
 export function Register() {
   const userStore = useSelector((store) => store.userDataReducer);
-  const isUserAuthorized = userStore.accessToken !== ""; //true
-
+  const isUserAuthorized = userStore.accessToken !== "";
   const dispatch = useDispatch();
   const history = useHistory();
-  const [userData, setUserData] = React.useState({
+  const [userData, setUserData] = useState({
     email: "",
     password: "",
     name: "",

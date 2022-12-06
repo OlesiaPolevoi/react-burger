@@ -1,11 +1,9 @@
 import React, { useState, useCallback } from "react";
 import resetPassword from "./reset-password.module.css";
 import {
-  EmailInput,
   PasswordInput,
   Button,
   Input,
-  ShowIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useHistory, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -14,11 +12,11 @@ import axios from "axios";
 
 export function ResetPassword() {
   const userStore = useSelector((store) => store.userDataReducer);
-  const isUserAuthorized = userStore.accessToken !== ""; //true
+  const isUserAuthorized = userStore.accessToken !== "";
 
   const history = useHistory();
 
-  const [userData, setUserData] = React.useState({
+  const [userData, setUserData] = useState({
     password: "",
     token: "",
   });
@@ -47,7 +45,6 @@ export function ResetPassword() {
 
     axios(resetPassword)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
         history.replace({ pathname: "/login" });
       })
       .catch(function (error) {

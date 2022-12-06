@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 
 export function AppHeader() {
   const userInfo = useSelector((store) => store.userDataReducer);
-  const isUserAuthorized = userInfo.name !== ""; //true
+  const isUserAuthorized = userInfo.name !== "";
 
   const isConstructor = !!useRouteMatch({ path: "/", exact: true });
   const isCurrentOrders = !!useRouteMatch("/current-orders");
@@ -70,8 +70,6 @@ function NavigationLink({ text, icon, inactive, path }) {
   return (
     <Link
       to={`${path}`}
-      // href="#"
-
       className={`${appHeader.link} ${inactive ? appHeader.inactive : ""}`}
     >
       {icon}
