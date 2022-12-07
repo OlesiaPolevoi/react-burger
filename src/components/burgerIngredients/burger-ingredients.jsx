@@ -124,7 +124,7 @@ export function BurgerIngredients() {
 }
 
 function IngredientsContainer({ header, cardsArr, id, myRef }) {
-  let location = useLocation();
+  const location = useLocation();
 
   return (
     <div ref={myRef}>

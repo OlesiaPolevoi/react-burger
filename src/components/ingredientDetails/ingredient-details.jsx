@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 export function IngredientDetails() {
   let ingredient = useSelector((store) => store.ingredientDetailsReducer);
 
-  let { _id } = useParams();
+  const { _id } = useParams();
 
   const ingredientsStore = useSelector((store) => store.ingredientsReducer);
   const newIngredient = (ingredientsStore?.items ?? []).find(
