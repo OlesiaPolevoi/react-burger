@@ -7,7 +7,7 @@ import {
 import { useHistory, Redirect } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
-
+import { BASE_URL } from "../../utils/burger-api";
 export function ForgotPassword() {
   const userStore = useSelector((store) => store.userDataReducer);
   const isUserAuthorized = userStore.accessToken !== "";
@@ -32,7 +32,7 @@ export function ForgotPassword() {
 
     const getEmailCode = {
       method: "post",
-      url: "https://norma.nomoreparties.space/api/password-reset",
+      url: `${BASE_URL}/password-reset`,
       headers: {
         "Content-Type": "application/json",
       },

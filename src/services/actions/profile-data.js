@@ -1,7 +1,6 @@
 import axios from "axios";
 import { getAccessToken, saveAccessToken } from "../../utils/local-storage";
-import { USER_URL } from "../../utils/user-api";
-
+import { BASE_URL } from "../../utils/burger-api";
 export const PROFILE_DATA_REQUEST = "PROFILE_DATA_REQUEST";
 export const PROFILE_DATA_SUCCESS = "PROFILE_DATA_SUCCESS";
 export const PROFILE_DATA_FAILURE = "PROFILE_DATA_FAILURE";
@@ -55,7 +54,7 @@ export const profileInfoRequest = () => {
 
     const getUserProfileData = {
       method: "get",
-      url: `${USER_URL}/user`,
+      url: `${BASE_URL}/auth/user`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -83,7 +82,7 @@ export const profileInfoUpdate = (registerData) => {
 
     const updateInfo = {
       method: "patch",
-      url: `${USER_URL}/user`,
+      url: `${BASE_URL}/auth/user`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
@@ -113,7 +112,7 @@ export const tokenRefreshRequest = (refreshToken) => {
 
     const config = {
       method: "post",
-      url: `${USER_URL}/token`,
+      url: `${BASE_URL}/auth/token`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -139,8 +138,7 @@ export const userExitRequest = (refreshToken) => {
 
     const config = {
       method: "post",
-      url: `${USER_URL}/logout`,
-
+      url: `${BASE_URL}/auth/logout`,
       headers: {
         "Content-Type": "application/json",
       },

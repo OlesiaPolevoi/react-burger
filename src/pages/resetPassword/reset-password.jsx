@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useHistory, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import { BASE_URL } from "../../utils/burger-api";
 import axios from "axios";
 
 export function ResetPassword() {
@@ -36,7 +36,7 @@ export function ResetPassword() {
 
     const resetPassword = {
       method: "post",
-      url: "https://norma.nomoreparties.space/api/password-reset/reset",
+      url: `${BASE_URL}/password-reset/reset`,
       headers: {
         "Content-Type": "application/json",
       },
