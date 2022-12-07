@@ -116,24 +116,20 @@ export function Profile() {
           ref={inputRef}
         />
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <EmailInput
-            onChange={onChange}
-            value={userData.email}
-            name={"email"}
-            placeholder="Логин"
-            isIcon={true}
-          />
-        </div>
+        <EmailInput
+          onChange={onChange}
+          value={userData.email}
+          name={"email"}
+          placeholder="Логин"
+          isIcon={true}
+        />
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <PasswordInput
-            onChange={onChange}
-            value={userData.password}
-            name={"password"}
-            icon="EditIcon"
-          />
-        </div>
+        <PasswordInput
+          onChange={onChange}
+          value={userData.password}
+          name={"password"}
+          icon="EditIcon"
+        />
 
         <div className={profile.buttons}>
           <Button
@@ -161,4 +157,3 @@ export function Profile() {
     </div>
   );
 }
-

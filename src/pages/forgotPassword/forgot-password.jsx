@@ -61,15 +61,13 @@ export function ForgotPassword() {
       <form className={forgotPassword.container}>
         <h2 className={forgotPassword.header}>Восстановление пароля</h2>
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <EmailInput
-            onChange={onChange}
-            value={userData.email}
-            name={"email"}
-            isIcon={false}
-            placeholder={"Укажите e-mail"}
-          />
-        </div>
+        <EmailInput
+          onChange={onChange}
+          value={userData.email}
+          name={"email"}
+          isIcon={false}
+          placeholder={"Укажите e-mail"}
+        />
 
         <Button
           htmlType="button"

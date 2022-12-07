@@ -64,22 +64,20 @@ export function Register() {
           size={"default"}
         />
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <EmailInput
-            onChange={onChange}
-            value={userData.email}
-            name={"email"}
-            isIcon={false}
-          />
-        </div>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <PasswordInput
-            onChange={onChange}
-            value={userData.password}
-            name={"password"}
-            extraClass="mb-2"
-          />
-        </div>
+        <EmailInput
+          onChange={onChange}
+          value={userData.email}
+          name={"email"}
+          isIcon={false}
+        />
+
+        <PasswordInput
+          onChange={onChange}
+          value={userData.password}
+          name={"password"}
+          extraClass="mb-2"
+        />
+
         <Button
           htmlType="button"
           type="primary"

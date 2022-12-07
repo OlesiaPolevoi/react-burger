@@ -75,14 +75,13 @@ export function ResetPassword() {
     <div>
       <form className={resetPassword.container}>
         <h2 className={resetPassword.header}>Восстановление пароля</h2>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <PasswordInput
-            onChange={onChange}
-            value={userData.password}
-            name={"password"}
-            placeholder={"Введите новый пароль"}
-          />
-        </div>
+
+        <PasswordInput
+          onChange={onChange}
+          value={userData.password}
+          name={"password"}
+          placeholder={"Введите новый пароль"}
+        />
 
         <Input
           type={"text"}
