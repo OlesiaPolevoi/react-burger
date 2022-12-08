@@ -80,14 +80,19 @@ export function App() {
             </Route>
 
             {background && (
-              <Route
-                path="/ingredients/:_id"
-                children={
-                  <Modal onClose={handleModalClose} title="Детали ингредиента">
-                    <IngredientDetails />
-                  </Modal>
-                }
-              />
+              <>
+                <Route
+                  path="/ingredients/:_id"
+                  children={
+                    <Modal
+                      onClose={handleModalClose}
+                      title="Детали ингредиента"
+                    >
+                      <IngredientDetails />
+                    </Modal>
+                  }
+                />
+              </>
             )}
             <ProtectedRoute onlyForAuth={true} path="/profile">
               <Profile />
