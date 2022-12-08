@@ -32,7 +32,8 @@ export function Register() {
     history.replace({ pathname: "/login" });
   }, [history]);
 
-  function handleSubmit() {
+  function handleSubmit(event) {
+    event.preventDefault();
     dispatch(
       userRegisterRequest(userData, () =>
         history.replace({ pathname: "/profile" })
@@ -50,7 +51,7 @@ export function Register() {
   }
   return (
     <div>
-      <form className={register.container}>
+      <form className={register.container} onSubmit={handleSubmit}>
         <h2 className={register.header}>Регистрация</h2>
 
         <Input
@@ -77,17 +78,9 @@ export function Register() {
           name={"password"}
           extraClass="mb-2"
         />
-
-        <Button
-          htmlType="button"
-          type="primary"
-          size="medium"
-          onClick={() => {
-            handleSubmit();
-          }}
-        >
+        <button className={register.button} type="submit">
           Зарегистрироваться
-        </Button>
+        </button>
       </form>
 
       <div className={register.info}>

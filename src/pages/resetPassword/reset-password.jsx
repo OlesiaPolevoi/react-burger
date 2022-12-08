@@ -31,7 +31,9 @@ export function ResetPassword() {
     history.replace({ pathname: "/login" });
   }, [history]);
 
-  function handleSubmit() {
+  function handleSubmit(event) {
+    event.preventDefault();
+
     const data = JSON.stringify(userData);
 
     const resetPassword = {
@@ -73,7 +75,7 @@ export function ResetPassword() {
   }
   return (
     <div>
-      <form className={resetPassword.container}>
+      <form className={resetPassword.container} onSubmit={handleSubmit}>
         <h2 className={resetPassword.header}>Восстановление пароля</h2>
 
         <PasswordInput
@@ -91,17 +93,13 @@ export function ResetPassword() {
           name={"token"}
           size={"default"}
         />
-
-        <Button
-          htmlType="button"
-          type="primary"
-          size="medium"
-          onClick={() => {
-            handleSubmit();
-          }}
+        <button
+          className={resetPassword.button}
+          type="submit"
+          disabled={userData.email === "" ? true : false}
         >
           Сохранить
-        </Button>
+        </button>
       </form>
 
       <div className={resetPassword.info}>

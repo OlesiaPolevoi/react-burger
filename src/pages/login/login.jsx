@@ -38,7 +38,8 @@ export function Login() {
     history.replace({ pathname: "/forgot-password" });
   }, [history]);
 
-  function handleSubmit() {
+  function handleSubmit(event) {
+    event.preventDefault();
     dispatch(
       userLoginRequest(userData, () => history.replace({ pathname: "/" }))
     );
@@ -49,7 +50,7 @@ export function Login() {
   }
   return (
     <div>
-      <form className={login.container}>
+      <form className={login.container} onSubmit={handleSubmit}>
         <h2 className={login.header}>Вход</h2>
 
         <EmailInput
@@ -65,17 +66,9 @@ export function Login() {
           name={"password"}
           extraClass="mb-2"
         />
-
-        <Button
-          htmlType="button"
-          type="primary"
-          size="medium"
-          onClick={() => {
-            handleSubmit();
-          }}
-        >
+        <button className={login.button} type="submit">
           Войти
-        </Button>
+        </button>
       </form>
 
       <div className={login.info}>

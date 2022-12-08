@@ -27,7 +27,9 @@ export function ForgotPassword() {
     history.replace({ pathname: "/login" });
   }, [history]);
 
-  function handleSubmit() {
+  function handleSubmit(event) {
+    event.preventDefault();
+
     const data = JSON.stringify(userData);
 
     const getEmailCode = {
@@ -58,7 +60,7 @@ export function ForgotPassword() {
   }
   return (
     <div>
-      <form className={forgotPassword.container}>
+      <form className={forgotPassword.container} onSubmit={handleSubmit}>
         <h2 className={forgotPassword.header}>Восстановление пароля</h2>
 
         <EmailInput
@@ -69,17 +71,13 @@ export function ForgotPassword() {
           placeholder={"Укажите e-mail"}
         />
 
-        <Button
-          htmlType="button"
-          type="primary"
-          size="medium"
-          onClick={() => {
-            handleSubmit();
-          }}
+        <button
+          className={forgotPassword.button}
+          type="submit"
           disabled={userData.email === "" ? true : false}
         >
           Восстановить
-        </Button>
+        </button>
       </form>
 
       <div className={forgotPassword.info}>

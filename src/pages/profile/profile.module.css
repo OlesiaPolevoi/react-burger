@@ -40,13 +40,6 @@
   flex-direction: column;
   margin-bottom: 90px;
   margin-top: 50px;
-  /* 
-  font-family: "JetBrains Mono";
-
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 30px;
-  text-align: left; */
 }
 .tab {
   text-decoration: none;
@@ -88,4 +81,19 @@
   line-height: 24px;
   color: #8585ad;
   opacity: 0.4;
+}
+
+.button {
+  padding: 16px 40px;
+  color: #f2f2f3;
+  font-family: "JetBrains Mono";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  width: 253px;
+  height: 56px;
+  background: linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%);
+  border-radius: 64px;
+  border: none;
+  cursor: pointer;
 }

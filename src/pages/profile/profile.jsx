@@ -55,7 +55,8 @@ export function Profile() {
     setTimeout(() => inputRef.current.focus(), 0);
   };
 
-  function submitProfileChanges() {
+  function submitProfileChanges(event) {
+    event.preventDefault();
     dispatch(profileInfoUpdate(userData));
   }
 
@@ -101,7 +102,7 @@ export function Profile() {
         </p>
       </div>
 
-      <form className={profile.container}>
+      <form className={profile.container} onSubmit={submitProfileChanges}>
         <Input
           type={"text"}
           placeholder={"Имя"}
@@ -142,16 +143,9 @@ export function Profile() {
           >
             Отмена
           </Button>
-          <Button
-            htmlType="button"
-            type="primary"
-            size="medium"
-            onClick={() => {
-              submitProfileChanges();
-            }}
-          >
+          <button className={profile.button} type="submit">
             Сохранить
-          </Button>
+          </button>
         </div>
       </form>
     </div>
