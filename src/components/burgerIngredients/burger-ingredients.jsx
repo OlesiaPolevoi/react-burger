@@ -16,7 +16,7 @@ import {
   getIngredientInfo,
   clearIngredientInfo,
 } from "../../services/actions/ingredient-details.js";
-import { Link, useLocation, Route, useHistory } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 
 const getVisibleTab = (bunsInView, saucesInView, mainsInView) => {
   if (bunsInView) return "buns";

@@ -73,9 +73,8 @@ export function BurgerConstructor() {
         );
       }
     }
-
     if (!isUserAuthorized) {
-      history.replace({ pathname: "/profile" });
+      history.push({ pathname: "/login" });
     }
   };
 

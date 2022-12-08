@@ -89,25 +89,25 @@ export function App() {
                 }
               />
             )}
-            <ProtectedRoute path="/profile">
+            <ProtectedRoute onlyForAuth={true} path="/profile">
               <Profile />
             </ProtectedRoute>
 
-            <Route path="/login" exact>
+            <ProtectedRoute onlyForAuth={false} path="/login" exact>
               <Login />
-            </Route>
+            </ProtectedRoute>
 
-            <Route path="/register" exact>
+            <ProtectedRoute onlyForAuth={false} path="/register" exact>
               <Register />
-            </Route>
+            </ProtectedRoute>
 
-            <Route path="/forgot-password" exact>
+            <ProtectedRoute onlyForAuth={false} path="/forgot-password" exact>
               <ForgotPassword />
-            </Route>
+            </ProtectedRoute>
 
-            <Route path="/reset-password" exact>
+            <ProtectedRoute onlyForAuth={false} path="/reset-password" exact>
               <ResetPassword />
-            </Route>
+            </ProtectedRoute>
 
             <Route path="/ingredients/:_id" exact>
               <IngredientDetails />

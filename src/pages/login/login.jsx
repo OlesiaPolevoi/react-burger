@@ -5,8 +5,7 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { userLoginRequest } from "../../services/actions/user-data";
 import { Redirect } from "react-router-dom";
@@ -14,7 +13,7 @@ import { Redirect } from "react-router-dom";
 export function Login() {
   const userStore = useSelector((store) => store.userDataReducer);
   const isUserAuthorized = userStore.accessToken !== "";
-
+  const location = useLocation();
   const history = useHistory();
 
   const [userData, setUserData] = useState({
@@ -46,13 +45,7 @@ export function Login() {
   }
 
   if (isUserAuthorized) {
-    return (
-      <Redirect
-        to={{
-          pathname: "/",
-        }}
-      />
-    );
+    return <Redirect to={location?.state?.from || "/"} />;
   }
   return (
     <div>
