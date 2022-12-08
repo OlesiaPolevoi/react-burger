@@ -26,6 +26,7 @@ import {
 } from "../../services/actions/burger-constructor";
 import { ingredientType } from "../../utils/types";
 import { useHistory } from "react-router-dom";
+import uuid from "react-uuid";
 
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -118,6 +119,8 @@ export function BurgerConstructor() {
 }
 
 function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (ingredientsArray.length !== 0 || outerBun) {
       const sum = ingredientsArray.reduce((prev, current) => {
@@ -128,8 +131,6 @@ function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
       setTotalPrice(totalPrice);
     }
   });
-
-  const dispatch = useDispatch();
 
   const ingredientsDictionary = useSelector(
     (store) => store.ingredientsReducer
@@ -178,7 +179,7 @@ function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
 
       <div>
         {ingredientsArray.map((el, i) => {
-          return <InnerIngredient index={i} el={el} key={i} />;
+          return <InnerIngredient index={i} el={el} key={uuid()} />;
         })}
       </div>
 
