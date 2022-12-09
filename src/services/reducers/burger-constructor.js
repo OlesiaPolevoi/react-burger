@@ -10,8 +10,6 @@ export const constructorReducer = (state = [], action) => {
   switch (action.type) {
     case CONSTRUCTOR_ADD_ELEMENT: {
       const uniqueId = uuid();
-      // action.payload.uuid = uniqueId;
-      // console.log(" action.payload", action.payload);
 
       const newElementToAdd = { ...action.payload, uuid: uniqueId };
 

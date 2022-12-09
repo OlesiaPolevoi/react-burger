@@ -32,7 +32,7 @@ export function BurgerConstructor() {
   const [totalPrice, setTotalPrice] = useState(0);
 
   const ingredients = useSelector((store) => store.constructorReducer);
-  // console.log("ingredients STORE", ingredients);
+
   const userInfo = useSelector((store) => store.userDataReducer);
   const isUserAuthorized = userInfo.name !== "";
   const history = useHistory();
@@ -223,8 +223,7 @@ const InnerIngredient = ({ index, el }) => {
       if (!ref.current) {
         return;
       }
-      console.log("item", item);
-      console.log("item.index", item.index);
+
       const dragIndex = item.index;
       const hoverIndex = index;
 

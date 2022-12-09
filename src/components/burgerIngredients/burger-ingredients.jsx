@@ -16,7 +16,7 @@ import {
   getIngredientInfo,
   clearIngredientInfo,
 } from "../../services/actions/ingredient-details.js";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { Link, useLocation, useHistory, redirect } from "react-router-dom";
 
 const getVisibleTab = (bunsInView, saucesInView, mainsInView) => {
   if (bunsInView) return "buns";
@@ -156,6 +156,8 @@ function Ingredient({ el }) {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  // console.log("modalIsOpen", modalIsOpen);
+
   const dispatch = useDispatch();
 
   const openIngredientDetailModal = () => {
@@ -163,11 +165,11 @@ function Ingredient({ el }) {
     setModalIsOpen(true);
   };
 
-  const handleModalClose = useCallback(() => {
-    history.goBack();
-
-    dispatch(clearIngredientInfo());
+  const handleModalClose = useCallback(async () => {
     setModalIsOpen(false);
+    // history.goBack();
+    history.push("/");
+    dispatch(clearIngredientInfo());
   }, [dispatch]);
 
   const id = el["_id"];
