@@ -122,6 +122,7 @@ export function App() {
           {background && (
             <Route
               path="/ingredients/:_id"
+              exact
               children={
                 <Modal onClose={handleModalClose} title="Детали ингредиента">
                   <IngredientDetails />

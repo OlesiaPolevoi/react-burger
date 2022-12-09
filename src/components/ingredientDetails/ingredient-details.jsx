@@ -3,15 +3,12 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 export function IngredientDetails() {
-  let ingredient = useSelector((store) => store.ingredientDetailsReducer);
-
   const { _id } = useParams();
 
   const ingredientsStore = useSelector((store) => store.ingredientsReducer);
-  const newIngredient = (ingredientsStore?.items ?? []).find(
-    (ingredient) => ingredient._id === _id
+  const ingredient = (ingredientsStore?.items ?? []).find(
+    (ingr) => ingr._id === _id
   );
-  ingredient = ingredient ?? newIngredient;
 
   return (
     <div className={ingredientDetails.container}>
