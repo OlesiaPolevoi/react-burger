@@ -26,13 +26,13 @@ import {
 } from "../../services/actions/burger-constructor";
 import { ingredientType } from "../../utils/types";
 import { useHistory } from "react-router-dom";
-import uuid from "react-uuid";
 
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const ingredients = useSelector((store) => store.constructorReducer);
+  // console.log("ingredients STORE", ingredients);
   const userInfo = useSelector((store) => store.userDataReducer);
   const isUserAuthorized = userInfo.name !== "";
   const history = useHistory();
@@ -42,7 +42,7 @@ export function BurgerConstructor() {
   const outerBun = useMemo(
     () =>
       ingredients.find((el) => {
-        return el.type === "bun";
+        return el?.type === "bun";
       }),
     [ingredients]
   );
@@ -50,7 +50,7 @@ export function BurgerConstructor() {
   const ingredientsArray = useMemo(
     () =>
       ingredients.filter((el) => {
-        return el.type !== "bun";
+        return el?.type !== "bun";
       }),
     [ingredients]
   );
@@ -147,6 +147,7 @@ function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
       );
 
       if (ingredient) {
+        //ingredient id
         dispatch({
           type: CONSTRUCTOR_ADD_ELEMENT,
           payload: ingredient,
@@ -179,7 +180,9 @@ function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
 
       <div>
         {ingredientsArray.map((el, i) => {
-          return <InnerIngredient index={i} el={el} key={uuid()} />;
+          return el?.uuid ? (
+            <InnerIngredient index={i} el={el} key={el?.uuid} />
+          ) : null;
         })}
       </div>
 
@@ -203,7 +206,7 @@ const InnerIngredient = ({ index, el }) => {
   const ref = useRef(null);
   const [{ isDrag }, drag] = useDrag({
     type: "newType",
-    item: { id: el._id },
+    item: { id: el?.uuid },
     collect: (monitor) => ({
       isDrag: monitor.isDragging(),
     }),
@@ -220,6 +223,8 @@ const InnerIngredient = ({ index, el }) => {
       if (!ref.current) {
         return;
       }
+      console.log("item", item);
+      console.log("item.index", item.index);
       const dragIndex = item.index;
       const hoverIndex = index;
 

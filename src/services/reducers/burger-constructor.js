@@ -4,16 +4,23 @@ import {
   CONSTRUCTOR_CHANGE_ELEMENT_POSITION,
 } from "../actions/burger-constructor";
 import update from "immutability-helper";
+import uuid from "react-uuid";
 
 export const constructorReducer = (state = [], action) => {
   switch (action.type) {
     case CONSTRUCTOR_ADD_ELEMENT: {
+      const uniqueId = uuid();
+      // action.payload.uuid = uniqueId;
+      // console.log(" action.payload", action.payload);
+
+      const newElementToAdd = { ...action.payload, uuid: uniqueId };
+
       const isIngredientBun = action.payload.type === "bun";
       const doesBunPresent = state.some((el) => el.type === "bun");
       if (isIngredientBun && doesBunPresent) {
-        return state.map((el) => (el.type === "bun" ? action.payload : el));
+        return state.map((el) => (el.type === "bun" ? newElementToAdd : el));
       }
-      return [...state, action.payload];
+      return [...state, newElementToAdd];
     }
     case CONSTRUCTOR_REMOVE_ELEMENT: {
       if (state.some((el) => el.type === "bun")) {
@@ -27,7 +34,6 @@ export const constructorReducer = (state = [], action) => {
     }
     case CONSTRUCTOR_CHANGE_ELEMENT_POSITION: {
       const { firstElIndex, secondElIndex } = action.payload;
-
       const newArr = [...state];
       const filtered = newArr.filter((el) => el.type !== "bun");
 
