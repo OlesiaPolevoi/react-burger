@@ -202,11 +202,11 @@ function Ingredient({ el }) {
         <div className={burgerIngredients.description}>{el.name}</div>
       </section>
 
-      {modalIsOpen && (
+      {/* {modalIsOpen && (
         <Modal onClose={handleModalClose} title="Детали ингредиента">
           <IngredientDetails el={el} />
         </Modal>
-      )}
+      )} */}
     </>
   );
 }

@@ -47,8 +47,9 @@ export function AppHeader() {
             path="/current-orders"
           />
         </div>
-        <Logo />
-
+        <Link to="/">
+          <Logo />
+        </Link>
         <NavigationLink
           text={isUserAuthorized ? userInfo?.name : "Личный кабинет"}
           icon={
