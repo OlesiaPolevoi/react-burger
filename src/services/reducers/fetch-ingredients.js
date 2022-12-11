@@ -4,6 +4,7 @@ import {
   FETCH_INGREDIENT_FAILURE,
   INCREMENT_INGREDIENT_QUANTITY,
   DECREMENT_INGREDIENT_QUANTITY,
+  CLEAR_COUNTER,
 } from "../actions/fetch-ingredients";
 
 const ingredientsInitialState = {
@@ -63,6 +64,18 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
             }
             const decrementedValue = el.orderedQuantity - 1;
             el.orderedQuantity = decrementedValue >= 0 ? decrementedValue : 0;
+          }
+          return el;
+        }),
+      };
+    }
+    case CLEAR_COUNTER: {
+      return {
+        ...state,
+        items: state.items.map((el) => {
+          if ("orderedQuantity" in el) {
+            delete el.orderedQuantity;
+            return el;
           }
           return el;
         }),

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Tab,
   CurrencyIcon,
@@ -6,17 +6,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredients from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
-import { Modal } from "../modal/modal";
-import { IngredientDetails } from "../ingredientDetails/ingredient-details";
 import { ingredientType } from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 import { useDrag } from "react-dnd";
-import {
-  getIngredientInfo,
-  clearIngredientInfo,
-} from "../../services/actions/ingredient-details.js";
-import { Link, useLocation, useHistory, redirect } from "react-router-dom";
+import { getIngredientInfo } from "../../services/actions/ingredient-details.js";
+import { Link, useLocation } from "react-router-dom";
 
 const getVisibleTab = (bunsInView, saucesInView, mainsInView) => {
   if (bunsInView) return "buns";
@@ -152,11 +147,7 @@ function IngredientsContainer({ header, cardsArr, id, myRef }) {
 }
 
 function Ingredient({ el }) {
-  const history = useHistory();
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  // console.log("modalIsOpen", modalIsOpen);
 
   const dispatch = useDispatch();
 
@@ -164,13 +155,6 @@ function Ingredient({ el }) {
     dispatch(getIngredientInfo(el));
     setModalIsOpen(true);
   };
-
-  const handleModalClose = useCallback(async () => {
-    setModalIsOpen(false);
-    // history.goBack();
-    history.push("/");
-    dispatch(clearIngredientInfo());
-  }, [dispatch]);
 
   const id = el["_id"];
 
@@ -201,12 +185,6 @@ function Ingredient({ el }) {
         </div>
         <div className={burgerIngredients.description}>{el.name}</div>
       </section>
-
-      {/* {modalIsOpen && (
-        <Modal onClose={handleModalClose} title="Детали ингредиента">
-          <IngredientDetails el={el} />
-        </Modal>
-      )} */}
     </>
   );
 }

@@ -79,16 +79,6 @@ export function App() {
               <BurgerConstructor />
             </Route>
 
-            {/* {background && (
-              <Route
-                path="/ingredients/:_id"
-                children={
-                  <Modal onClose={handleModalClose} title="Детали ингредиента">
-                    <IngredientDetails />
-                  </Modal>
-                }
-              />
-            )} */}
             <ProtectedRoute onlyForAuth={true} path="/profile" exact>
               <Profile />
             </ProtectedRoute>

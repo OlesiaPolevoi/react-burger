@@ -18,12 +18,15 @@ import { useDrag, useDrop } from "react-dnd";
 import {
   INCREMENT_INGREDIENT_QUANTITY,
   DECREMENT_INGREDIENT_QUANTITY,
+  CLEAR_COUNTER,
 } from "../../services/actions/fetch-ingredients";
 import {
   CONSTRUCTOR_ADD_ELEMENT,
   CONSTRUCTOR_REMOVE_ELEMENT,
   CONSTRUCTOR_CHANGE_ELEMENT_POSITION,
+  CONSTRUCTOR_CLEAR_ALL,
 } from "../../services/actions/burger-constructor";
+
 import { ingredientType } from "../../utils/types";
 import { useHistory } from "react-router-dom";
 
@@ -32,7 +35,6 @@ export function BurgerConstructor() {
   const [totalPrice, setTotalPrice] = useState(0);
 
   const ingredients = useSelector((store) => store.constructorReducer);
-
   const userInfo = useSelector((store) => store.userDataReducer);
   const isUserAuthorized = userInfo.name !== "";
   const history = useHistory();
@@ -70,7 +72,12 @@ export function BurgerConstructor() {
 
       if (bunIsPresent && (mainIsPresent || sauceIsPresent)) {
         dispatch(
-          submitOrderAndGetId(ingredientsArrayCopy, () => setModalIsOpen(true))
+          submitOrderAndGetId(
+            ingredientsArrayCopy,
+            () => setModalIsOpen(true),
+            () => dispatch({ type: CONSTRUCTOR_CLEAR_ALL }),
+            () => dispatch({ type: CLEAR_COUNTER })
+          )
         );
       }
     }
@@ -147,7 +154,6 @@ function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
       );
 
       if (ingredient) {
-        //ingredient id
         dispatch({
           type: CONSTRUCTOR_ADD_ELEMENT,
           payload: ingredient,
