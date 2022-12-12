@@ -29,6 +29,7 @@ import {
 
 import { ingredientType } from "../../utils/types";
 import { useHistory } from "react-router-dom";
+import uuid from "react-uuid";
 
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -152,11 +153,13 @@ function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
       const ingredient = ingredientsDictionary.items.find(
         (item) => item._id === itemId.id
       );
+      const uniqueId = uuid();
+      const ingredientWithId = { ...ingredient, uuid: uniqueId };
 
-      if (ingredient) {
+      if (ingredientWithId) {
         dispatch({
           type: CONSTRUCTOR_ADD_ELEMENT,
-          payload: ingredient,
+          payload: ingredientWithId,
         });
         dispatch({
           type: INCREMENT_INGREDIENT_QUANTITY,

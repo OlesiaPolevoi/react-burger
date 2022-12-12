@@ -5,21 +5,16 @@ import {
   CONSTRUCTOR_CLEAR_ALL,
 } from "../actions/burger-constructor";
 import update from "immutability-helper";
-import uuid from "react-uuid";
 
 export const constructorReducer = (state = [], action) => {
   switch (action.type) {
     case CONSTRUCTOR_ADD_ELEMENT: {
-      const uniqueId = uuid();
-
-      const newElementToAdd = { ...action.payload, uuid: uniqueId };
-
       const isIngredientBun = action.payload.type === "bun";
       const doesBunPresent = state.some((el) => el.type === "bun");
       if (isIngredientBun && doesBunPresent) {
-        return state.map((el) => (el.type === "bun" ? newElementToAdd : el));
+        return state.map((el) => (el.type === "bun" ? action.payload : el));
       }
-      return [...state, newElementToAdd];
+      return [...state, action.payload];
     }
     case CONSTRUCTOR_REMOVE_ELEMENT: {
       if (state.some((el) => el.type === "bun")) {
