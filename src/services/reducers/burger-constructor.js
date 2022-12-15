@@ -2,6 +2,7 @@ import {
   CONSTRUCTOR_REMOVE_ELEMENT,
   CONSTRUCTOR_ADD_ELEMENT,
   CONSTRUCTOR_CHANGE_ELEMENT_POSITION,
+  CONSTRUCTOR_CLEAR_ALL,
 } from "../actions/burger-constructor";
 import update from "immutability-helper";
 
@@ -27,7 +28,6 @@ export const constructorReducer = (state = [], action) => {
     }
     case CONSTRUCTOR_CHANGE_ELEMENT_POSITION: {
       const { firstElIndex, secondElIndex } = action.payload;
-
       const newArr = [...state];
       const filtered = newArr.filter((el) => el.type !== "bun");
 
@@ -46,7 +46,9 @@ export const constructorReducer = (state = [], action) => {
       updated.unshift(bunIngredient);
       return updated;
     }
-
+    case CONSTRUCTOR_CLEAR_ALL: {
+      return [];
+    }
     default: {
       return state;
     }

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Tab,
   CurrencyIcon,
@@ -6,16 +6,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredients from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
-import { Modal } from "../modal/modal";
-import { IngredientDetails } from "../ingredientDetails/ingredient-details";
 import { ingredientType } from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 import { useDrag } from "react-dnd";
-import {
-  getIngredientInfo,
-  clearIngredientInfo,
-} from "../../services/actions/ingredient-details.js";
+import { getIngredientInfo } from "../../services/actions/ingredient-details.js";
+import { Link, useLocation } from "react-router-dom";
 
 const getVisibleTab = (bunsInView, saucesInView, mainsInView) => {
   if (bunsInView) return "buns";
@@ -123,6 +119,8 @@ export function BurgerIngredients() {
 }
 
 function IngredientsContainer({ header, cardsArr, id, myRef }) {
+  const location = useLocation();
+
   return (
     <div ref={myRef}>
       <h2 className={burgerIngredients.header} id={id}>
@@ -130,7 +128,18 @@ function IngredientsContainer({ header, cardsArr, id, myRef }) {
       </h2>
       <div className={burgerIngredients.container}>
         {cardsArr.map((el) => {
-          return <Ingredient el={el} key={el._id} />;
+          return (
+            <Link
+              className={burgerIngredients.details}
+              key={el._id}
+              to={{
+                pathname: `/ingredients/${el._id}`,
+                state: { background: location },
+              }}
+            >
+              <Ingredient el={el} key={el._id} />
+            </Link>
+          );
         })}
       </div>
     </div>
@@ -139,17 +148,13 @@ function IngredientsContainer({ header, cardsArr, id, myRef }) {
 
 function Ingredient({ el }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const dispatch = useDispatch();
 
   const openIngredientDetailModal = () => {
     dispatch(getIngredientInfo(el));
     setModalIsOpen(true);
   };
-
-  const handleModalClose = useCallback(() => {
-    dispatch(clearIngredientInfo());
-    setModalIsOpen(false);
-  }, [dispatch]);
 
   const id = el["_id"];
 
@@ -168,7 +173,7 @@ function Ingredient({ el }) {
         onClick={openIngredientDetailModal}
         ref={dragRef}
       >
-        <img src={`${el.image}`} alt={el.name} />
+        <img src={`${el?.image}`} alt={el.name} />
 
         {"orderedQuantity" in el && el.orderedQuantity > 0 && (
           <Counter count={el.orderedQuantity} size="default" />
@@ -180,15 +185,10 @@ function Ingredient({ el }) {
         </div>
         <div className={burgerIngredients.description}>{el.name}</div>
       </section>
-
-      {modalIsOpen && (
-        <Modal onClose={handleModalClose} title="Детали ингредиента">
-          <IngredientDetails />
-        </Modal>
-      )}
     </>
   );
 }
+
 IngredientsContainer.propTypes = {
   header: PropTypes.string.isRequired,
 

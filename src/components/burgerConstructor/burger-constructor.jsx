@@ -10,31 +10,42 @@ import PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../orderDetails/order-details";
 import { useSelector, useDispatch } from "react-redux";
-import { clearOrderNumber } from "../../services/actions/submit-order";
-import { submitOrderAndGetId } from "../../services/actions/submit-order";
+import {
+  submitOrderAndGetId,
+  clearOrderNumber,
+} from "../../services/actions/submit-order";
 import { useDrag, useDrop } from "react-dnd";
 import {
   INCREMENT_INGREDIENT_QUANTITY,
   DECREMENT_INGREDIENT_QUANTITY,
+  CLEAR_COUNTER,
 } from "../../services/actions/fetch-ingredients";
 import {
   CONSTRUCTOR_ADD_ELEMENT,
   CONSTRUCTOR_REMOVE_ELEMENT,
   CONSTRUCTOR_CHANGE_ELEMENT_POSITION,
+  CONSTRUCTOR_CLEAR_ALL,
 } from "../../services/actions/burger-constructor";
+
 import { ingredientType } from "../../utils/types";
+import { useHistory } from "react-router-dom";
+import uuid from "react-uuid";
 
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const ingredients = useSelector((store) => store.constructorReducer);
+  const userInfo = useSelector((store) => store.userDataReducer);
+  const isUserAuthorized = userInfo.name !== "";
+  const history = useHistory();
+
   const dispatch = useDispatch();
 
   const outerBun = useMemo(
     () =>
       ingredients.find((el) => {
-        return el.type === "bun";
+        return el?.type === "bun";
       }),
     [ingredients]
   );
@@ -42,25 +53,37 @@ export function BurgerConstructor() {
   const ingredientsArray = useMemo(
     () =>
       ingredients.filter((el) => {
-        return el.type !== "bun";
+        return el?.type !== "bun";
       }),
     [ingredients]
   );
 
   const submitOrder = (ingredientsArray) => {
-    const ingredientTypes = ingredientsArray.map((el) => el.type);
-    const bunIsPresent = ingredientTypes.some((el) => el === "bun");
-    const mainIsPresent = ingredientTypes.some((el) => el === "main");
-    const sauceIsPresent = ingredientTypes.some((el) => el === "sauce");
+    if (isUserAuthorized) {
+      const ingredientTypes = ingredientsArray.map((el) => el.type);
+      const bunIsPresent = ingredientTypes.some((el) => el === "bun");
+      const mainIsPresent = ingredientTypes.some((el) => el === "main");
+      const sauceIsPresent = ingredientTypes.some((el) => el === "sauce");
 
-    const ingredientsArrayCopy = [...ingredientsArray];
-    const bunIngredient = ingredientsArrayCopy.find((el) => el.type === "bun");
-    ingredientsArrayCopy.push(bunIngredient);
-
-    if (bunIsPresent && (mainIsPresent || sauceIsPresent)) {
-      dispatch(
-        submitOrderAndGetId(ingredientsArrayCopy, () => setModalIsOpen(true))
+      const ingredientsArrayCopy = [...ingredientsArray];
+      const bunIngredient = ingredientsArrayCopy.find(
+        (el) => el.type === "bun"
       );
+      ingredientsArrayCopy.push(bunIngredient);
+
+      if (bunIsPresent && (mainIsPresent || sauceIsPresent)) {
+        dispatch(
+          submitOrderAndGetId(
+            ingredientsArrayCopy,
+            () => setModalIsOpen(true),
+            () => dispatch({ type: CONSTRUCTOR_CLEAR_ALL }),
+            () => dispatch({ type: CLEAR_COUNTER })
+          )
+        );
+      }
+    }
+    if (!isUserAuthorized) {
+      history.push({ pathname: "/login" });
     }
   };
 
@@ -104,6 +127,8 @@ export function BurgerConstructor() {
 }
 
 function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (ingredientsArray.length !== 0 || outerBun) {
       const sum = ingredientsArray.reduce((prev, current) => {
@@ -114,8 +139,6 @@ function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
       setTotalPrice(totalPrice);
     }
   });
-
-  const dispatch = useDispatch();
 
   const ingredientsDictionary = useSelector(
     (store) => store.ingredientsReducer
@@ -130,11 +153,13 @@ function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
       const ingredient = ingredientsDictionary.items.find(
         (item) => item._id === itemId.id
       );
+      const uniqueId = uuid();
+      const ingredientWithId = { ...ingredient, uuid: uniqueId };
 
-      if (ingredient) {
+      if (ingredientWithId) {
         dispatch({
           type: CONSTRUCTOR_ADD_ELEMENT,
-          payload: ingredient,
+          payload: ingredientWithId,
         });
         dispatch({
           type: INCREMENT_INGREDIENT_QUANTITY,
@@ -164,7 +189,9 @@ function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
 
       <div>
         {ingredientsArray.map((el, i) => {
-          return <InnerIngredient index={i} el={el} key={i} />;
+          return el?.uuid ? (
+            <InnerIngredient index={i} el={el} key={el?.uuid} />
+          ) : null;
         })}
       </div>
 
@@ -188,7 +215,7 @@ const InnerIngredient = ({ index, el }) => {
   const ref = useRef(null);
   const [{ isDrag }, drag] = useDrag({
     type: "newType",
-    item: { id: el._id },
+    item: { id: el?.uuid },
     collect: (monitor) => ({
       isDrag: monitor.isDragging(),
     }),
@@ -205,6 +232,7 @@ const InnerIngredient = ({ index, el }) => {
       if (!ref.current) {
         return;
       }
+
       const dragIndex = item.index;
       const hoverIndex = index;
 
@@ -256,9 +284,9 @@ const InnerIngredient = ({ index, el }) => {
     <div ref={ref} className={burgerConstructor.container}>
       <DragIcon type="primary" />
       <ConstructorElement
-        text={el.name}
-        price={el.price}
-        thumbnail={el.image}
+        text={el?.name}
+        price={el?.price}
+        thumbnail={el?.image}
         handleClose={() => {
           removeIngredient(el._id, index);
         }}

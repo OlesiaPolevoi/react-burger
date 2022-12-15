@@ -32,7 +32,12 @@ export const clearOrderNumber = () => {
   };
 };
 
-export const submitOrderAndGetId = (dataArray, callback) => {
+export const submitOrderAndGetId = (
+  dataArray,
+  openModal,
+  clearConstructor,
+  clearCounter
+) => {
   return function (dispatch) {
     const arrayOfIds = dataArray.map((el) => {
       return el._id;
@@ -52,13 +57,16 @@ export const submitOrderAndGetId = (dataArray, callback) => {
     };
 
     dispatch(orderNumberRequest());
+
     axios(getOrderNum)
       .then(function (response) {
         const order = response.data;
         const orderNum = order.order.number;
 
         dispatch(orderNumberSuccess(orderNum));
-        callback();
+        openModal();
+        clearConstructor();
+        clearCounter();
       })
       .catch(function (error) {
         console.log(error);
