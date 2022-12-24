@@ -1,9 +1,11 @@
-import axios from "axios";
-import { saveAccessToken, saveRefreshToken } from "../../utils/local-storage";
-import { BASE_URL } from "../../utils/burger-api";
-export const USER_DATA_REQUEST = "USER_DATA_REQUEST";
-export const USER_DATA_SUCCESS = "USER_DATA_SUCCESS";
-export const USER_DATA_FAILURE = "USER_DATA_FAILURE";
+import axios from 'axios';
+import { saveAccessToken, saveRefreshToken } from '../../utils/local-storage';
+import { BASE_URL } from '../../utils/burger-api';
+import { Dispatch } from 'react';
+import { TUserData, TRegisterData } from '../../types/index';
+export const USER_DATA_REQUEST = 'USER_DATA_REQUEST';
+export const USER_DATA_SUCCESS = 'USER_DATA_SUCCESS';
+export const USER_DATA_FAILURE = 'USER_DATA_FAILURE';
 
 export const userDataRequest = () => {
   return {
@@ -11,28 +13,28 @@ export const userDataRequest = () => {
   };
 };
 
-export const userDataSuccess = (userData) => {
+export const userDataSuccess = (userData: TUserData) => {
   return {
     type: USER_DATA_SUCCESS,
     payload: userData,
   };
 };
 
-export const userDataFailure = (error) => {
+export const userDataFailure = (error: string) => {
   return {
     type: USER_DATA_FAILURE,
     payload: error,
   };
 };
 
-export const userLoginRequest = (userDataArray, callback) => {
-  return function (dispatch) {
+export const userLoginRequest = (userDataArray: any, callback: any) => {
+  return function (dispatch: Dispatch<any>) {
     const data = JSON.stringify(userDataArray);
     const loginRequest = {
-      method: "post",
+      method: 'post',
       url: `${BASE_URL}/auth/login`,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       data,
     };
@@ -56,14 +58,17 @@ export const userLoginRequest = (userDataArray, callback) => {
   };
 };
 
-export const userRegisterRequest = (userDataArray, callback) => {
-  return function (dispatch) {
+export const userRegisterRequest = (
+  userDataArray: TRegisterData,
+  callback: () => void
+) => {
+  return function (dispatch: Dispatch<any>) {
     const data = JSON.stringify(userDataArray);
     const registerRequest = {
-      method: "post",
+      method: 'post',
       url: `${BASE_URL}/auth/register`,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       data,
     };

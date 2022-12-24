@@ -1,13 +1,21 @@
-import axios from "axios";
-import { getAccessToken, saveAccessToken } from "../../utils/local-storage";
-import { BASE_URL } from "../../utils/burger-api";
-export const PROFILE_DATA_REQUEST = "PROFILE_DATA_REQUEST";
-export const PROFILE_DATA_SUCCESS = "PROFILE_DATA_SUCCESS";
-export const PROFILE_DATA_FAILURE = "PROFILE_DATA_FAILURE";
-export const PROFILE_DATA_UPDATE = "PROFILE_DATA_UPDATE";
-export const CLEAR_PROFILE_DATA = "CLEAR_PROFILE_DATA";
+import axios from 'axios';
+import { Dispatch } from 'react';
+import { getAccessToken, saveAccessToken } from '../../utils/local-storage';
+import { BASE_URL } from '../../utils/burger-api';
+import {
+  TProfileData,
+  TTokenObject,
+  TRegisterData,
+  TRefreshToken,
+} from '../../types/index';
 
-export const ADD_TOKEN_TO_USER_STATE = "ADD_TOKEN_TO_USER_STATE";
+export const PROFILE_DATA_REQUEST = 'PROFILE_DATA_REQUEST';
+export const PROFILE_DATA_SUCCESS = 'PROFILE_DATA_SUCCESS';
+export const PROFILE_DATA_FAILURE = 'PROFILE_DATA_FAILURE';
+export const PROFILE_DATA_UPDATE = 'PROFILE_DATA_UPDATE';
+export const CLEAR_PROFILE_DATA = 'CLEAR_PROFILE_DATA';
+
+export const ADD_TOKEN_TO_USER_STATE = 'ADD_TOKEN_TO_USER_STATE';
 
 export const profileDataRequest = () => {
   return {
@@ -15,14 +23,14 @@ export const profileDataRequest = () => {
   };
 };
 
-export const profileDataSuccess = (profileData) => {
+export const profileDataSuccess = (profileData: TProfileData) => {
   return {
     type: PROFILE_DATA_SUCCESS,
     payload: profileData,
   };
 };
 
-export const profileDataFailure = (error) => {
+export const profileDataFailure = (error: string) => {
   return {
     type: PROFILE_DATA_FAILURE,
     payload: error,
@@ -41,7 +49,7 @@ export const clearProfileData = () => {
   };
 };
 
-export const addTokenToUserState = (tokenObject) => {
+export const addTokenToUserState = (tokenObject: TTokenObject) => {
   return {
     type: ADD_TOKEN_TO_USER_STATE,
     payload: tokenObject,
@@ -49,11 +57,11 @@ export const addTokenToUserState = (tokenObject) => {
 };
 
 export const profileInfoRequest = () => {
-  return function (dispatch) {
+  return function (dispatch: Dispatch<any>) {
     const accessToken = getAccessToken();
 
     const getUserProfileData = {
-      method: "get",
+      method: 'get',
       url: `${BASE_URL}/auth/user`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -70,22 +78,22 @@ export const profileInfoRequest = () => {
   };
 };
 
-export const profileInfoUpdate = (registerData) => {
-  return function (dispatch) {
+export const profileInfoUpdate = (registerData: TRegisterData) => {
+  return function (dispatch: Dispatch<any>) {
     const accessToken = getAccessToken();
 
     const data = JSON.stringify({
       name: registerData.name,
       email: registerData.email,
-      password: "",
+      password: '',
     });
 
     const updateInfo = {
-      method: "patch",
+      method: 'patch',
       url: `${BASE_URL}/auth/user`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       data: data,
     };
@@ -104,17 +112,19 @@ export const profileInfoUpdate = (registerData) => {
   };
 };
 
-export const tokenRefreshRequest = (refreshToken) => {
-  return function (dispatch) {
+export const tokenRefreshRequest = (refreshToken: TRefreshToken) => {
+  console.log('refreshToken', refreshToken);
+
+  return function (dispatch: Dispatch<any>) {
     const data = JSON.stringify({
       token: refreshToken,
     });
 
     const config = {
-      method: "post",
+      method: 'post',
       url: `${BASE_URL}/auth/token`,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       data,
     };
@@ -130,17 +140,17 @@ export const tokenRefreshRequest = (refreshToken) => {
   };
 };
 
-export const userExitRequest = (refreshToken) => {
-  return function (dispatch) {
+export const userExitRequest = (refreshToken: TRefreshToken) => {
+  return function (dispatch: Dispatch<any>) {
     const data = JSON.stringify({
       token: refreshToken,
     });
 
     const config = {
-      method: "post",
+      method: 'post',
       url: `${BASE_URL}/auth/logout`,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       data,
     };

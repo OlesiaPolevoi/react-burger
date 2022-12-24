@@ -1,13 +1,16 @@
-import ingredientDetails from "./ingredient-details.module.css";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import ingredientDetails from './ingredient-details.module.css';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 export function IngredientDetails() {
+  //@ts-ignore
   const { _id } = useParams();
 
-  const ingredientsStore = useSelector((store) => store.ingredientsReducer);
+  const ingredientsStore = useSelector(
+    (store: any) => store.ingredientsReducer
+  );
   const ingredient = (ingredientsStore?.items ?? []).find(
-    (ingr) => ingr._id === _id
+    (ingr: any) => ingr._id === _id
   );
 
   return (

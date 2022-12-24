@@ -1,10 +1,11 @@
-import axios from "axios";
-import { BASE_URL } from "../../utils/burger-api";
-
-export const ORDER_NUMBER_REQUEST = "ORDER_NUMBER_REQUEST";
-export const ORDER_NUMBER_SUCCESS = "ORDER_NUMBER_SUCCESS";
-export const ORDER_NUMBER_FAILURE = "ORDER_NUMBER_FAILURE";
-export const CLEAR_ORDER_NUMBER = "CLEAR_ORDER_NUMBER";
+import axios from 'axios';
+import { BASE_URL } from '../../utils/burger-api';
+import { Dispatch } from 'react';
+import { TIngredientInfo } from '../../types/index';
+export const ORDER_NUMBER_REQUEST = 'ORDER_NUMBER_REQUEST';
+export const ORDER_NUMBER_SUCCESS = 'ORDER_NUMBER_SUCCESS';
+export const ORDER_NUMBER_FAILURE = 'ORDER_NUMBER_FAILURE';
+export const CLEAR_ORDER_NUMBER = 'CLEAR_ORDER_NUMBER';
 
 export const orderNumberRequest = () => {
   return {
@@ -12,14 +13,14 @@ export const orderNumberRequest = () => {
   };
 };
 
-export const orderNumberSuccess = (orderNumber) => {
+export const orderNumberSuccess = (orderNumber: number) => {
   return {
     type: ORDER_NUMBER_SUCCESS,
     payload: orderNumber,
   };
 };
 
-export const orderNumberFailure = (error) => {
+export const orderNumberFailure = (error: string) => {
   return {
     type: ORDER_NUMBER_FAILURE,
     payload: error,
@@ -33,13 +34,13 @@ export const clearOrderNumber = () => {
 };
 
 export const submitOrderAndGetId = (
-  dataArray,
-  openModal,
-  clearConstructor,
-  clearCounter
+  dataArray: TIngredientInfo[],
+  openModal: () => void,
+  clearConstructor: () => void,
+  clearCounter: () => void
 ) => {
-  return function (dispatch) {
-    const arrayOfIds = dataArray.map((el) => {
+  return function (dispatch: Dispatch<any>) {
+    const arrayOfIds = dataArray.map((el: TIngredientInfo) => {
       return el._id;
     });
 
@@ -48,10 +49,10 @@ export const submitOrderAndGetId = (
     });
 
     const getOrderNum = {
-      method: "post",
+      method: 'post',
       url: `${BASE_URL}/orders`,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       data,
     };
