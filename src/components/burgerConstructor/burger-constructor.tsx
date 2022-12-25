@@ -20,13 +20,15 @@ import {
   DECREMENT_INGREDIENT_QUANTITY,
   CLEAR_COUNTER,
 } from '../../services/actions/fetch-ingredients';
+
 // import {
 //   CONSTRUCTOR_ADD_ELEMENT,
 //   CONSTRUCTOR_REMOVE_ELEMENT,
 //   CONSTRUCTOR_CHANGE_ELEMENT_POSITION,
 //   CONSTRUCTOR_CLEAR_ALL,
 // } from '../../services/actions/burger-constructor';
-import { ConstructorActions } from '../../types/index';
+
+import { ConstructorActions, IngredientActions } from '../../types/index';
 import { ingredientType } from '../../utils/types';
 import { useHistory } from 'react-router-dom';
 import uuid from 'react-uuid';
@@ -74,7 +76,6 @@ export function BurgerConstructor() {
 
       const mainIsPresent = ingredientTypes.some((el) => el === 'main');
       //@ts-ignore
-
       const sauceIsPresent = ingredientTypes.some((el) => el === 'sauce');
 
       const ingredientsArrayCopy = [...ingredientsArray];
@@ -90,7 +91,7 @@ export function BurgerConstructor() {
             ingredientsArrayCopy,
             () => setModalIsOpen(true),
             () => dispatch({ type: ConstructorActions.CONSTRUCTOR_CLEAR_ALL }),
-            () => dispatch({ type: CLEAR_COUNTER })
+            () => dispatch({ type: IngredientActions.CLEAR_COUNTER })
           )
         );
       }
@@ -111,19 +112,20 @@ export function BurgerConstructor() {
         outerBun={outerBun}
         ingredientsArray={ingredientsArray}
         //@ts-ignore
-        dataArr={ingredients}
+        // dataArr={ingredients}
         setTotalPrice={setTotalPrice}
       />
 
       <div className={burgerConstructor.total}>
         <div className={burgerConstructor.ammount}>
-          <div className={burgerConstructor?.price}>{totalPrice}</div>
+          <div className={burgerConstructor.price}>{totalPrice}</div>
           <CurrencyIcon type='primary' />
         </div>
         {/* @ts-ignore */}
         <Button
           type='primary'
           size='medium'
+          htmlType='button'
           onClick={() => {
             submitOrder(ingredients);
           }}
@@ -140,18 +142,27 @@ export function BurgerConstructor() {
     </section>
   );
 }
-//@ts-ignore
-function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
-  const dispatch = useDispatch();
 
+type Props = {
+  ingredientsArray: any;
+  outerBun: any | undefined;
+  setTotalPrice: any;
+};
+function ConstructorIngredient({
+  ingredientsArray,
+  outerBun,
+  setTotalPrice,
+}: Props) {
+  const dispatch = useDispatch();
   useEffect(() => {
     if (ingredientsArray.length !== 0 || outerBun) {
       //@ts-ignore
-      const sum = ingredientsArray.reduce((prev, current) => {
+      const sum = ingredientsArray.reduce((prev: any, current: any) => {
         return prev + current?.price;
       }, 0);
+
       const bunsPrice = outerBun?.price ? outerBun?.price * 2 : 0;
-      const totalPrice = sum + bunsPrice;
+      const totalPrice = sum ? sum + bunsPrice : 0;
       setTotalPrice(totalPrice);
     }
   });
@@ -180,7 +191,7 @@ function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
           payload: ingredientWithId,
         });
         dispatch({
-          type: INCREMENT_INGREDIENT_QUANTITY,
+          type: IngredientActions.INCREMENT_INGREDIENT_QUANTITY,
           //@ts-ignore
           payload: itemId.id,
         });
@@ -201,18 +212,19 @@ function ConstructorIngredient({ ingredientsArray, outerBun, setTotalPrice }) {
             isLocked={true}
             text={`${outerBun?.name ?? ''} (верх)`}
             price={outerBun?.price ?? 0}
-            thumbnail={outerBun?.image}
+            thumbnail={outerBun?.image ?? ''}
           />
         </div>
       )}
 
       <div>
         {/* @ts-ignore */}
-        {ingredientsArray.map((el, i) => {
-          return el?.uuid ? (
-            <InnerIngredient index={i} el={el} key={el?.uuid} />
-          ) : null;
-        })}
+        {ingredientsArray.length !== 0 &&
+          ingredientsArray.map((el: any, i: number) => {
+            return el?.uuid ? (
+              <InnerIngredient index={i} el={el} key={el?.uuid} />
+            ) : null;
+          })}
       </div>
 
       {outerBun && (
@@ -285,7 +297,6 @@ const InnerIngredient = ({ index, el }) => {
         });
       }
       //@ts-ignore
-
       item.index = hoverIndex;
     },
   });
@@ -297,7 +308,7 @@ const InnerIngredient = ({ index, el }) => {
       payload: index,
     });
     dispatch({
-      type: DECREMENT_INGREDIENT_QUANTITY,
+      type: IngredientActions.DECREMENT_INGREDIENT_QUANTITY,
       payload: ingredientId,
     });
   };
@@ -319,20 +330,20 @@ const InnerIngredient = ({ index, el }) => {
   );
 };
 
-Button.propTypes = {
-  //@ts-ignore
-  type: PropTypes.string.isRequired,
-  //@ts-ignore
-  size: PropTypes.string.isRequired,
-};
+// Button.propTypes = {
+//   //@ts-ignore
+//   type: PropTypes.string.isRequired,
+//   //@ts-ignore
+//   size: PropTypes.string.isRequired,
+// };
 
-ConstructorIngredient.propTypes = {
-  ingredientsArray: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-  outerBun: ingredientType,
-  setTotalPrice: PropTypes.func,
-};
+// ConstructorIngredient.propTypes = {
+//   ingredientsArray: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
+//   outerBun: ingredientType,
+//   setTotalPrice: PropTypes.func,
+// };
 
-InnerIngredient.propTypes = {
-  index: PropTypes.number.isRequired,
-  el: PropTypes.object.isRequired,
-};
+// InnerIngredient.propTypes = {
+//   index: PropTypes.number.isRequired,
+//   el: PropTypes.object.isRequired,
+// };

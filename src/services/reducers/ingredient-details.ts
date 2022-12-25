@@ -1,13 +1,13 @@
 import {
   GET_INGREDIENT_INFO,
   CLEAR_INGREDIENT_INFO,
-} from "../actions/ingredient-details";
+} from '../actions/ingredient-details';
 
 const defaultIngredientState = null;
 
 export const ingredientDetailsReducer = (
   state = defaultIngredientState,
-  action
+  action: any
 ) => {
   switch (action.type) {
     case GET_INGREDIENT_INFO: {

@@ -8,7 +8,8 @@ import { store } from './services/store';
 import '@ya.praktikum/react-developer-burger-ui-components';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const rootElement = document.getElementById('root');
+const root = ReactDOM.createRoot(rootElement!);
 
 root.render(
   <Router>
