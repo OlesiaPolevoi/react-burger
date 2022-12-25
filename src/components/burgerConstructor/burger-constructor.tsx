@@ -6,7 +6,7 @@ import {
   Button,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import { Modal } from '../modal/modal';
 import { OrderDetails } from '../orderDetails/order-details';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,11 +15,11 @@ import {
   clearOrderNumber,
 } from '../../services/actions/submit-order';
 import { useDrag, useDrop } from 'react-dnd';
-import {
-  INCREMENT_INGREDIENT_QUANTITY,
-  DECREMENT_INGREDIENT_QUANTITY,
-  CLEAR_COUNTER,
-} from '../../services/actions/fetch-ingredients';
+// import {
+//  // INCREMENT_INGREDIENT_QUANTITY,
+//   DECREMENT_INGREDIENT_QUANTITY,
+//   CLEAR_COUNTER,
+// } from '../../services/actions/fetch-ingredients';
 
 // import {
 //   CONSTRUCTOR_ADD_ELEMENT,

@@ -1,53 +1,53 @@
-import React, { useState, useCallback } from "react";
-import resetPassword from "./reset-password.module.css";
+import React, { useState, useCallback } from 'react';
+import resetPassword from './reset-password.module.css';
 import {
   PasswordInput,
   Button,
   Input,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useHistory, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { BASE_URL } from "../../utils/burger-api";
-import axios from "axios";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useHistory, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { BASE_URL } from '../../utils/burger-api';
+import axios from 'axios';
 
 export function ResetPassword() {
-  const userStore = useSelector((store) => store.userDataReducer);
-  const isUserAuthorized = userStore.accessToken !== "";
+  const userStore = useSelector((store: any) => store.userDataReducer);
+  const isUserAuthorized = userStore.accessToken !== '';
 
   const history = useHistory();
 
   const [userData, setUserData] = useState({
-    password: "",
-    token: "",
+    password: '',
+    token: '',
   });
 
-  const onChange = (event) => {
+  const onChange = (event: any) => {
     const { name, value } = event.target;
     setUserData((prevUserData) => {
       return { ...prevUserData, [name]: value };
     });
   };
   const goToLogin = useCallback(() => {
-    history.replace({ pathname: "/login" });
+    history.replace({ pathname: '/login' });
   }, [history]);
 
-  function handleSubmit(event) {
+  function handleSubmit(event: any) {
     event.preventDefault();
 
     const data = JSON.stringify(userData);
 
     const resetPassword = {
-      method: "post",
+      method: 'post',
       url: `${BASE_URL}/password-reset/reset`,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       data: data,
     };
 
     axios(resetPassword)
       .then(function (response) {
-        history.replace({ pathname: "/login" });
+        history.replace({ pathname: '/login' });
       })
       .catch(function (error) {
         console.log(error);
@@ -58,17 +58,17 @@ export function ResetPassword() {
     return (
       <Redirect
         to={{
-          pathname: "/profile",
+          pathname: '/profile',
         }}
       />
     );
   }
-
-  if (history?.location?.state?.from !== "forgot-password") {
+  //@ts-ignore
+  if (history?.location?.state?.from !== 'forgot-password') {
     return (
       <Redirect
         to={{
-          pathname: "/",
+          pathname: '/',
         }}
       />
     );
@@ -81,22 +81,23 @@ export function ResetPassword() {
         <PasswordInput
           onChange={onChange}
           value={userData.password}
-          name={"password"}
-          placeholder={"Введите новый пароль"}
+          name={'password'}
+          placeholder={'Введите новый пароль'}
         />
 
         <Input
-          type={"text"}
-          placeholder={"Введите код из письма"}
+          type={'text'}
+          placeholder={'Введите код из письма'}
           onChange={onChange}
           value={userData.token}
-          name={"token"}
-          size={"default"}
+          name={'token'}
+          size={'default'}
         />
         <button
           className={resetPassword.button}
-          type="submit"
-          disabled={userData.email === "" ? true : false}
+          type='submit'
+          //@ts-ignore
+          disabled={userData.email === '' ? true : false}
         >
           Сохранить
         </button>
@@ -105,9 +106,9 @@ export function ResetPassword() {
       <div className={resetPassword.info}>
         <h4>Вспомнили пароль?</h4>
         <Button
-          htmlType="button"
-          type="secondary"
-          size="medium"
+          htmlType='button'
+          type='secondary'
+          size='medium'
           onClick={goToLogin}
         >
           Войти

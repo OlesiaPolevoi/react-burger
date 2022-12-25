@@ -7,51 +7,52 @@ import {
   TTokenObject,
   TRegisterData,
   TRefreshToken,
+  ProfileDataActions,
 } from '../../types/index';
 
-export const PROFILE_DATA_REQUEST = 'PROFILE_DATA_REQUEST';
-export const PROFILE_DATA_SUCCESS = 'PROFILE_DATA_SUCCESS';
-export const PROFILE_DATA_FAILURE = 'PROFILE_DATA_FAILURE';
-export const PROFILE_DATA_UPDATE = 'PROFILE_DATA_UPDATE';
-export const CLEAR_PROFILE_DATA = 'CLEAR_PROFILE_DATA';
+// export const PROFILE_DATA_REQUEST = 'PROFILE_DATA_REQUEST';
+// export const PROFILE_DATA_SUCCESS = 'PROFILE_DATA_SUCCESS';
+// export const PROFILE_DATA_FAILURE = 'PROFILE_DATA_FAILURE';
+// export const PROFILE_DATA_UPDATE = 'PROFILE_DATA_UPDATE';
+// export const CLEAR_PROFILE_DATA = 'CLEAR_PROFILE_DATA';
 
-export const ADD_TOKEN_TO_USER_STATE = 'ADD_TOKEN_TO_USER_STATE';
+// export const ADD_TOKEN_TO_USER_STATE = 'ADD_TOKEN_TO_USER_STATE';
 
 export const profileDataRequest = () => {
   return {
-    type: PROFILE_DATA_REQUEST,
+    type: ProfileDataActions.PROFILE_DATA_REQUEST,
   };
 };
 
 export const profileDataSuccess = (profileData: TProfileData) => {
   return {
-    type: PROFILE_DATA_SUCCESS,
+    type: ProfileDataActions.PROFILE_DATA_SUCCESS,
     payload: profileData,
   };
 };
 
 export const profileDataFailure = (error: string) => {
   return {
-    type: PROFILE_DATA_FAILURE,
+    type: ProfileDataActions.PROFILE_DATA_FAILURE,
     payload: error,
   };
 };
 
 export const profileDataUpdate = () => {
   return {
-    type: PROFILE_DATA_UPDATE,
+    type: ProfileDataActions.PROFILE_DATA_UPDATE,
   };
 };
 
 export const clearProfileData = () => {
   return {
-    type: CLEAR_PROFILE_DATA,
+    type: ProfileDataActions.CLEAR_PROFILE_DATA,
   };
 };
 
 export const addTokenToUserState = (tokenObject: TTokenObject) => {
   return {
-    type: ADD_TOKEN_TO_USER_STATE,
+    type: ProfileDataActions.ADD_TOKEN_TO_USER_STATE,
     payload: tokenObject,
   };
 };

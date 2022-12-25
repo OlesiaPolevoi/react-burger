@@ -1,19 +1,25 @@
+// import {
+//   GET_INGREDIENT_INFO,
+//   CLEAR_INGREDIENT_INFO,
+// } from '../actions/ingredient-details';
+
 import {
-  GET_INGREDIENT_INFO,
-  CLEAR_INGREDIENT_INFO,
-} from '../actions/ingredient-details';
+  IngredientInfoActions,
+  TIngredientInfo,
+  TIngredientDetailsAction,
+} from '../../types/index';
 
 const defaultIngredientState = null;
 
 export const ingredientDetailsReducer = (
-  state = defaultIngredientState,
-  action: any
+  state: TIngredientInfo | null = defaultIngredientState,
+  action: TIngredientDetailsAction
 ) => {
   switch (action.type) {
-    case GET_INGREDIENT_INFO: {
+    case IngredientInfoActions.GET_INGREDIENT_INFO: {
       return { ...action.payload };
     }
-    case CLEAR_INGREDIENT_INFO: {
+    case IngredientInfoActions.CLEAR_INGREDIENT_INFO: {
       return null;
     }
     default:

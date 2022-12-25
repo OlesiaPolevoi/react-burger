@@ -1,35 +1,35 @@
 import axios from 'axios';
 import { BASE_URL } from '../../utils/burger-api';
 import { Dispatch } from 'react';
-import { TIngredientInfo } from '../../types/index';
-export const ORDER_NUMBER_REQUEST = 'ORDER_NUMBER_REQUEST';
-export const ORDER_NUMBER_SUCCESS = 'ORDER_NUMBER_SUCCESS';
-export const ORDER_NUMBER_FAILURE = 'ORDER_NUMBER_FAILURE';
-export const CLEAR_ORDER_NUMBER = 'CLEAR_ORDER_NUMBER';
+import { TIngredientInfo, OrderActions } from '../../types/index';
+// export const ORDER_NUMBER_REQUEST = 'ORDER_NUMBER_REQUEST';
+// export const ORDER_NUMBER_SUCCESS = 'ORDER_NUMBER_SUCCESS';
+// export const ORDER_NUMBER_FAILURE = 'ORDER_NUMBER_FAILURE';
+// export const CLEAR_ORDER_NUMBER = 'CLEAR_ORDER_NUMBER';
 
 export const orderNumberRequest = () => {
   return {
-    type: ORDER_NUMBER_REQUEST,
+    type: OrderActions.ORDER_NUMBER_REQUEST,
   };
 };
 
 export const orderNumberSuccess = (orderNumber: number) => {
   return {
-    type: ORDER_NUMBER_SUCCESS,
+    type: OrderActions.ORDER_NUMBER_SUCCESS,
     payload: orderNumber,
   };
 };
 
 export const orderNumberFailure = (error: string) => {
   return {
-    type: ORDER_NUMBER_FAILURE,
+    type: OrderActions.ORDER_NUMBER_FAILURE,
     payload: error,
   };
 };
 
 export const clearOrderNumber = () => {
   return {
-    type: CLEAR_ORDER_NUMBER,
+    type: OrderActions.CLEAR_ORDER_NUMBER,
   };
 };
 

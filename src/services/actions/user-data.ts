@@ -2,27 +2,27 @@ import axios from 'axios';
 import { saveAccessToken, saveRefreshToken } from '../../utils/local-storage';
 import { BASE_URL } from '../../utils/burger-api';
 import { Dispatch } from 'react';
-import { TUserData, TRegisterData } from '../../types/index';
-export const USER_DATA_REQUEST = 'USER_DATA_REQUEST';
-export const USER_DATA_SUCCESS = 'USER_DATA_SUCCESS';
-export const USER_DATA_FAILURE = 'USER_DATA_FAILURE';
+import { TUserData, TRegisterData, UserDataActions } from '../../types/index';
+// export const USER_DATA_REQUEST = 'USER_DATA_REQUEST';
+// export const USER_DATA_SUCCESS = 'USER_DATA_SUCCESS';
+// export const USER_DATA_FAILURE = 'USER_DATA_FAILURE';
 
 export const userDataRequest = () => {
   return {
-    type: USER_DATA_REQUEST,
+    type: UserDataActions.USER_DATA_REQUEST,
   };
 };
 
 export const userDataSuccess = (userData: TUserData) => {
   return {
-    type: USER_DATA_SUCCESS,
+    type: UserDataActions.USER_DATA_SUCCESS,
     payload: userData,
   };
 };
 
 export const userDataFailure = (error: string) => {
   return {
-    type: USER_DATA_FAILURE,
+    type: UserDataActions.USER_DATA_FAILURE,
     payload: error,
   };
 };
