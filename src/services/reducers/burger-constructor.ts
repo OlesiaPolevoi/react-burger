@@ -3,7 +3,6 @@ import update from 'immutability-helper';
 import {
   ConstructorActions,
   TIngredientInfo,
-  TElemWithId,
   TIndex,
   TChangePosition,
   TConstructorAction,
@@ -15,7 +14,7 @@ export const constructorReducer = (
 ) => {
   switch (action.type) {
     case ConstructorActions.CONSTRUCTOR_ADD_ELEMENT: {
-      const overwritePayload = action.payload as TElemWithId;
+      const overwritePayload = action.payload as TIngredientInfo;
 
       const isIngredientBun = overwritePayload.type === 'bun';
 

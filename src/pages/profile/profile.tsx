@@ -53,10 +53,9 @@ export function Profile() {
       return { ...prevUserData, [name]: value };
     });
   };
-  const inputRef = React.useRef(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const onIconClick = () => {
-    //@ts-ignore
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
   };
 
   function submitProfileChanges(event: React.FormEvent) {

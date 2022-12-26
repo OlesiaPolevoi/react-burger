@@ -52,10 +52,7 @@ export type TIngredientInfo = {
   proteins: number;
   type: string;
   orderedQuantity?: number;
-};
-
-export type TElemWithId = TIngredientInfo & {
-  uuid: string;
+  uuid?: string;
 };
 
 export type TIndex = number;
@@ -67,7 +64,7 @@ export type TChangePosition = {
 
 export type TConstructorAction = {
   type: ConstructorActions;
-  payload: TElemWithId | TIndex | TChangePosition;
+  payload: TIngredientInfo | TIndex | TChangePosition;
 };
 
 export type TError = string;

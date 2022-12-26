@@ -24,7 +24,7 @@ import { useDrag, useDrop, XYCoord } from 'react-dnd';
 import { ConstructorActions, IngredientActions } from '../../types/index';
 import { useHistory } from 'react-router-dom';
 import uuid from 'react-uuid';
-import { TIngredientInfo, TCombinedReducer, TElemWithId } from '../../types';
+import { TIngredientInfo, TCombinedReducer } from '../../types';
 
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -142,9 +142,12 @@ function ConstructorIngredient({
   const dispatch = useDispatch();
   useEffect(() => {
     if (ingredientsArray.length !== 0 || outerBun) {
-      const sum = ingredientsArray.reduce((prev: any, current: any) => {
-        return prev + current?.price;
-      }, 0);
+      const sum = ingredientsArray.reduce(
+        (prev: number, current: TIngredientInfo) => {
+          return prev + current?.price;
+        },
+        0
+      );
 
       const bunsPrice = outerBun?.price ? outerBun?.price * 2 : 0;
       const totalPrice = sum ? sum + bunsPrice : 0;
@@ -203,7 +206,7 @@ function ConstructorIngredient({
 
       <div>
         {ingredientsArray.length !== 0 &&
-          ingredientsArray.map((el: any, i: number) => {
+          ingredientsArray.map((el: TIngredientInfo, i: number) => {
             return el?.uuid ? (
               <InnerIngredient index={i} el={el} key={el?.uuid} />
             ) : null;
@@ -226,7 +229,7 @@ function ConstructorIngredient({
 }
 type TInnerIngredient = {
   index: number;
-  el: TElemWithId;
+  el: TIngredientInfo;
 };
 const InnerIngredient = ({ index, el }: TInnerIngredient) => {
   const dispatch = useDispatch();

@@ -11,7 +11,7 @@ type TModalProps = {
 };
 export function Modal({ children, onClose, title }: TModalProps) {
   useEffect(() => {
-    const handleEscKeyPress = (event: any) => {
+    const handleEscKeyPress = (event: KeyboardEvent) => {
       if (event.isComposing || event.key === 'Escape') {
         onClose();
         return;
@@ -21,7 +21,7 @@ export function Modal({ children, onClose, title }: TModalProps) {
     document.addEventListener('keydown', handleEscKeyPress);
 
     return () => {
-      document.removeEventListener('keydown', handleEscKeyPress);
+      document.removeEventListener('keydown', handleEscKeyPress!);
     };
   }, [onClose]);
 

@@ -11,6 +11,14 @@ import { BASE_URL } from '../../utils/burger-api';
 import axios from 'axios';
 import { TCombinedReducer } from '../../types';
 
+interface LocationState {
+  replace: (obj: { pathname: string }) => void;
+  location: {
+    state: {
+      from: string;
+    };
+  };
+}
 export function ResetPassword() {
   const userStore = useSelector(
     (store: TCombinedReducer) => store.userDataReducer
@@ -18,7 +26,7 @@ export function ResetPassword() {
 
   const isUserAuthorized = userStore.accessToken !== '';
 
-  const history = useHistory();
+  const history: LocationState = useHistory();
 
   const [userData, setUserData] = useState({
     password: '',
@@ -68,7 +76,7 @@ export function ResetPassword() {
       />
     );
   }
-  //@ts-ignore
+
   if (history?.location?.state?.from !== 'forgot-password') {
     return (
       <Redirect
