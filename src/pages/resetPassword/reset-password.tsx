@@ -23,6 +23,7 @@ export function ResetPassword() {
   const [userData, setUserData] = useState({
     password: '',
     token: '',
+    email: '',
   });
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,7 +101,6 @@ export function ResetPassword() {
         <button
           className={resetPassword.button}
           type='submit'
-          // @ts-ignore
           disabled={userData.email === '' ? true : false}
         >
           Сохранить
