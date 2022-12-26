@@ -1,4 +1,11 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+  Dispatch,
+} from 'react';
 import burgerConstructor from './burger-constructor.module.css';
 import {
   ConstructorElement,
@@ -6,7 +13,6 @@ import {
   Button,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-//import PropTypes from 'prop-types';
 import { Modal } from '../modal/modal';
 import { OrderDetails } from '../orderDetails/order-details';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,79 +20,61 @@ import {
   submitOrderAndGetId,
   clearOrderNumber,
 } from '../../services/actions/submit-order';
-import { useDrag, useDrop } from 'react-dnd';
-// import {
-//  // INCREMENT_INGREDIENT_QUANTITY,
-//   DECREMENT_INGREDIENT_QUANTITY,
-//   CLEAR_COUNTER,
-// } from '../../services/actions/fetch-ingredients';
-
-// import {
-//   CONSTRUCTOR_ADD_ELEMENT,
-//   CONSTRUCTOR_REMOVE_ELEMENT,
-//   CONSTRUCTOR_CHANGE_ELEMENT_POSITION,
-//   CONSTRUCTOR_CLEAR_ALL,
-// } from '../../services/actions/burger-constructor';
-
+import { useDrag, useDrop, XYCoord } from 'react-dnd';
 import { ConstructorActions, IngredientActions } from '../../types/index';
-import { ingredientType } from '../../utils/types';
 import { useHistory } from 'react-router-dom';
 import uuid from 'react-uuid';
+import { TIngredientInfo, TCombinedReducer, TElemWithId } from '../../types';
 
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
-  //@ts-ignore
-  const ingredients = useSelector((store) => store.constructorReducer);
-  //@ts-ignore
 
-  const userInfo = useSelector((store) => store.userDataReducer);
+  const ingredients = useSelector(
+    (store: TCombinedReducer) => store.constructorReducer
+  );
+
+  const userInfo = useSelector(
+    (store: TCombinedReducer) => store.userDataReducer
+  );
   const isUserAuthorized = userInfo.name !== '';
   const history = useHistory();
 
-  const dispatch = useDispatch();
+  const dispatch: Dispatch<any> = useDispatch();
 
   const outerBun = useMemo(
     () =>
-      //@ts-ignore
       ingredients.find((el) => {
         return el?.type === 'bun';
       }),
     [ingredients]
-  );
+  ) as TIngredientInfo;
 
   const ingredientsArray = useMemo(
     () =>
-      //@ts-ignore
       ingredients.filter((el) => {
         return el?.type !== 'bun';
       }),
     [ingredients]
   );
-  //@ts-ignore
-  const submitOrder = (ingredientsArray) => {
+
+  const submitOrder = (ingredientsArray: TIngredientInfo[]) => {
     if (isUserAuthorized) {
-      //@ts-ignore
-
       const ingredientTypes = ingredientsArray.map((el) => el.type);
-      //@ts-ignore
-
       const bunIsPresent = ingredientTypes.some((el) => el === 'bun');
-      //@ts-ignore
-
       const mainIsPresent = ingredientTypes.some((el) => el === 'main');
-      //@ts-ignore
       const sauceIsPresent = ingredientTypes.some((el) => el === 'sauce');
 
       const ingredientsArrayCopy = [...ingredientsArray];
       const bunIngredient = ingredientsArrayCopy.find(
         (el) => el.type === 'bun'
       );
-      ingredientsArrayCopy.push(bunIngredient);
+      if (bunIngredient) {
+        ingredientsArrayCopy.push(bunIngredient);
+      }
 
       if (bunIsPresent && (mainIsPresent || sauceIsPresent)) {
         dispatch(
-          //@ts-ignore
           submitOrderAndGetId(
             ingredientsArrayCopy,
             () => setModalIsOpen(true),
@@ -111,8 +99,6 @@ export function BurgerConstructor() {
       <ConstructorIngredient
         outerBun={outerBun}
         ingredientsArray={ingredientsArray}
-        //@ts-ignore
-        // dataArr={ingredients}
         setTotalPrice={setTotalPrice}
       />
 
@@ -121,7 +107,6 @@ export function BurgerConstructor() {
           <div className={burgerConstructor.price}>{totalPrice}</div>
           <CurrencyIcon type='primary' />
         </div>
-        {/* @ts-ignore */}
         <Button
           type='primary'
           size='medium'
@@ -135,7 +120,7 @@ export function BurgerConstructor() {
       </div>
 
       {modalIsOpen && (
-        <Modal onClose={handleModalClose} title={null}>
+        <Modal onClose={handleModalClose} title={''}>
           <OrderDetails />
         </Modal>
       )}
@@ -143,20 +128,20 @@ export function BurgerConstructor() {
   );
 }
 
-type Props = {
-  ingredientsArray: any;
-  outerBun: any | undefined;
-  setTotalPrice: any;
+type TConstructorIngredientProps = {
+  ingredientsArray: TIngredientInfo[];
+  outerBun: TIngredientInfo;
+  setTotalPrice: (totalPrice: number) => void;
 };
+
 function ConstructorIngredient({
   ingredientsArray,
   outerBun,
   setTotalPrice,
-}: Props) {
+}: TConstructorIngredientProps) {
   const dispatch = useDispatch();
   useEffect(() => {
     if (ingredientsArray.length !== 0 || outerBun) {
-      //@ts-ignore
       const sum = ingredientsArray.reduce((prev: any, current: any) => {
         return prev + current?.price;
       }, 0);
@@ -168,8 +153,7 @@ function ConstructorIngredient({
   });
 
   const ingredientsDictionary = useSelector(
-    //@ts-ignore
-    (store) => store.ingredientsReducer
+    (store: TCombinedReducer) => store.ingredientsReducer
   );
 
   const [{ isHover }, dropTarget] = useDrop({
@@ -177,7 +161,7 @@ function ConstructorIngredient({
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
-    drop(itemId) {
+    drop(itemId: unknown) {
       const ingredient = ingredientsDictionary.items.find(
         //@ts-ignore
         (item) => item._id === itemId.id
@@ -218,7 +202,6 @@ function ConstructorIngredient({
       )}
 
       <div>
-        {/* @ts-ignore */}
         {ingredientsArray.length !== 0 &&
           ingredientsArray.map((el: any, i: number) => {
             return el?.uuid ? (
@@ -241,8 +224,11 @@ function ConstructorIngredient({
     </div>
   );
 }
-//@ts-ignore
-const InnerIngredient = ({ index, el }) => {
+type TInnerIngredient = {
+  index: number;
+  el: TElemWithId;
+};
+const InnerIngredient = ({ index, el }: TInnerIngredient) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
   const [{ isDrag }, drag] = useDrag({
@@ -276,8 +262,8 @@ const InnerIngredient = ({ index, el }) => {
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();
-      //@ts-ignore
+      const clientOffset = monitor.getClientOffset() as XYCoord;
+
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -300,9 +286,8 @@ const InnerIngredient = ({ index, el }) => {
       item.index = hoverIndex;
     },
   });
-  //@ts-ignore
 
-  const removeIngredient = (ingredientId, index) => {
+  const removeIngredient = (ingredientId: string, index: number) => {
     dispatch({
       type: ConstructorActions.CONSTRUCTOR_REMOVE_ELEMENT,
       payload: index,
@@ -329,21 +314,3 @@ const InnerIngredient = ({ index, el }) => {
     </div>
   );
 };
-
-// Button.propTypes = {
-//   //@ts-ignore
-//   type: PropTypes.string.isRequired,
-//   //@ts-ignore
-//   size: PropTypes.string.isRequired,
-// };
-
-// ConstructorIngredient.propTypes = {
-//   ingredientsArray: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-//   outerBun: ingredientType,
-//   setTotalPrice: PropTypes.func,
-// };
-
-// InnerIngredient.propTypes = {
-//   index: PropTypes.number.isRequired,
-//   el: PropTypes.object.isRequired,
-// };

@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState, Dispatch } from 'react';
 import styles from './app.module.css';
 import { AppHeader } from '../appHeader/app-header';
 import { BurgerIngredients } from '../burgerIngredients/burger-ingredients';
@@ -27,14 +27,23 @@ import {
   tokenRefreshRequest,
 } from '../../services/actions/profile-data';
 import { isTokenExpired } from '../../utils/jwt-token';
+import { TRefreshToken } from '../../types/index';
+
+interface LocationWithState<T> extends Location {
+  state: T;
+}
+interface LocationState {
+  background: boolean;
+}
 
 export function App() {
-  const dispatch = useDispatch();
+  const dispatch: Dispatch<any> = useDispatch();
   const history = useHistory();
-  const location = useLocation();
+  const location = useLocation() as LocationWithState<LocationState>;
+
   const background = location.state && location.state.background;
 
-  const refreshToken = getRefreshToken();
+  const refreshToken = getRefreshToken() as TRefreshToken;
   const requests = async () => {
     const accessToken = getAccessToken();
 
@@ -51,7 +60,6 @@ export function App() {
         })
       );
     }
-
     await dispatch(getIngredientsFunc());
   };
 
@@ -73,6 +81,7 @@ export function App() {
 
       <main className={styles.container}>
         <DndProvider backend={HTML5Backend}>
+          {/* @ts-ignore */}
           <Switch location={background || location}>
             <Route path='/' exact>
               <BurgerIngredients />

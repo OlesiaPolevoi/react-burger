@@ -1,11 +1,5 @@
-// import {
-//   CONSTRUCTOR_REMOVE_ELEMENT,
-//   CONSTRUCTOR_ADD_ELEMENT,
-//   CONSTRUCTOR_CHANGE_ELEMENT_POSITION,
-//   CONSTRUCTOR_CLEAR_ALL,
-// } from '../actions/burger-constructor';
 import update from 'immutability-helper';
-//import { number } from 'prop-types';
+
 import {
   ConstructorActions,
   TIngredientInfo,
@@ -14,17 +8,6 @@ import {
   TChangePosition,
   TConstructorAction,
 } from '../../types/index';
-// export const CONSTRUCTOR_ADD_ELEMENT = "CONSTRUCTOR_ADD_ELEMENT";
-// export const CONSTRUCTOR_REMOVE_ELEMENT = "CONSTRUCTOR_REMOVE_ELEMENT";
-// export const CONSTRUCTOR_CHANGE_ELEMENT_POSITION =
-//   "CONSTRUCTOR_CHANGE_ELEMENT_POSITION";
-// export const CONSTRUCTOR_CLEAR_ALL = "CONSTRUCTOR_CLEAR_ALL";
-// enum ConstructorActions {
-//   CONSTRUCTOR_ADD_ELEMENT,
-//   CONSTRUCTOR_REMOVE_ELEMENT,
-//   CONSTRUCTOR_CHANGE_ELEMENT_POSITION,
-//   CONSTRUCTOR_CLEAR_ALL
-// }
 
 export const constructorReducer = (
   state: TIngredientInfo[] = [],

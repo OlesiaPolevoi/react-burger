@@ -9,9 +9,13 @@ import { useHistory, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { BASE_URL } from '../../utils/burger-api';
 import axios from 'axios';
+import { TCombinedReducer } from '../../types';
 
 export function ResetPassword() {
-  const userStore = useSelector((store: any) => store.userDataReducer);
+  const userStore = useSelector(
+    (store: TCombinedReducer) => store.userDataReducer
+  );
+
   const isUserAuthorized = userStore.accessToken !== '';
 
   const history = useHistory();
@@ -21,7 +25,7 @@ export function ResetPassword() {
     token: '',
   });
 
-  const onChange = (event: any) => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setUserData((prevUserData) => {
       return { ...prevUserData, [name]: value };
@@ -31,7 +35,7 @@ export function ResetPassword() {
     history.replace({ pathname: '/login' });
   }, [history]);
 
-  function handleSubmit(event: any) {
+  function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
     const data = JSON.stringify(userData);
@@ -96,7 +100,7 @@ export function ResetPassword() {
         <button
           className={resetPassword.button}
           type='submit'
-          //@ts-ignore
+          // @ts-ignore
           disabled={userData.email === '' ? true : false}
         >
           Сохранить

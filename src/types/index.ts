@@ -1,5 +1,3 @@
-//import { string } from 'prop-types';
-
 //ENUMS
 export enum ConstructorActions {
   CONSTRUCTOR_ADD_ELEMENT = 'CONSTRUCTOR_ADD_ELEMENT',
@@ -106,9 +104,7 @@ export type TRegisterData = {
   password: string;
 };
 
-export type TRefreshToken = {
-  refreshToken: string;
-};
+export type TRefreshToken = string;
 
 export type TIngredientsInitialState = {
   items: TIngredientInfo[];
@@ -138,22 +134,16 @@ export type TUserDataState = {
   error: string;
 };
 
-// accessToken
-// :
-// "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzODc5ODdiOWI1MThhMDAxYmI4OWZlZSIsImlhdCI6MTY3MjAwNzYxMiwiZXhwIjoxNjcyMDA4ODEyfQ.P6gnQTQMjaond1wRI_jICr8gZJJipNZNhAA8xj5BVOQ"
-// refreshToken
-// :
-// "ed74b4e5a1780669023663435abbe42d847da6f9d27e183e7d78ed3f51a6c2b7e0ffa3e786213f78"
-// success
-// :
-// true
-// user
-// :
-// {email: 'olesia.polevoi@gmail.com', name: 'Olesia311'} - userData sucess --++ TUserData
-
 export type TUserSuccess = {
   success: boolean;
   user: { email: string; name: string };
+};
+
+export type TAuthUser = {
+  email: string;
+  name: string;
+  accessToken: string;
+  refreshToken: string;
 };
 
 export type TUserToken = {
@@ -164,4 +154,12 @@ export type TUserToken = {
 export type TUserDataReducerAction = {
   type: UserDataActions | ProfileDataActions;
   payload: TUserDataState | TError | TUserData | TUserSuccess | TUserToken;
+};
+
+export type TCombinedReducer = {
+  constructorReducer: TIngredientInfo[];
+  ingredientDetailsReducer: TIngredientDetailsAction | null;
+  ingredientsReducer: TIngredientsInitialState;
+  orderDetailsReducer: TOrderDetails;
+  userDataReducer: TUserDataState;
 };

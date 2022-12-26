@@ -1,19 +1,22 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, ReactNode } from 'react';
 import {
   Tab,
   CurrencyIcon,
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredients from './burger-ingredients.module.css';
-import PropTypes from 'prop-types';
-import { ingredientType } from '../../utils/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { useDrag } from 'react-dnd';
 import { getIngredientInfo } from '../../services/actions/ingredient-details';
 import { Link, useLocation } from 'react-router-dom';
+import { TCombinedReducer, TIngredientInfo } from '../../types';
 
-const getVisibleTab = (bunsInView, saucesInView, mainsInView) => {
+const getVisibleTab = (
+  bunsInView: boolean | undefined,
+  saucesInView: boolean | undefined,
+  mainsInView: boolean | undefined
+) => {
   if (bunsInView) return 'buns';
   if (saucesInView) return 'sauce';
   if (mainsInView) return 'main';
@@ -21,7 +24,9 @@ const getVisibleTab = (bunsInView, saucesInView, mainsInView) => {
 
 export function BurgerIngredients() {
   const [currentTab, setCurrentTab] = React.useState('buns');
-  const ingredients = useSelector((store) => store.ingredientsReducer);
+  const ingredients = useSelector(
+    (store: TCombinedReducer) => store.ingredientsReducer
+  );
 
   const bunsObj = useInView({ threshold: 0 });
   const bunsRef = bunsObj.ref;
@@ -36,7 +41,9 @@ export function BurgerIngredients() {
   const mainsInView = mainsObj.inView;
 
   useEffect(() => {
-    setCurrentTab(getVisibleTab(bunsInView, saucesInView, mainsInView));
+    setCurrentTab(
+      getVisibleTab(bunsInView, saucesInView, mainsInView) as string
+    );
   }, [bunsInView, saucesInView, mainsInView]);
 
   const bunsArray = useMemo(
@@ -54,7 +61,7 @@ export function BurgerIngredients() {
     [ingredients.items]
   );
 
-  const onTabClick = (tab) => {
+  const onTabClick = (tab: string) => {
     setCurrentTab(tab);
     const element = document.getElementById(tab);
     if (element) element.scrollIntoView({ behavior: 'smooth' });
@@ -118,7 +125,19 @@ export function BurgerIngredients() {
   );
 }
 
-function IngredientsContainer({ header, cardsArr, id, myRef }) {
+type TIngredientsContainerProps = {
+  header: string;
+  cardsArr: any[];
+  id: string;
+  myRef: any;
+};
+
+function IngredientsContainer({
+  header,
+  cardsArr,
+  id,
+  myRef,
+}: TIngredientsContainerProps) {
   const location = useLocation();
 
   return (
@@ -146,7 +165,7 @@ function IngredientsContainer({ header, cardsArr, id, myRef }) {
   );
 }
 
-function Ingredient({ el }) {
+function Ingredient({ el }: { el: TIngredientInfo }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -175,7 +194,7 @@ function Ingredient({ el }) {
       >
         <img src={`${el?.image}`} alt={el.name} />
 
-        {'orderedQuantity' in el && el.orderedQuantity > 0 && (
+        {el.orderedQuantity !== undefined && el.orderedQuantity > 0 && (
           <Counter count={el.orderedQuantity} size='default' />
         )}
 
@@ -188,14 +207,3 @@ function Ingredient({ el }) {
     </>
   );
 }
-
-IngredientsContainer.propTypes = {
-  header: PropTypes.string.isRequired,
-
-  cardsArr: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
-  id: PropTypes.string.isRequired,
-};
-
-Ingredient.propTypes = {
-  el: ingredientType.isRequired,
-};

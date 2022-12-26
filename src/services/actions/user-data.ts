@@ -3,9 +3,6 @@ import { saveAccessToken, saveRefreshToken } from '../../utils/local-storage';
 import { BASE_URL } from '../../utils/burger-api';
 import { Dispatch } from 'react';
 import { TUserData, TRegisterData, UserDataActions } from '../../types/index';
-// export const USER_DATA_REQUEST = 'USER_DATA_REQUEST';
-// export const USER_DATA_SUCCESS = 'USER_DATA_SUCCESS';
-// export const USER_DATA_FAILURE = 'USER_DATA_FAILURE';
 
 export const userDataRequest = () => {
   return {

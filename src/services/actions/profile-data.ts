@@ -10,14 +10,6 @@ import {
   ProfileDataActions,
 } from '../../types/index';
 
-// export const PROFILE_DATA_REQUEST = 'PROFILE_DATA_REQUEST';
-// export const PROFILE_DATA_SUCCESS = 'PROFILE_DATA_SUCCESS';
-// export const PROFILE_DATA_FAILURE = 'PROFILE_DATA_FAILURE';
-// export const PROFILE_DATA_UPDATE = 'PROFILE_DATA_UPDATE';
-// export const CLEAR_PROFILE_DATA = 'CLEAR_PROFILE_DATA';
-
-// export const ADD_TOKEN_TO_USER_STATE = 'ADD_TOKEN_TO_USER_STATE';
-
 export const profileDataRequest = () => {
   return {
     type: ProfileDataActions.PROFILE_DATA_REQUEST,
@@ -114,8 +106,6 @@ export const profileInfoUpdate = (registerData: TRegisterData) => {
 };
 
 export const tokenRefreshRequest = (refreshToken: TRefreshToken) => {
-  console.log('refreshToken', refreshToken);
-
   return function (dispatch: Dispatch<any>) {
     const data = JSON.stringify({
       token: refreshToken,

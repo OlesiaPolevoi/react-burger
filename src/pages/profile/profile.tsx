@@ -1,34 +1,37 @@
-import React, { useState, useEffect } from "react";
-import profile from "./profile.module.css";
-import { Link, useRouteMatch } from "react-router-dom";
+import React, { useState, useEffect, Dispatch } from 'react';
+import profile from './profile.module.css';
+import { Link, useRouteMatch } from 'react-router-dom';
 import {
   EmailInput,
   PasswordInput,
   Button,
   Input,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from "react-redux";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   profileInfoRequest,
   profileInfoUpdate,
   userExitRequest,
-} from "../../services/actions/profile-data";
-import { getRefreshToken } from "../../utils/local-storage";
+} from '../../services/actions/profile-data';
+import { getRefreshToken } from '../../utils/local-storage';
+import { TCombinedReducer } from '../../types';
 
 export function Profile() {
-  const refreshToken = getRefreshToken();
+  const refreshToken = getRefreshToken() as string;
 
-  const isProfile = !!useRouteMatch({ path: "/profile", exact: true });
-  const isOrderHistory = !!useRouteMatch("/profile/orders");
-  const isExit = !!useRouteMatch("/profile/exit");
-  const userInfo = useSelector((store) => store.userDataReducer);
+  const isProfile = !!useRouteMatch({ path: '/profile', exact: true });
+  const isOrderHistory = !!useRouteMatch('/profile/orders');
+  const isExit = !!useRouteMatch('/profile/exit');
+  const userInfo = useSelector(
+    (store: TCombinedReducer) => store.userDataReducer
+  );
 
   const [userData, setUserData] = useState({
     name: `${userInfo.name}`,
     email: `${userInfo.email}`,
-    password: "",
+    password: '',
   });
-  const dispatch = useDispatch();
+  const dispatch: Dispatch<any> = useDispatch();
 
   useEffect(() => {
     dispatch(profileInfoRequest());
@@ -39,12 +42,12 @@ export function Profile() {
       setUserData({
         name: userInfo.name,
         email: userInfo.email,
-        password: "",
+        password: '',
       });
     }
   }, [userInfo]);
 
-  const onChange = (event) => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setUserData((prevUserData) => {
       return { ...prevUserData, [name]: value };
@@ -52,10 +55,11 @@ export function Profile() {
   };
   const inputRef = React.useRef(null);
   const onIconClick = () => {
+    //@ts-ignore
     setTimeout(() => inputRef.current.focus(), 0);
   };
 
-  function submitProfileChanges(event) {
+  function submitProfileChanges(event: React.FormEvent) {
     event.preventDefault();
     dispatch(profileInfoUpdate(userData));
   }
@@ -64,11 +68,11 @@ export function Profile() {
     setUserData({
       name: `${userInfo.name}`,
       email: `${userInfo.email}`,
-      password: "",
+      password: '',
     });
   };
 
-  const userLogout = (refreshToken) => {
+  const userLogout = (refreshToken: string) => {
     dispatch(userExitRequest(refreshToken));
   };
   return (
@@ -76,19 +80,19 @@ export function Profile() {
       <div>
         <div className={profile.tabs}>
           <Link
-            to="/profile"
+            to='/profile'
             className={isProfile ? profile.tab : profile.tabInactive}
           >
             Профиль
           </Link>
           <Link
-            to="/profile/orders"
+            to='/profile/orders'
             className={isOrderHistory ? profile.tab : profile.tabInactive}
           >
             История заказов
           </Link>
           <Link
-            to="/profile/exit"
+            to='/profile/exit'
             className={isExit ? profile.tab : profile.tabInactive}
             onClick={() => {
               userLogout(refreshToken);
@@ -104,15 +108,15 @@ export function Profile() {
 
       <form className={profile.container} onSubmit={submitProfileChanges}>
         <Input
-          type={"text"}
-          placeholder={"Имя"}
+          type={'text'}
+          placeholder={'Имя'}
           onChange={onChange}
           value={userData.name}
-          name={"name"}
+          name={'name'}
           error={false}
-          errorText={"Ошибка"}
-          size={"default"}
-          icon={"EditIcon"}
+          errorText={'Ошибка'}
+          size={'default'}
+          icon={'EditIcon'}
           onIconClick={onIconClick}
           ref={inputRef}
         />
@@ -120,30 +124,30 @@ export function Profile() {
         <EmailInput
           onChange={onChange}
           value={userData.email}
-          name={"email"}
-          placeholder="Логин"
+          name={'email'}
+          placeholder='Логин'
           isIcon={true}
         />
 
         <PasswordInput
           onChange={onChange}
           value={userData.password}
-          name={"password"}
-          icon="EditIcon"
+          name={'password'}
+          icon='EditIcon'
         />
 
         <div className={profile.buttons}>
           <Button
-            htmlType="button"
-            type="secondary"
-            size="medium"
+            htmlType='button'
+            type='secondary'
+            size='medium'
             onClick={() => {
               toPreviousInput();
             }}
           >
             Отмена
           </Button>
-          <button className={profile.button} type="submit">
+          <button className={profile.button} type='submit'>
             Сохранить
           </button>
         </div>

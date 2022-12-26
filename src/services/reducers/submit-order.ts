@@ -1,10 +1,3 @@
-// import {
-//   ORDER_NUMBER_REQUEST,
-//   ORDER_NUMBER_SUCCESS,
-//   ORDER_NUMBER_FAILURE,
-//   CLEAR_ORDER_NUMBER,
-// } from "../actions/submit-order";
-
 import {
   OrderActions,
   TOrderDetails,

@@ -1,16 +1,16 @@
 import ingredientDetails from './ingredient-details.module.css';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { TCombinedReducer, TIngredientInfo } from '../../types';
 
 export function IngredientDetails() {
-  //@ts-ignore
-  const { _id } = useParams();
+  const { _id } = useParams() as { _id: string };
 
   const ingredientsStore = useSelector(
-    (store: any) => store.ingredientsReducer
+    (store: TCombinedReducer) => store.ingredientsReducer
   );
   const ingredient = (ingredientsStore?.items ?? []).find(
-    (ingr: any) => ingr._id === _id
+    (ingr) => ingr._id === _id
   );
 
   return (

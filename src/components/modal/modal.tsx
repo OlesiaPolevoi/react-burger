@@ -1,13 +1,17 @@
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import ReactDom from 'react-dom';
 import modal from './modal.module.css';
 import { ModalOverlay } from '../modalOverlay/modal-overlay';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 
-export function Modal({ children, onClose, title }) {
+type TModalProps = {
+  children: ReactNode;
+  onClose: () => void;
+  title: string;
+};
+export function Modal({ children, onClose, title }: TModalProps) {
   useEffect(() => {
-    const handleEscKeyPress = (event) => {
+    const handleEscKeyPress = (event: any) => {
       if (event.isComposing || event.key === 'Escape') {
         onClose();
         return;
@@ -34,12 +38,6 @@ export function Modal({ children, onClose, title }) {
         <div>{children}</div>
       </div>
     </>,
-    document.getElementById('portal')
+    document.getElementById('portal') as HTMLElement
   );
 }
-
-Modal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  title: PropTypes.string,
-  children: PropTypes.object,
-};

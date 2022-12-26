@@ -1,8 +1,3 @@
-// import {
-//   USER_DATA_REQUEST,
-//   USER_DATA_SUCCESS,
-//   USER_DATA_FAILURE,
-// } from '../actions/user-data';
 import {
   UserDataActions,
   ProfileDataActions,
@@ -12,14 +7,6 @@ import {
   TUserSuccess,
   TUserToken,
 } from '../../types/index';
-// import {
-//   PROFILE_DATA_REQUEST,
-//   CLEAR_PROFILE_DATA,
-//   PROFILE_DATA_UPDATE,
-//   PROFILE_DATA_SUCCESS,
-//   PROFILE_DATA_FAILURE,
-//   ADD_TOKEN_TO_USER_STATE,
-// } from '../actions/profile-data';
 
 const userDataState = {
   email: '',
@@ -33,7 +20,6 @@ const userDataState = {
 export const userDataReducer = (
   state: TUserDataState = userDataState,
   action: TUserDataReducerAction
-  //TUserDataReducerAction
 ) => {
   switch (action.type) {
     case UserDataActions.USER_DATA_REQUEST: {
@@ -69,7 +55,6 @@ export const userDataReducer = (
     case ProfileDataActions.PROFILE_DATA_SUCCESS: {
       const overwritePayload = action.payload as TUserSuccess;
 
-      //TUserSuccess
       return {
         ...state,
         loading: false,

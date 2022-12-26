@@ -1,8 +1,3 @@
-// import {
-//   GET_INGREDIENT_INFO,
-//   CLEAR_INGREDIENT_INFO,
-// } from '../actions/ingredient-details';
-
 import {
   IngredientInfoActions,
   TIngredientInfo,
