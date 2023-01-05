@@ -1,0 +1,60 @@
+.title{
+font-family: 'JetBrains Mono';
+font-weight: 700;
+font-size: 36px;
+line-height: 40px;
+align-items: center;
+/* display: flex; */
+/* text/primary-light (standart text) */
+color: #F2F2F3;
+}
+
+.ordernumber{
+  font-family: 'Iceland';
+font-style: normal;
+font-weight: 400;
+font-size: 28px;
+line-height: 24px;
+/* identical to box height, or 86% */
+
+display: flex;
+align-items: center;
+
+/* text/primary-light (standart text) */
+
+color: #F2F2F3;
+}
+
+.ordernumbercontainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.burgertitle {
+  font-family: 'JetBrains Mono';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 30px;
+display: flex;
+align-items: center;
+color: #F2F2F3;
+}
+
+.imgicon {
+  width: 64px;
+  height: 64px;
+  left: 0px;
+  top: 0px;
+  background: #131316;
+  border-radius: 100px;
+  border: 3px solid #801AB2;
+}
+
+.pricecontainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}

@@ -17,7 +17,7 @@ export function AppHeader() {
   const isUserAuthorized = userInfo.name !== '';
 
   const isConstructor = !!useRouteMatch({ path: '/', exact: true });
-  const isCurrentOrders = !!useRouteMatch('/current-orders');
+  const isCurrentOrders = !!useRouteMatch('/feed');
   const isProfile = !!useRouteMatch('/profile');
 
   return (
@@ -47,7 +47,7 @@ export function AppHeader() {
               )
             }
             inactive={isCurrentOrders ? false : true}
-            path='/current-orders'
+            path='/feed'
           />
         </div>
         <Link to='/'>
