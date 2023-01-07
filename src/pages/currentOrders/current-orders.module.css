@@ -1,45 +1,70 @@
-.title{
-font-family: 'JetBrains Mono';
-font-weight: 700;
-font-size: 36px;
-line-height: 40px;
-align-items: center;
-/* display: flex; */
-/* text/primary-light (standart text) */
-color: #F2F2F3;
+.mainwrapper {
+  width: 1240px;
+}
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 758px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.ordercontainer {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 24px;
+  width: 584px;
+  height: 214px;
+  background: #1c1c21;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06),
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+  margin-right: 70px;
+}
+.title {
+  font-family: "JetBrains Mono";
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  text-align: left;
+  color: #f2f2f3;
+  padding-left: 10px;
+  margin-bottom: 10px;
 }
 
-.ordernumber{
-  font-family: 'Iceland';
-font-style: normal;
-font-weight: 400;
-font-size: 28px;
-line-height: 24px;
-/* identical to box height, or 86% */
-
-display: flex;
-align-items: center;
-
-/* text/primary-light (standart text) */
-
-color: #F2F2F3;
+.ordernumber {
+  font-family: "Iceland";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: #f2f2f3;
 }
 
-.ordernumbercontainer{
+.ordernumbercontainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .burgertitle {
-  font-family: 'JetBrains Mono';
-font-style: normal;
-font-weight: 700;
-font-size: 24px;
-line-height: 30px;
-display: flex;
-align-items: center;
-color: #F2F2F3;
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  color: #f2f2f3;
 }
 
 .imgicon {
@@ -49,12 +74,94 @@ color: #F2F2F3;
   top: 0px;
   background: #131316;
   border-radius: 100px;
-  border: 3px solid #801AB2;
+  border: 3px solid #801ab2;
+  margin: 5px;
 }
 
-.pricecontainer{
+.pricecontainer {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
+}
+
+.imgpricecontainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-family: "Iceland";
+
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: right;
+  color: #f2f2f3;
+}
+
+.secondarytitle {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  color: #f2f2f3;
+  margin-bottom: 20px;
+}
+
+.ordersinfo {
+  width: 580px;
+  height: 626px;
+  margin-left: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.readyorders {
+  font-family: "Iceland";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+  display: flex;
+  text-align: left;
+  color: #00cccc;
+}
+
+.workingorders {
+  font-family: "Iceland";
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+  display: flex;
+  text-align: left;
+  color: #f2f2f3;
+}
+
+.fulfilledorder {
+  font-family: "Iceland";
+  font-weight: 400;
+  font-size: 144px;
+  line-height: 120px;
+  display: flex;
+  text-align: left;
+  color: #f2f2f3;
+  text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25),
+    0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.ordersinfocontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: flex-start;
+  text-align: left;
+  gap: 120px;
 }

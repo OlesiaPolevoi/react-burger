@@ -5,26 +5,26 @@ import {
   useMemo,
   useRef,
   Dispatch,
-} from 'react';
-import burgerConstructor from './burger-constructor.module.css';
+} from "react";
+import burgerConstructor from "./burger-constructor.module.css";
 import {
   ConstructorElement,
   DragIcon,
   Button,
   CurrencyIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { Modal } from '../modal/modal';
-import { OrderDetails } from '../orderDetails/order-details';
-import { useSelector, useDispatch } from 'react-redux';
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Modal } from "../modal/modal";
+import { OrderDetails } from "../orderDetails/order-details";
+import { useSelector, useDispatch } from "react-redux";
 import {
   submitOrderAndGetId,
   clearOrderNumber,
-} from '../../services/actions/submit-order';
-import { useDrag, useDrop, XYCoord } from 'react-dnd';
-import { ConstructorActions, IngredientActions } from '../../types/index';
-import { useHistory } from 'react-router-dom';
-import uuid from 'react-uuid';
-import { TIngredientInfo, TCombinedReducer } from '../../types';
+} from "../../services/actions/submit-order";
+import { useDrag, useDrop, XYCoord } from "react-dnd";
+import { ConstructorActions, IngredientActions } from "../../types/index";
+import { useHistory } from "react-router-dom";
+import uuid from "react-uuid";
+import { TIngredientInfo, TCombinedReducer } from "../../types";
 
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -37,7 +37,7 @@ export function BurgerConstructor() {
   const userInfo = useSelector(
     (store: TCombinedReducer) => store.userDataReducer
   );
-  const isUserAuthorized = userInfo.name !== '';
+  const isUserAuthorized = userInfo.name !== "";
   const history = useHistory();
 
   const dispatch: Dispatch<any> = useDispatch();
@@ -45,7 +45,7 @@ export function BurgerConstructor() {
   const outerBun = useMemo(
     () =>
       ingredients.find((el) => {
-        return el?.type === 'bun';
+        return el?.type === "bun";
       }),
     [ingredients]
   ) as TIngredientInfo;
@@ -53,7 +53,7 @@ export function BurgerConstructor() {
   const ingredientsArray = useMemo(
     () =>
       ingredients.filter((el) => {
-        return el?.type !== 'bun';
+        return el?.type !== "bun";
       }),
     [ingredients]
   );
@@ -61,13 +61,13 @@ export function BurgerConstructor() {
   const submitOrder = (ingredientsArray: TIngredientInfo[]) => {
     if (isUserAuthorized) {
       const ingredientTypes = ingredientsArray.map((el) => el.type);
-      const bunIsPresent = ingredientTypes.some((el) => el === 'bun');
-      const mainIsPresent = ingredientTypes.some((el) => el === 'main');
-      const sauceIsPresent = ingredientTypes.some((el) => el === 'sauce');
+      const bunIsPresent = ingredientTypes.some((el) => el === "bun");
+      const mainIsPresent = ingredientTypes.some((el) => el === "main");
+      const sauceIsPresent = ingredientTypes.some((el) => el === "sauce");
 
       const ingredientsArrayCopy = [...ingredientsArray];
       const bunIngredient = ingredientsArrayCopy.find(
-        (el) => el.type === 'bun'
+        (el) => el.type === "bun"
       );
       if (bunIngredient) {
         ingredientsArrayCopy.push(bunIngredient);
@@ -85,7 +85,7 @@ export function BurgerConstructor() {
       }
     }
     if (!isUserAuthorized) {
-      history.push({ pathname: '/login' });
+      history.push({ pathname: "/login" });
     }
   };
 
@@ -105,12 +105,12 @@ export function BurgerConstructor() {
       <div className={burgerConstructor.total}>
         <div className={burgerConstructor.ammount}>
           <div className={burgerConstructor.price}>{totalPrice}</div>
-          <CurrencyIcon type='primary' />
+          <CurrencyIcon type="primary" />
         </div>
         <Button
-          type='primary'
-          size='medium'
-          htmlType='button'
+          type="primary"
+          size="medium"
+          htmlType="button"
           onClick={() => {
             submitOrder(ingredients);
           }}
@@ -120,7 +120,7 @@ export function BurgerConstructor() {
       </div>
 
       {modalIsOpen && (
-        <Modal onClose={handleModalClose} title={''}>
+        <Modal onClose={handleModalClose} title={""}>
           <OrderDetails />
         </Modal>
       )}
@@ -160,7 +160,7 @@ function ConstructorIngredient({
   );
 
   const [{ isHover }, dropTarget] = useDrop({
-    accept: 'ingredient',
+    accept: "ingredient",
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
@@ -195,11 +195,11 @@ function ConstructorIngredient({
       {outerBun && (
         <div className={burgerConstructor.margin}>
           <ConstructorElement
-            type='top'
+            type="top"
             isLocked={true}
-            text={`${outerBun?.name ?? ''} (верх)`}
+            text={`${outerBun?.name ?? ""} (верх)`}
             price={outerBun?.price ?? 0}
-            thumbnail={outerBun?.image ?? ''}
+            thumbnail={outerBun?.image ?? ""}
           />
         </div>
       )}
@@ -216,7 +216,7 @@ function ConstructorIngredient({
       {outerBun && (
         <div className={burgerConstructor.margin}>
           <ConstructorElement
-            type='bottom'
+            type="bottom"
             isLocked={true}
             text={`${outerBun?.name} (низ)`}
             price={outerBun?.price}
@@ -235,7 +235,7 @@ const InnerIngredient = ({ index, el }: TInnerIngredient) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
   const [{ isDrag }, drag] = useDrag({
-    type: 'newType',
+    type: "newType",
     item: { id: el?.uuid },
     collect: (monitor) => ({
       isDrag: monitor.isDragging(),
@@ -243,7 +243,7 @@ const InnerIngredient = ({ index, el }: TInnerIngredient) => {
   });
 
   const [{ handlerId }, drop] = useDrop({
-    accept: 'newType',
+    accept: "newType",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -305,7 +305,7 @@ const InnerIngredient = ({ index, el }: TInnerIngredient) => {
 
   return (
     <div ref={ref} className={burgerConstructor.container}>
-      <DragIcon type='primary' />
+      <DragIcon type="primary" />
       <ConstructorElement
         text={el?.name}
         price={el?.price}
