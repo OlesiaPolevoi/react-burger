@@ -112,7 +112,7 @@ export function App() {
               <IngredientDetails />
             </Route>
 
-            <Route path='/current-orders' exact>
+            <Route path='/feed' exact>
               <CurrentOrders />
             </Route>
 
@@ -134,3 +134,4 @@ export function App() {
     </div>
   );
 }
+
