@@ -1,27 +1,28 @@
-import React, { useState, useEffect, Dispatch } from 'react';
-import profile from './profile.module.css';
-import { Link, useRouteMatch } from 'react-router-dom';
+import React, { useState, useEffect, Dispatch } from "react";
+import profile from "./profile.module.css";
+import { Link, useRouteMatch } from "react-router-dom";
 import {
   EmailInput,
   PasswordInput,
   Button,
   Input,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector, useDispatch } from 'react-redux';
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useSelector, useDispatch } from "react-redux";
 import {
   profileInfoRequest,
   profileInfoUpdate,
   userExitRequest,
-} from '../../services/actions/profile-data';
-import { getRefreshToken } from '../../utils/local-storage';
-import { TCombinedReducer } from '../../types';
+} from "../../services/actions/profile-data";
+import { getRefreshToken } from "../../utils/local-storage";
+import { TCombinedReducer } from "../../types";
 
 export function Profile() {
   const refreshToken = getRefreshToken() as string;
 
-  const isProfile = !!useRouteMatch({ path: '/profile', exact: true });
-  const isOrderHistory = !!useRouteMatch('/profile/orders');
-  const isExit = !!useRouteMatch('/profile/exit');
+  const isProfile = !!useRouteMatch({ path: "/profile", exact: true });
+  const isOrderHistory = !!useRouteMatch("/profile/orders");
+  const isExit = !!useRouteMatch("/profile/exit");
   const userInfo = useSelector(
     (store: TCombinedReducer) => store.userDataReducer
   );
@@ -29,7 +30,7 @@ export function Profile() {
   const [userData, setUserData] = useState({
     name: `${userInfo.name}`,
     email: `${userInfo.email}`,
-    password: '',
+    password: "",
   });
   const dispatch: Dispatch<any> = useDispatch();
 
@@ -42,7 +43,7 @@ export function Profile() {
       setUserData({
         name: userInfo.name,
         email: userInfo.email,
-        password: '',
+        password: "",
       });
     }
   }, [userInfo]);
@@ -67,7 +68,7 @@ export function Profile() {
     setUserData({
       name: `${userInfo.name}`,
       email: `${userInfo.email}`,
-      password: '',
+      password: "",
     });
   };
 
@@ -79,19 +80,19 @@ export function Profile() {
       <div>
         <div className={profile.tabs}>
           <Link
-            to='/profile'
+            to="/profile"
             className={isProfile ? profile.tab : profile.tabInactive}
           >
             Профиль
           </Link>
           <Link
-            to='/profile/orders'
+            to="/profile/orders"
             className={isOrderHistory ? profile.tab : profile.tabInactive}
           >
             История заказов
           </Link>
           <Link
-            to='/profile/exit'
+            to="/profile/exit"
             className={isExit ? profile.tab : profile.tabInactive}
             onClick={() => {
               userLogout(refreshToken);
@@ -105,52 +106,101 @@ export function Profile() {
         </p>
       </div>
 
-      <form className={profile.container} onSubmit={submitProfileChanges}>
-        <Input
-          type={'text'}
-          placeholder={'Имя'}
-          onChange={onChange}
-          value={userData.name}
-          name={'name'}
-          error={false}
-          errorText={'Ошибка'}
-          size={'default'}
-          icon={'EditIcon'}
-          onIconClick={onIconClick}
-          ref={inputRef}
-        />
+      {isProfile && (
+        <form className={profile.container} onSubmit={submitProfileChanges}>
+          <Input
+            type={"text"}
+            placeholder={"Имя"}
+            onChange={onChange}
+            value={userData.name}
+            name={"name"}
+            error={false}
+            errorText={"Ошибка"}
+            size={"default"}
+            icon={"EditIcon"}
+            onIconClick={onIconClick}
+            ref={inputRef}
+          />
 
-        <EmailInput
-          onChange={onChange}
-          value={userData.email}
-          name={'email'}
-          placeholder='Логин'
-          isIcon={true}
-        />
+          <EmailInput
+            onChange={onChange}
+            value={userData.email}
+            name={"email"}
+            placeholder="Логин"
+            isIcon={true}
+          />
 
-        <PasswordInput
-          onChange={onChange}
-          value={userData.password}
-          name={'password'}
-          icon='EditIcon'
-        />
+          <PasswordInput
+            onChange={onChange}
+            value={userData.password}
+            name={"password"}
+            icon="EditIcon"
+          />
 
-        <div className={profile.buttons}>
-          <Button
-            htmlType='button'
-            type='secondary'
-            size='medium'
-            onClick={() => {
-              toPreviousInput();
-            }}
-          >
-            Отмена
-          </Button>
-          <button className={profile.button} type='submit'>
-            Сохранить
-          </button>
+          <div className={profile.buttons}>
+            <Button
+              htmlType="button"
+              type="secondary"
+              size="medium"
+              onClick={() => {
+                toPreviousInput();
+              }}
+            >
+              Отмена
+            </Button>
+            <button className={profile.button} type="submit">
+              Сохранить
+            </button>
+          </div>
+        </form>
+      )}
+
+      {isOrderHistory && (
+        <div className={profile.orderswrapper}>
+          <ProfileOrder />
+          <ProfileOrder />
+          <ProfileOrder />
+          <ProfileOrder />
+          <ProfileOrder />
         </div>
-      </form>
+      )}
+    </div>
+  );
+}
+
+export function ProfileOrder() {
+  return (
+    <div className={profile.ordercontainer}>
+      <div className={profile.ordernumbercontainer}>
+        <div className={profile.ordernumber}>#123456</div>
+        <div>Сегодня, 16:20 i-GMT+3</div>
+      </div>
+
+      <div className={profile.burgertitle}>Death Star Starship Main бургер</div>
+      <div className={profile.status}>Создан</div>
+      <div className={profile.imgpricecontainer}>
+        <div>
+          <img
+            className={profile.imgicon}
+            src="https://code.s3.yandex.net/react/code/bun-02.png"
+            alt="some description"
+          />
+          <img
+            className={profile.imgicon}
+            src="https://code.s3.yandex.net/react/code/sauce-04.png"
+            alt="some description"
+          />
+          <img
+            className={profile.imgicon}
+            src="https://code.s3.yandex.net/react/code/meat-01.png"
+            alt="some description"
+          />
+        </div>
+        <div className={profile.pricecontainer}>
+          <div className={profile.price}>123</div>
+          <CurrencyIcon type="primary" />
+        </div>
+      </div>
     </div>
   );
 }

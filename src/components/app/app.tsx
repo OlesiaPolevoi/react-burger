@@ -1,14 +1,14 @@
-import { useEffect, useCallback, useState, Dispatch } from 'react';
-import styles from './app.module.css';
-import { AppHeader } from '../appHeader/app-header';
-import { BurgerIngredients } from '../burgerIngredients/burger-ingredients';
-import { BurgerConstructor } from '../burgerConstructor/burger-constructor';
-import { useDispatch } from 'react-redux';
-import { getIngredientsFunc } from '../../services/actions/fetch-ingredients';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
-import { ProtectedRoute } from '../../pages/protected-route';
+import { useEffect, useCallback, useState, Dispatch } from "react";
+import styles from "./app.module.css";
+import { AppHeader } from "../appHeader/app-header";
+import { BurgerIngredients } from "../burgerIngredients/burger-ingredients";
+import { BurgerConstructor } from "../burgerConstructor/burger-constructor";
+import { useDispatch } from "react-redux";
+import { getIngredientsFunc } from "../../services/actions/fetch-ingredients";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
+import { ProtectedRoute } from "../../pages/protected-route";
 import {
   Profile,
   CurrentOrders,
@@ -16,19 +16,20 @@ import {
   Register,
   ForgotPassword,
   ResetPassword,
-} from '../../pages';
-import { IngredientDetails } from '../ingredientDetails/ingredient-details';
-import { Modal } from '../modal/modal';
-import { clearIngredientInfo } from '../../services/actions/ingredient-details';
-import { getAccessToken, getRefreshToken } from '../../utils/local-storage';
+} from "../../pages";
+import { IngredientDetails } from "../ingredientDetails/ingredient-details";
+import { Modal } from "../modal/modal";
+import { clearIngredientInfo } from "../../services/actions/ingredient-details";
+import { getAccessToken, getRefreshToken } from "../../utils/local-storage";
 import {
   profileInfoRequest,
   addTokenToUserState,
   tokenRefreshRequest,
-} from '../../services/actions/profile-data';
-import { isTokenExpired } from '../../utils/jwt-token';
-import { TRefreshToken } from '../../types/index';
-
+} from "../../services/actions/profile-data";
+import { isTokenExpired } from "../../utils/jwt-token";
+import { TRefreshToken } from "../../types/index";
+import { CurrentOrdersDetails } from "../../pages/currentOrdersDetails/current-orders-details";
+import { ProfileOrdersDetails } from "../../pages/profileOrdersDetails/profile-orders-details";
 interface LocationWithState<T> extends Location {
   state: T;
 }
@@ -83,47 +84,59 @@ export function App() {
         <DndProvider backend={HTML5Backend}>
           {/* @ts-ignore */}
           <Switch location={background || location}>
-            <Route path='/' exact>
+            <Route path="/" exact>
               <BurgerIngredients />
               <BurgerConstructor />
             </Route>
 
-            <ProtectedRoute onlyForAuth={true} path='/profile' exact>
+            <ProtectedRoute onlyForAuth={true} path="/profile" exact>
               <Profile />
             </ProtectedRoute>
+            <ProtectedRoute onlyForAuth={true} path="/profile/orders" exact>
+              <Profile />
+            </ProtectedRoute>
+            <ProtectedRoute onlyForAuth={true} path="/profile/orders/id" exact>
+              {/* <Route path="/profile/orders/:_id" exact> */}
+              <ProfileOrdersDetails />
+              {/* <Profile /> */}
+            </ProtectedRoute>
 
-            <ProtectedRoute onlyForAuth={false} path='/login' exact>
+            <ProtectedRoute onlyForAuth={false} path="/login" exact>
               <Login />
             </ProtectedRoute>
 
-            <ProtectedRoute onlyForAuth={false} path='/register' exact>
+            <ProtectedRoute onlyForAuth={false} path="/register" exact>
               <Register />
             </ProtectedRoute>
 
-            <ProtectedRoute onlyForAuth={false} path='/forgot-password' exact>
+            <ProtectedRoute onlyForAuth={false} path="/forgot-password" exact>
               <ForgotPassword />
             </ProtectedRoute>
 
-            <ProtectedRoute onlyForAuth={false} path='/reset-password' exact>
+            <ProtectedRoute onlyForAuth={false} path="/reset-password" exact>
               <ResetPassword />
             </ProtectedRoute>
 
-            <Route path='/ingredients/:_id' exact>
+            <Route path="/ingredients/:_id" exact>
               <IngredientDetails />
             </Route>
 
-            <Route path='/feed' exact>
+            <Route path="/feed" exact>
               <CurrentOrders />
+            </Route>
+            <Route path="/feed/id" exact>
+              {/* <Route path="/feed/:_id" exact> */}
+              <CurrentOrdersDetails />
             </Route>
 
             <Route>Страница не найдена</Route>
           </Switch>
           {background && (
             <Route
-              path='/ingredients/:_id'
+              path="/ingredients/:_id"
               exact
               children={
-                <Modal onClose={handleModalClose} title='Детали ингредиента'>
+                <Modal onClose={handleModalClose} title="Детали ингредиента">
                   <IngredientDetails />
                 </Modal>
               }
@@ -134,4 +147,3 @@ export function App() {
     </div>
   );
 }
-
