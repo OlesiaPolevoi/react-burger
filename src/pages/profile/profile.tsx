@@ -17,83 +17,25 @@ import {
 import { getRefreshToken } from "../../utils/local-storage";
 import { TCombinedReducer } from "../../types";
 
-// export const ordersData: any = [
-//   {
-//     _id: "63bf2d1008634b001c9b6674",
-//     ingredients: [
-//       "60d3b41abdacab0026a733c7",
-//       "60d3b41abdacab0026a733cd",
-//       "60d3b41abdacab0026a733cc",
-//       "60d3b41abdacab0026a733cf",
-//       "60d3b41abdacab0026a733c7",
-//     ],
-//     status: "done",
-//     name: "Space spicy флюоресцентный антарианский бургер",
-//     createdAt: "2023-01-11T21:41:36.099Z",
-//     updatedAt: "2023-01-11T21:41:36.506Z",
-//     number: 36805,
-//   },
-//   {
-//     _id: "63bf2c2608634b001c9b6670",
-//     ingredients: [
-//       "60d3b41abdacab0026a733c7",
-//       "60d3b41abdacab0026a733cd",
-//       "60d3b41abdacab0026a733cb",
-//       "60d3b41abdacab0026a733d1",
-//       "60d3b41abdacab0026a733d0",
-//       "60d3b41abdacab0026a733d4",
-//       "60d3b41abdacab0026a733c7",
-//     ],
-//     status: "done",
-//     name: "Фалленианский флюоресцентный минеральный астероидный space био-марсианский бургер",
-//     createdAt: "2023-01-11T21:37:42.788Z",
-//     updatedAt: "2023-01-11T21:37:43.215Z",
-//     number: 36804,
-//   },
-//   {
-//     _id: "63bf26a908634b001c9b665b",
-//     ingredients: [
-//       "60d3b41abdacab0026a733c6",
-//       "60d3b41abdacab0026a733cc",
-//       "60d3b41abdacab0026a733c6",
-//     ],
-//     status: "done",
-//     name: "Spicy краторный бургер",
-//     createdAt: "2023-01-11T21:14:17.463Z",
-//     updatedAt: "2023-01-11T21:14:17.941Z",
-//     number: 36803,
-//   },
-//   {
-//     _id: "63bf20fa08634b001c9b662f",
-//     ingredients: [
-//       "60d3b41abdacab0026a733c7",
-//       "60d3b41abdacab0026a733cd",
-//       "60d3b41abdacab0026a733c7",
-//     ],
-//     status: "done",
-//     name: "Space флюоресцентный бургер",
-//     createdAt: "2023-01-11T20:50:02.820Z",
-//     updatedAt: "2023-01-11T20:50:03.249Z",
-//     number: 36802,
-//   },
-// ];
-
 export const ordersData: any = {
   success: true,
   orders: [
     {
-      ingredients: ["60d3463f7034a000269f45e9", "60d3463f7034a000269f45e7"],
-      _id: "",
+      ingredients: ["60d3b41abdacab0026a733c6", "60d3b41abdacab0026a733ca"],
+      _id: "63c18e3b936b17001be4dae9",
       status: "done",
       number: 1,
+      name: "Space spicy флюоресцентный антарианский бургер",
       createdAt: "2021-06-23T20:11:01.403Z",
       updatedAt: "2021-06-23T20:11:01.406Z",
     },
     {
-      ingredients: ["60d3463f7034a000269f45e9"],
-      _id: "",
+      ingredients: ["60d3b41abdacab0026a733ca", "60d3b41abdacab0026a733c7"],
+      _id: "63c18e3b936b17001be4dae0",
       status: "done",
       number: 3,
+      name: "Spicy краторный бургер",
+
       createdAt: "2021-06-23T20:13:23.654Z",
       updatedAt: "2021-06-23T20:13:23.657Z",
     },
@@ -160,6 +102,7 @@ export function Profile() {
   const userLogout = (refreshToken: string) => {
     dispatch(userExitRequest(refreshToken));
   };
+
   return (
     <div className={profile.wrapper}>
       <div>
@@ -190,7 +133,6 @@ export function Profile() {
           В этом разделе вы можете изменить свои персональные данные
         </p>
       </div>
-
       {isProfile && (
         <form className={profile.container} onSubmit={submitProfileChanges}>
           <Input
@@ -239,50 +181,76 @@ export function Profile() {
           </div>
         </form>
       )}
-
       {isOrderHistory && (
         <div className={profile.orderswrapper}>
-          <ProfileOrder />
-          <ProfileOrder />
-          <ProfileOrder />
-          <ProfileOrder />
-          <ProfileOrder />
+          {ordersData.orders.map((order: any) => {
+            return (
+              <Link
+                className={profile.details}
+                key={order._id}
+                to={{
+                  pathname: `/profile/orders/${order._id}`,
+                }}
+              >
+                {/* @ts-ignore */}
+                <ProfileOrder order={order} id={order._id} />
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>
   );
 }
 
-export function ProfileOrder() {
+export function ProfileOrder({ order }: { order: any }) {
+  const ingredientsStore = useSelector(
+    (store: TCombinedReducer) => store.ingredientsReducer
+  );
+  const ingredientsArray = ingredientsStore.items;
+  const orderArray = ingredientsArray.filter((el) => {
+    return order.ingredients.includes(el._id);
+  });
+
+  const calculateSum = () => {
+    let sum = 0;
+    if (orderArray.length > 0) {
+      sum = orderArray.reduce((a, b) => {
+        return a + b.price;
+      }, 0);
+    }
+    const bun = orderArray.find((el) => {
+      return el.type === "bun";
+    });
+    const bunPrice = bun?.price ?? 0;
+    return bunPrice + sum;
+  };
+
   return (
     <div className={profile.ordercontainer}>
       <div className={profile.ordernumbercontainer}>
-        <div className={profile.ordernumber}>#123456</div>
-        <div>Сегодня, 16:20 i-GMT+3</div>
+        <div className={profile.ordernumber}>#{order.number}</div>
+        <div>{order.createdAt}</div>
       </div>
 
-      <div className={profile.burgertitle}>Death Star Starship Main бургер</div>
+      <div className={profile.burgertitle}>{order.name}</div>
       <div className={profile.status}>Создан</div>
       <div className={profile.imgpricecontainer}>
         <div>
-          <img
-            className={profile.imgicon}
-            src="https://code.s3.yandex.net/react/code/bun-02.png"
-            alt="some description"
-          />
-          <img
-            className={profile.imgicon}
-            src="https://code.s3.yandex.net/react/code/sauce-04.png"
-            alt="some description"
-          />
-          <img
-            className={profile.imgicon}
-            src="https://code.s3.yandex.net/react/code/meat-01.png"
-            alt="some description"
-          />
+          {/* @ts-ignore */}
+          {orderArray.map((el, i) => {
+            return (
+              <img
+                className={profile.imgicon}
+                src={el.image}
+                alt={el.name}
+                key={i}
+              />
+            );
+          })}
         </div>
         <div className={profile.pricecontainer}>
-          <div className={profile.price}>123</div>
+          <div className={profile.price}>{calculateSum()}</div>
           <CurrencyIcon type="primary" />
         </div>
       </div>
