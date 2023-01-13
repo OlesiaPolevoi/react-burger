@@ -95,10 +95,12 @@ export function App() {
             <ProtectedRoute onlyForAuth={true} path="/profile/orders" exact>
               <Profile />
             </ProtectedRoute>
-            <ProtectedRoute onlyForAuth={true} path="/profile/orders/id" exact>
-              {/* <Route path="/profile/orders/:_id" exact> */}
+            <ProtectedRoute
+              onlyForAuth={true}
+              path="/profile/orders/:_id"
+              exact
+            >
               <ProfileOrdersDetails />
-              {/* <Profile /> */}
             </ProtectedRoute>
 
             <ProtectedRoute onlyForAuth={false} path="/login" exact>
@@ -124,10 +126,16 @@ export function App() {
             <Route path="/feed" exact>
               <CurrentOrders />
             </Route>
-            <Route path="/feed/id" exact>
-              {/* <Route path="/feed/:_id" exact> */}
-              <CurrentOrdersDetails />
-            </Route>
+
+            <Route
+              path="/feed/:_id"
+              exact
+              children={
+                <Modal onClose={handleModalClose} title="">
+                  <CurrentOrdersDetails />
+                </Modal>
+              }
+            />
 
             <Route>Страница не найдена</Route>
           </Switch>
