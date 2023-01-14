@@ -30,7 +30,15 @@ export const ordersData: any = {
       updatedAt: "2021-06-23T20:11:01.406Z",
     },
     {
-      ingredients: ["60d3b41abdacab0026a733ca", "60d3b41abdacab0026a733c7"],
+      ingredients: [
+        "60d3b41abdacab0026a733ca",
+        "60d3b41abdacab0026a733c7",
+        "60d3b41abdacab0026a733ca",
+        "60d3b41abdacab0026a733c7",
+        "60d3b41abdacab0026a733ca",
+        "60d3b41abdacab0026a733c7",
+        "60d3b41abdacab0026a733c6",
+      ],
       _id: "63c18e3b936b17001be4dae0",
       status: "done",
       number: 3,

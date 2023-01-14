@@ -1,5 +1,8 @@
 import React from "react";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  CurrencyIcon,
+  // FormattedDate,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import currentOrders from "./current-orders.module.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -70,6 +73,11 @@ export const ordersData: any = {
   totalToday: 57,
 };
 export function CurrentOrders() {
+  // const getDate = (dateFromServer: string) => {
+  //   // const dateFromServer = "2022-10-10T17:33:32.877Z";
+  //   return <FormattedDate date={new Date(dateFromServer)} />;
+  // };
+  // getDate(ordersData.orders[0].createdAt);
   return (
     <div className={currentOrders.mainwrapper}>
       <h2 className={currentOrders.title}> Лента заказов </h2>

@@ -95,13 +95,25 @@ export function App() {
             <ProtectedRoute onlyForAuth={true} path="/profile/orders" exact>
               <Profile />
             </ProtectedRoute>
-            <ProtectedRoute
+
+            {/* <ProtectedRoute
               onlyForAuth={true}
               path="/profile/orders/:_id"
               exact
             >
               <ProfileOrdersDetails />
-            </ProtectedRoute>
+            </ProtectedRoute> */}
+
+            <ProtectedRoute
+              onlyForAuth={true}
+              path="/profile/orders/:_id"
+              exact
+              children={
+                <Modal onClose={handleModalClose} title="">
+                  <ProfileOrdersDetails />
+                </Modal>
+              }
+            />
 
             <ProtectedRoute onlyForAuth={false} path="/login" exact>
               <Login />

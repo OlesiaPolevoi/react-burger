@@ -1,8 +1,11 @@
 .wrapper {
   display: flex;
   flex-direction: row;
+  width: 100%;
+
   /* justify-content: space-between; */
-  align-items: center;
+  /* align-items: center; */
+  align-items: start;
   gap: 50px;
   font-weight: 700;
   font-size: 24px;
@@ -19,7 +22,7 @@
   gap: 24px;
   margin-bottom: 80px;
   font-family: "JetBrains Mono";
-  margin-top: 150px;
+  margin-top: 50px;
 }
 
 .info {
@@ -104,13 +107,13 @@
   flex-direction: column;
   justify-content: space-around;
   gap: 24px;
-  width: 844px;
   height: 246px;
   background: #1c1c21;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06),
     0px 0px 1px rgba(0, 0, 0, 0.04);
   border-radius: 40px;
   margin-right: 10px;
+  width: 750px;
 }
 
 .ordernumbercontainer {
@@ -184,12 +187,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   gap: 20px;
   height: 758px;
   overflow-y: scroll;
   overflow-x: hidden;
-  padding-top: 70px;
+  /* padding-top: 70px; */
 }
 
 .details {
