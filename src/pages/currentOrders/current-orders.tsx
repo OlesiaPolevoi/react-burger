@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   CurrencyIcon,
-  // FormattedDate,
+  FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import currentOrders from "./current-orders.module.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TCombinedReducer } from "../../types";
 
+import { useDispatch } from "react-redux";
+import io from "socket.io-client";
+import { store } from "../../services/store";
 export const ordersData: any = {
   orders: [
     {
@@ -73,6 +76,36 @@ export const ordersData: any = {
   totalToday: 57,
 };
 export function CurrentOrders() {
+  const socketUrl = "wss://norma.nomoreparties.space/orders/all";
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const socket = new WebSocket(socketUrl);
+    // console.log("socket", socket);
+    socket.onopen = (event) => {
+      console.log("Connected ws");
+      dispatch({ type: "CONNECT", payload: socket });
+    };
+
+    socket.onmessage = function (event) {
+      const json = JSON.parse(event.data);
+      console.log(json.orders);
+    };
+
+    // socket.on("data", (data: any) => {
+    //   dispatch({ type: "UPDATE_DATA", payload: data });
+    // });
+
+    return () => {
+      dispatch({ type: "DISCONNECT" });
+      socket.close();
+    };
+  }, [socketUrl, dispatch]);
+
+  const myData = useSelector((store: any) => store.reducerWS);
+
+  // console.log("myData", myData);
+
   // const getDate = (dateFromServer: string) => {
   //   // const dateFromServer = "2022-10-10T17:33:32.877Z";
   //   return <FormattedDate date={new Date(dateFromServer)} />;
