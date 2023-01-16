@@ -1,14 +1,19 @@
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  CurrencyIcon,
+  FormattedDate,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import currentOrdersDetails from "./current-orders-details.module.css";
-import { ordersData } from "../currentOrders/current-orders";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TCombinedReducer } from "../../types";
 
 export function CurrentOrdersDetails() {
+  const ordersData1 = useSelector((store: any) => store.reducerWS);
+  const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
   const { _id } = useParams() as { _id: string };
+
   // @ts-ignore
-  const orderViewing = ordersData.orders.find((el) => {
+  const orderViewing = arr.find((el) => {
     return el._id === _id;
   });
 
@@ -16,10 +21,10 @@ export function CurrentOrdersDetails() {
     (store: TCombinedReducer) => store.ingredientsReducer
   );
   const ingredientsArray = ingredientsStore.items;
+
   const orderArray = ingredientsArray.filter((el) => {
     return orderViewing.ingredients.includes(el._id);
   });
-  // console.log("orderArray", orderArray);
 
   const calculateSum = () => {
     let sum = 0;
@@ -34,6 +39,11 @@ export function CurrentOrdersDetails() {
     const bunPrice = bun?.price ?? 0;
     return bunPrice + sum;
   };
+
+  const formatDate = (dateFromServer: string) => {
+    return <FormattedDate date={new Date(dateFromServer)} />;
+  };
+
   return (
     <div className={currentOrdersDetails.orderwrapper}>
       <div className={currentOrdersDetails.ordernumber}>
@@ -79,7 +89,7 @@ export function CurrentOrdersDetails() {
       })}
 
       <div className={currentOrdersDetails.footer}>
-        <div>{orderViewing.createdAt}</div>
+        <div className={currentOrdersDetails.date}>{formatDate(orderViewing.createdAt)}</div>
 
         <div className={currentOrdersDetails.price}>
           <div className={currentOrdersDetails.ingredientprice}>

@@ -20,6 +20,8 @@ export function reducerWS(state = initialState, action: any) {
       return { ...state, socket: null };
     case "UPDATE_DATA":
       // console.log("HERE WE ARE!");
+      // console.log(action.payload);
+
       return { ...state, data: action.payload };
     default:
       return state;
