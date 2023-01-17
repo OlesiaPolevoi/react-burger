@@ -16,6 +16,7 @@ import {
 } from "../../services/actions/profile-data";
 import { getRefreshToken } from "../../utils/local-storage";
 import { TCombinedReducer } from "../../types";
+import { getAccessToken } from "../../utils/local-storage";
 
 export const ordersData: any = {
   success: true,
@@ -82,6 +83,36 @@ export function Profile() {
       });
     }
   }, [userInfo]);
+
+  //////////////// Add request HERE !
+  const accessToken = getAccessToken();
+  const socketUrl = `wss://norma.nomoreparties.space/orders/?token=${accessToken}`;
+
+  useEffect(() => {
+    const socket = new WebSocket(socketUrl);
+
+    socket.onopen = (event) => {
+      dispatch({ type: "CONNECT", payload: socket });
+      console.log("CONNECT");
+    };
+
+    socket.onmessage = function (event) {
+      console.log("*****-event", event);
+
+      const json = JSON.parse(event.data);
+      console.log("--------json", json);
+
+      dispatch({ type: "UPDATE_DATA", payload: json });
+      console.log("UPDATE_DATA");
+    };
+
+    return () => {
+      dispatch({ type: "DISCONNECT" });
+      socket.close();
+    };
+  }, [socketUrl, dispatch]);
+
+  /////////////////////////
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

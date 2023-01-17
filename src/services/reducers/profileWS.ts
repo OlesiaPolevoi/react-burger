@@ -5,12 +5,12 @@ interface IStateWS {
   data: any;
 }
 
-const initialState: IStateWS = {
+const profileInitialState: IStateWS = {
   socket: null,
   data: {},
 };
 
-export function reducerWS(state = initialState, action: any) {
+export function profileReducerWS(state = profileInitialState, action: any) {
   switch (action.type) {
     case "CONNECT":
       return { ...state, socket: action.payload };
