@@ -85,17 +85,23 @@ export function CurrentOrders() {
 
     socket.onopen = (event) => {
       dispatch({ type: "CONNECT", payload: socket });
+      // console.log("Connect");
     };
 
     socket.onmessage = function (event) {
-      const json = JSON.parse(event.data);
+      // console.log("event", event);
 
+      const json = JSON.parse(event.data);
       dispatch({ type: "UPDATE_DATA", payload: json });
+      // console.log("Update");
     };
 
     return () => {
-      dispatch({ type: "DISCONNECT" });
-      socket.close();
+      if (socket.readyState === 1) {
+        dispatch({ type: "DISCONNECT" });
+        socket.close();
+        // console.log("DisConnect");
+      }
     };
   }, [socketUrl, dispatch]);
 

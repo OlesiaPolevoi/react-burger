@@ -25,7 +25,7 @@ import { ConstructorActions, IngredientActions } from "../../types/index";
 import { useHistory } from "react-router-dom";
 import uuid from "react-uuid";
 import { TIngredientInfo, TCombinedReducer } from "../../types";
-
+import { getAccessToken } from "../../utils/local-storage";
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -72,6 +72,7 @@ export function BurgerConstructor() {
       if (bunIngredient) {
         ingredientsArrayCopy.push(bunIngredient);
       }
+      const authToken = getAccessToken();
 
       if (bunIsPresent && (mainIsPresent || sauceIsPresent)) {
         dispatch(
@@ -79,7 +80,9 @@ export function BurgerConstructor() {
             ingredientsArrayCopy,
             () => setModalIsOpen(true),
             () => dispatch({ type: ConstructorActions.CONSTRUCTOR_CLEAR_ALL }),
-            () => dispatch({ type: IngredientActions.CLEAR_COUNTER })
+            () => dispatch({ type: IngredientActions.CLEAR_COUNTER }),
+            // @ts-ignore
+            authToken
           )
         );
       }

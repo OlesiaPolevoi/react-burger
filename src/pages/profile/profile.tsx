@@ -84,31 +84,38 @@ export function Profile() {
     }
   }, [userInfo]);
 
-  //////////////// Add request HERE !
+  ////////////////
+
   const accessToken = getAccessToken();
-  const socketUrl = `wss://norma.nomoreparties.space/orders/?token=${accessToken}`;
+  const socketUrl = `wss://norma.nomoreparties.space/orders?token=${accessToken}`;
 
   useEffect(() => {
     const socket = new WebSocket(socketUrl);
 
     socket.onopen = (event) => {
       dispatch({ type: "CONNECT", payload: socket });
-      console.log("CONNECT");
+      // console.log("CONNECT");
     };
+    console.log("socket", socket);
+    // console.log("socket.onmessage1", socket.onmessage);
 
     socket.onmessage = function (event) {
-      console.log("*****-event", event);
+      console.log("event", event);
 
       const json = JSON.parse(event.data);
-      console.log("--------json", json);
+      console.log("______json", json);
 
       dispatch({ type: "UPDATE_DATA", payload: json });
-      console.log("UPDATE_DATA");
+      // console.log("UPDATE_DATA");
     };
 
     return () => {
-      dispatch({ type: "DISCONNECT" });
-      socket.close();
+      if (socket.readyState === 1) {
+        // <-- This is important
+        dispatch({ type: "DISCONNECT" });
+        socket.close();
+        // console.log("DISCONNECT");
+      }
     };
   }, [socketUrl, dispatch]);
 
