@@ -10,6 +10,7 @@ import { TCombinedReducer } from "../../types";
 export function CurrentOrdersDetails() {
   const ordersData1 = useSelector((store: any) => store.reducerWS);
   const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
+
   const { _id } = useParams() as { _id: string };
 
   // @ts-ignore
@@ -22,8 +23,8 @@ export function CurrentOrdersDetails() {
   );
   const ingredientsArray = ingredientsStore.items;
 
-  const orderArray = ingredientsArray.filter((el) => {
-    return orderViewing.ingredients.includes(el._id);
+  const orderArray = ingredientsArray?.filter((el) => {
+    return orderViewing?.ingredients?.includes(el._id);
   });
 
   const calculateSum = () => {
@@ -47,15 +48,15 @@ export function CurrentOrdersDetails() {
   return (
     <div className={currentOrdersDetails.orderwrapper}>
       <div className={currentOrdersDetails.ordernumber}>
-        #{orderViewing.number}
+        #{orderViewing?.number}
       </div>
 
       <div className={currentOrdersDetails.burgertitle}>
-        {orderViewing.name}
+        {orderViewing?.name}
       </div>
 
       <div className={currentOrdersDetails.status}>
-        {orderViewing.status === "done" ? "Выполнен" : "Готовится"}
+        {orderViewing?.status === "done" ? "Выполнен" : "Готовится"}
       </div>
       <div className={currentOrdersDetails.ingredientstitle}>Состав:</div>
 
@@ -89,7 +90,9 @@ export function CurrentOrdersDetails() {
       })}
 
       <div className={currentOrdersDetails.footer}>
-        <div className={currentOrdersDetails.date}>{formatDate(orderViewing.createdAt)}</div>
+        <div className={currentOrdersDetails.date}>
+          {formatDate(orderViewing?.createdAt)}
+        </div>
 
         <div className={currentOrdersDetails.price}>
           <div className={currentOrdersDetails.ingredientprice}>

@@ -7,6 +7,7 @@ import {
   Button,
   Input,
   CurrencyIcon,
+  FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -17,45 +18,44 @@ import {
 import { getRefreshToken } from "../../utils/local-storage";
 import { TCombinedReducer } from "../../types";
 import { getAccessToken } from "../../utils/local-storage";
+import { WS_URL } from "../../utils/burger-api";
+// export const ordersData: any = {
+//   success: true,
+//   orders: [
+//     {
+//       ingredients: ["60d3b41abdacab0026a733c6", "60d3b41abdacab0026a733ca"],
+//       _id: "63c18e3b936b17001be4dae9",
+//       status: "done",
+//       number: 1,
+//       name: "Space spicy флюоресцентный антарианский бургер",
+//       createdAt: "2021-06-23T20:11:01.403Z",
+//       updatedAt: "2021-06-23T20:11:01.406Z",
+//     },
+//     {
+//       ingredients: [
+//         "60d3b41abdacab0026a733ca",
+//         "60d3b41abdacab0026a733c7",
+//         "60d3b41abdacab0026a733ca",
+//         "60d3b41abdacab0026a733c7",
+//         "60d3b41abdacab0026a733ca",
+//         "60d3b41abdacab0026a733c7",
+//         "60d3b41abdacab0026a733c6",
+//       ],
+//       _id: "63c18e3b936b17001be4dae0",
+//       status: "done",
+//       number: 3,
+//       name: "Spicy краторный бургер",
 
-export const ordersData: any = {
-  success: true,
-  orders: [
-    {
-      ingredients: ["60d3b41abdacab0026a733c6", "60d3b41abdacab0026a733ca"],
-      _id: "63c18e3b936b17001be4dae9",
-      status: "done",
-      number: 1,
-      name: "Space spicy флюоресцентный антарианский бургер",
-      createdAt: "2021-06-23T20:11:01.403Z",
-      updatedAt: "2021-06-23T20:11:01.406Z",
-    },
-    {
-      ingredients: [
-        "60d3b41abdacab0026a733ca",
-        "60d3b41abdacab0026a733c7",
-        "60d3b41abdacab0026a733ca",
-        "60d3b41abdacab0026a733c7",
-        "60d3b41abdacab0026a733ca",
-        "60d3b41abdacab0026a733c7",
-        "60d3b41abdacab0026a733c6",
-      ],
-      _id: "63c18e3b936b17001be4dae0",
-      status: "done",
-      number: 3,
-      name: "Spicy краторный бургер",
-
-      createdAt: "2021-06-23T20:13:23.654Z",
-      updatedAt: "2021-06-23T20:13:23.657Z",
-    },
-  ],
-  total: 2,
-  totalToday: 2,
-};
+//       createdAt: "2021-06-23T20:13:23.654Z",
+//       updatedAt: "2021-06-23T20:13:23.657Z",
+//     },
+//   ],
+//   total: 2,
+//   totalToday: 2,
+// };
 
 export function Profile() {
   const refreshToken = getRefreshToken() as string;
-
   const isProfile = !!useRouteMatch({ path: "/profile", exact: true });
   const isOrderHistory = !!useRouteMatch("/profile/orders");
   const isExit = !!useRouteMatch("/profile/exit");
@@ -69,7 +69,12 @@ export function Profile() {
     password: "",
   });
   const dispatch: Dispatch<any> = useDispatch();
+  /////
+  const ordersData1 = useSelector((store: any) => store.reducerWS);
+  const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
+  // console.log("arr", arr);
 
+  /////
   useEffect(() => {
     dispatch(profileInfoRequest());
   }, []);
@@ -86,35 +91,33 @@ export function Profile() {
 
   ////////////////
 
+  // import { WS_URL } from "../../utils/burger-api";
+
+  // export function CurrentOrders() {
+  //   //wss://norma.nomoreparties.space
+  //   const socketUrl = `${WS_URL}/orders/all`;
+
   const accessToken = getAccessToken();
-  const socketUrl = `wss://norma.nomoreparties.space/orders?token=${accessToken}`;
+  const socketUrl = `${WS_URL}/orders?token=${accessToken}`;
 
   useEffect(() => {
     const socket = new WebSocket(socketUrl);
 
     socket.onopen = (event) => {
-      dispatch({ type: "CONNECT", payload: socket });
-      // console.log("CONNECT");
+      dispatch({ type: "CONNECT" });
     };
-    console.log("socket", socket);
-    // console.log("socket.onmessage1", socket.onmessage);
 
     socket.onmessage = function (event) {
-      console.log("event", event);
-
       const json = JSON.parse(event.data);
-      console.log("______json", json);
+      // console.log(json);
 
       dispatch({ type: "UPDATE_DATA", payload: json });
-      // console.log("UPDATE_DATA");
     };
 
     return () => {
       if (socket.readyState === 1) {
-        // <-- This is important
         dispatch({ type: "DISCONNECT" });
         socket.close();
-        // console.log("DISCONNECT");
       }
     };
   }, [socketUrl, dispatch]);
@@ -229,7 +232,7 @@ export function Profile() {
       )}
       {isOrderHistory && (
         <div className={profile.orderswrapper}>
-          {ordersData.orders.map((order: any) => {
+          {arr.map((order: any) => {
             return (
               <Link
                 className={profile.details}
@@ -250,13 +253,21 @@ export function Profile() {
 }
 
 export function ProfileOrder({ order }: { order: any }) {
+  // console.log("order", order);
+
   const ingredientsStore = useSelector(
     (store: TCombinedReducer) => store.ingredientsReducer
   );
   const ingredientsArray = ingredientsStore.items;
-  const orderArray = ingredientsArray.filter((el) => {
+  let orderArray = ingredientsArray.filter((el) => {
     return order.ingredients.includes(el._id);
   });
+
+  const remainingIngredients = orderArray.length - 5;
+
+  if (orderArray.length > 5) {
+    orderArray = orderArray?.slice(0, 5);
+  }
 
   const calculateSum = () => {
     let sum = 0;
@@ -272,17 +283,37 @@ export function ProfileOrder({ order }: { order: any }) {
     return bunPrice + sum;
   };
 
+  const orderStatus = (status: string): string => {
+    if (status === "created") {
+      return "Создан";
+    }
+    if (status === "pending") {
+      return "Готовится";
+    }
+    if (status === "done") {
+      return "Выполнен";
+    }
+    return "";
+  };
+
+  const formatDate = (dateFromServer: string) => {
+    return <FormattedDate date={new Date(dateFromServer)} />;
+  };
+
+  const burgerTitle = order.name.split(" ").slice(0, 6).join(" ");
+
   return (
     <div className={profile.ordercontainer}>
       <div className={profile.ordernumbercontainer}>
         <div className={profile.ordernumber}>#{order.number}</div>
-        <div>{order.createdAt}</div>
+        <div>{formatDate(order.createdAt)}</div>
       </div>
 
-      <div className={profile.burgertitle}>{order.name}</div>
-      <div className={profile.status}>Создан</div>
+      <div className={profile.burgertitle}>{burgerTitle}</div>
+
+      <div className={profile.status}>{orderStatus(order.status)}</div>
       <div className={profile.imgpricecontainer}>
-        <div>
+        <div className={profile.imgswrapper}>
           {/* @ts-ignore */}
           {orderArray.map((el, i) => {
             return (
@@ -294,6 +325,9 @@ export function ProfileOrder({ order }: { order: any }) {
               />
             );
           })}
+          {remainingIngredients > 0 && (
+            <div>{` + ${remainingIngredients}`}</div>
+          )}
         </div>
         <div className={profile.pricecontainer}>
           <div className={profile.price}>{calculateSum()}</div>

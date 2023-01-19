@@ -1,15 +1,19 @@
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  CurrencyIcon,
+  FormattedDate,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import profileOrdersDetails from "./profile-orders-details.module.css";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TCombinedReducer } from "../../types";
-import { ordersData } from "../profile/profile";
+
 export function ProfileOrdersDetails() {
+  const ordersData1 = useSelector((store: any) => store.reducerWS);
+  const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
   const { _id } = useParams() as { _id: string };
-  console.log("_id", _id);
 
   // @ts-ignore
-  const orderViewing = ordersData.orders.find((el) => {
+  const orderViewing = arr.find((el) => {
     return el._id === _id;
   });
 
@@ -20,7 +24,6 @@ export function ProfileOrdersDetails() {
   const orderArray = ingredientsArray.filter((el) => {
     return orderViewing.ingredients.includes(el._id);
   });
-  // console.log("orderArray", orderArray);
 
   const calculateSum = () => {
     let sum = 0;
@@ -35,8 +38,12 @@ export function ProfileOrdersDetails() {
     const bunPrice = bun?.price ?? 0;
     return bunPrice + sum;
   };
+
+  const formatDate = (dateFromServer: string) => {
+    return <FormattedDate date={new Date(dateFromServer)} />;
+  };
   return (
-    <div>
+    <div className={profileOrdersDetails.orderwrapper}>
       <div className={profileOrdersDetails.ordernumber}>#034533</div>
 
       <div className={profileOrdersDetails.burgertitle}>
@@ -76,7 +83,9 @@ export function ProfileOrdersDetails() {
       })}
 
       <div className={profileOrdersDetails.footer}>
-        <div>Вчера, 13:50 i-GMT+3</div>
+        <div className={profileOrdersDetails.date}>
+          {formatDate(orderViewing.createdAt)}
+        </div>
 
         <div className={profileOrdersDetails.price}>
           <div className={profileOrdersDetails.total}>{calculateSum()}</div>

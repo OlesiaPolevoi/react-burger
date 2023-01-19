@@ -86,3 +86,19 @@
   align-items: center;
   gap: 10px;
 }
+
+.orderwrapper {
+  max-height: 640px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  padding: 0 24px 20px 0;
+}
+
+.date {
+  font-family: "JetBrains Mono";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #8585ad;
+}

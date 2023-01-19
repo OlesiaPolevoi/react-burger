@@ -30,6 +30,8 @@ export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
 
+  const [loaderIsOpen, setLoaderIsOpen] = useState(false);
+
   const ingredients = useSelector(
     (store: TCombinedReducer) => store.constructorReducer
   );
@@ -82,7 +84,9 @@ export function BurgerConstructor() {
             () => dispatch({ type: ConstructorActions.CONSTRUCTOR_CLEAR_ALL }),
             () => dispatch({ type: IngredientActions.CLEAR_COUNTER }),
             // @ts-ignore
-            authToken
+            authToken,
+            () => setLoaderIsOpen(true),
+            () => setLoaderIsOpen(false)
           )
         );
       }
@@ -120,6 +124,13 @@ export function BurgerConstructor() {
         >
           Оформить заказ
         </Button>
+        {loaderIsOpen && (
+          <Modal onClose={handleModalClose} title={""}>
+            <div className={burgerConstructor.loading}>
+              Создание заказа может занять до 15-ти секунд...
+            </div>
+          </Modal>
+        )}
       </div>
 
       {modalIsOpen && (

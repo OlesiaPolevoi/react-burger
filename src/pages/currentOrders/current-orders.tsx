@@ -8,74 +8,11 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TCombinedReducer } from "../../types";
 import { useDispatch } from "react-redux";
-
-export const ordersData: any = {
-  orders: [
-    {
-      _id: "63bf2d1008634b001c9b6674",
-      ingredients: [
-        "60d3b41abdacab0026a733c7",
-        "60d3b41abdacab0026a733cd",
-        "60d3b41abdacab0026a733cc",
-        "60d3b41abdacab0026a733cf",
-        "60d3b41abdacab0026a733c7",
-      ],
-      status: "done",
-      name: "Space spicy флюоресцентный антарианский бургер",
-      createdAt: "2023-01-11T21:41:36.099Z",
-      updatedAt: "2023-01-11T21:41:36.506Z",
-      number: 36805,
-    },
-    {
-      _id: "63bf2c2608634b001c9b6670",
-      ingredients: [
-        "60d3b41abdacab0026a733c7",
-        "60d3b41abdacab0026a733cd",
-        "60d3b41abdacab0026a733cb",
-        "60d3b41abdacab0026a733d1",
-        "60d3b41abdacab0026a733d0",
-        "60d3b41abdacab0026a733d4",
-        "60d3b41abdacab0026a733c7",
-      ],
-      status: "done",
-      name: "Фалленианский флюоресцентный минеральный астероидный space био-марсианский бургер",
-      createdAt: "2023-01-11T21:37:42.788Z",
-      updatedAt: "2023-01-11T21:37:43.215Z",
-      number: 36804,
-    },
-    {
-      _id: "63bf26a908634b001c9b665b",
-      ingredients: [
-        "60d3b41abdacab0026a733c6",
-        "60d3b41abdacab0026a733cc",
-        "60d3b41abdacab0026a733c6",
-      ],
-      status: "done",
-      name: "Spicy краторный бургер",
-      createdAt: "2023-01-11T21:14:17.463Z",
-      updatedAt: "2023-01-11T21:14:17.941Z",
-      number: 36803,
-    },
-    {
-      _id: "63bf20fa08634b001c9b662f",
-      ingredients: [
-        "60d3b41abdacab0026a733c7",
-        "60d3b41abdacab0026a733cd",
-        "60d3b41abdacab0026a733c7",
-      ],
-      status: "done",
-      name: "Space флюоресцентный бургер",
-      createdAt: "2023-01-11T20:50:02.820Z",
-      updatedAt: "2023-01-11T20:50:03.249Z",
-      number: 36802,
-    },
-  ],
-  total: 36716,
-  totalToday: 57,
-};
+import { WS_URL } from "../../utils/burger-api";
 
 export function CurrentOrders() {
-  const socketUrl = "wss://norma.nomoreparties.space/orders/all";
+  //wss://norma.nomoreparties.space
+  const socketUrl = `${WS_URL}/orders/all`;
   const dispatch = useDispatch();
   const ordersData1 = useSelector((store: any) => store.reducerWS);
   const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
@@ -85,22 +22,17 @@ export function CurrentOrders() {
 
     socket.onopen = (event) => {
       dispatch({ type: "CONNECT", payload: socket });
-      // console.log("Connect");
     };
 
     socket.onmessage = function (event) {
-      // console.log("event", event);
-
       const json = JSON.parse(event.data);
       dispatch({ type: "UPDATE_DATA", payload: json });
-      // console.log("Update");
     };
 
     return () => {
       if (socket.readyState === 1) {
         dispatch({ type: "DISCONNECT" });
         socket.close();
-        // console.log("DisConnect");
       }
     };
   }, [socketUrl, dispatch]);
@@ -204,6 +136,19 @@ export function OrdersInfo() {
   const ordersData1 = useSelector((store: any) => store.reducerWS);
 
   const arr = ordersData1?.data ? ordersData1?.data : null;
+  let readyOrders = [];
+  let workingOrders = [];
+  if (arr?.orders?.length > 0) {
+    // @ts-ignore
+    const readyOrders1 = arr?.orders?.filter((el) => {
+      return el.status === "done";
+    });
+    readyOrders = readyOrders1.slice(0, 11);
+    // @ts-ignore
+    workingOrders = arr?.orders?.filter((el) => {
+      return el.status === "pending";
+    });
+  }
 
   return (
     <div className={currentOrders.ordersinfo}>
@@ -211,19 +156,27 @@ export function OrdersInfo() {
         <div>
           <h3 className={currentOrders.secondarytitle}>Готовы:</h3>
           <ul>
-            <li className={currentOrders.readyorders}>034533</li>
-            <li className={currentOrders.readyorders}>034532</li>
-            <li className={currentOrders.readyorders}>034532</li>
-            <li className={currentOrders.readyorders}>034532</li>
-            <li className={currentOrders.readyorders}>034525</li>
+            {/* @ts-ignore */}
+            {readyOrders?.map((el) => {
+              return (
+                <li className={currentOrders.readyorders} key={el.number}>
+                  {el.number}
+                </li>
+              );
+            })}
           </ul>
         </div>
         <div>
           <h3 className={currentOrders.secondarytitle}>В работе:</h3>
           <ul>
-            <li className={currentOrders.workingorders}>034541</li>
-            <li className={currentOrders.workingorders}>034542</li>
-            <li className={currentOrders.workingorders}>034632</li>
+            {/* @ts-ignore */}
+            {workingOrders?.map((el) => {
+              return (
+                <li className={currentOrders.workingorders} key={el.number}>
+                  {el.number}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
