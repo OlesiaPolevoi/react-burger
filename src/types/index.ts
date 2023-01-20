@@ -159,5 +159,15 @@ export type TCombinedReducer = {
   ingredientsReducer: TIngredientsInitialState;
   orderDetailsReducer: TOrderDetails;
   userDataReducer: TUserDataState;
-  storeWS: any;
+  feedWS: any;
+};
+
+export type TOrder = {
+  createdAt: string;
+  ingredients: string[];
+  name: string;
+  number: number;
+  status: string;
+  updatedAt: string;
+  _id: string;
 };

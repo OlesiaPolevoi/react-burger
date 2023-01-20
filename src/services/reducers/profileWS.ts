@@ -1,23 +1,26 @@
-// import * as io from "socket.io-client";
+import {
+  PROFILE_CONNECTION_SUCCESS,
+  PROFILE_CONNECTION_ERROR,
+  PROFILE_CONNECTION_CLOSED,
+  PROFILE_GET_MESSAGE,
+} from "../actions/profileWS";
 
-interface IStateWS {
-  // socket: io.Socket | null;
-  data: any;
-}
-
-const profileInitialState: IStateWS = {
-  // socket: null,
+const profileInitialState = {
   data: {},
+  isOpen: false,
+  error: null,
 };
 
 export function profileReducerWS(state = profileInitialState, action: any) {
   switch (action.type) {
-    case "CONNECT":
-      return { ...state };
-    case "DISCONNECT":
-      return { ...state };
-    case "UPDATE_DATA":
-      return { ...state, data: action.payload };
+    case PROFILE_CONNECTION_SUCCESS:
+      return { ...state, isOpen: true, error: null };
+    case PROFILE_CONNECTION_ERROR:
+      return { ...state, error: action.payload };
+    case PROFILE_CONNECTION_CLOSED:
+      return { ...state, isOpen: false };
+    case PROFILE_GET_MESSAGE:
+      return { ...state, data: action.payload.data };
     default:
       return state;
   }

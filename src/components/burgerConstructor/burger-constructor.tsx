@@ -76,14 +76,13 @@ export function BurgerConstructor() {
       }
       const authToken = getAccessToken();
 
-      if (bunIsPresent && (mainIsPresent || sauceIsPresent)) {
+      if (bunIsPresent && (mainIsPresent || sauceIsPresent) && authToken) {
         dispatch(
           submitOrderAndGetId(
             ingredientsArrayCopy,
             () => setModalIsOpen(true),
             () => dispatch({ type: ConstructorActions.CONSTRUCTOR_CLEAR_ALL }),
             () => dispatch({ type: IngredientActions.CLEAR_COUNTER }),
-            // @ts-ignore
             authToken,
             () => setLoaderIsOpen(true),
             () => setLoaderIsOpen(false)

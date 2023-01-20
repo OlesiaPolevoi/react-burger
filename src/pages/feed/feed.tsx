@@ -3,56 +3,49 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import currentOrders from "./current-orders.module.css";
+import feed from "./feed.module.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { TCombinedReducer } from "../../types";
+import { TCombinedReducer, TOrder } from "../../types";
 import { useDispatch } from "react-redux";
 import { WS_URL } from "../../utils/burger-api";
+import {
+  FEED_CONNECTION_INIT,
+  FEED_CONNECTION_CLOSE,
+} from "../../services/actions/feedWS";
 
-export function CurrentOrders() {
-  //wss://norma.nomoreparties.space
+export function Feed() {
   const socketUrl = `${WS_URL}/orders/all`;
   const dispatch = useDispatch();
   const ordersData1 = useSelector((store: any) => store.reducerWS);
   const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
 
   useEffect(() => {
-    const socket = new WebSocket(socketUrl);
-
-    socket.onopen = (event) => {
-      dispatch({ type: "CONNECT", payload: socket });
-    };
-
-    socket.onmessage = function (event) {
-      const json = JSON.parse(event.data);
-      dispatch({ type: "UPDATE_DATA", payload: json });
-    };
+    dispatch({
+      type: FEED_CONNECTION_INIT,
+      payload: socketUrl,
+    });
 
     return () => {
-      if (socket.readyState === 1) {
-        dispatch({ type: "DISCONNECT" });
-        socket.close();
-      }
+      dispatch({ type: FEED_CONNECTION_CLOSE });
     };
-  }, [socketUrl, dispatch]);
+  }, [dispatch]);
 
   return (
-    <div className={currentOrders.mainwrapper}>
-      <h2 className={currentOrders.title}> Лента заказов </h2>
-      <div className={currentOrders.wrapper}>
-        <div className={currentOrders.container}>
+    <div className={feed.mainwrapper}>
+      <h2 className={feed.title}> Лента заказов </h2>
+      <div className={feed.wrapper}>
+        <div className={feed.container}>
           {arr.map((order: any) => {
             return (
               <Link
-                className={currentOrders.details}
+                className={feed.details}
                 key={order._id}
                 to={{
                   pathname: `/feed/${order._id}`,
                 }}
               >
-                {/* @ts-ignore */}
-                <Order order={order} key={order._id} id={order._id} />
+                <Order order={order} key={order._id} />
               </Link>
             );
           })}
@@ -63,8 +56,7 @@ export function CurrentOrders() {
   );
 }
 
-// @ts-ignore
-export function Order({ order }) {
+export function Order({ order }: { order: TOrder }) {
   const ingredientsStore = useSelector(
     (store: TCombinedReducer) => store.ingredientsReducer
   );
@@ -100,19 +92,19 @@ export function Order({ order }) {
   };
 
   return (
-    <div className={currentOrders.ordercontainer}>
-      <div className={currentOrders.ordernumbercontainer}>
-        <div className={currentOrders.ordernumber}>#{order.number}</div>
-        <div className={currentOrders.date}>{formatDate(order.createdAt)}</div>
+    <div className={feed.ordercontainer}>
+      <div className={feed.ordernumbercontainer}>
+        <div className={feed.ordernumber}>#{order.number}</div>
+        <div className={feed.date}>{formatDate(order.createdAt)}</div>
       </div>
 
-      <div className={currentOrders.burgertitle}>{burgerTitle}</div>
-      <div className={currentOrders.imgpricecontainer}>
-        <div className={currentOrders.imgswrapper}>
+      <div className={feed.burgertitle}>{burgerTitle}</div>
+      <div className={feed.imgpricecontainer}>
+        <div className={feed.imgswrapper}>
           {orderArray.map((el, i) => {
             return (
               <img
-                className={currentOrders.imgicon}
+                className={feed.imgicon}
                 src={el.image}
                 alt={el.name}
                 key={i}
@@ -123,8 +115,8 @@ export function Order({ order }) {
             <div>{` + ${remainingIngredients}`}</div>
           )}
         </div>
-        <div className={currentOrders.pricecontainer}>
-          <div className={currentOrders.price}>{calculateSum()}</div>
+        <div className={feed.pricecontainer}>
+          <div className={feed.price}>{calculateSum()}</div>
           <CurrencyIcon type="primary" />
         </div>
       </div>
@@ -139,27 +131,25 @@ export function OrdersInfo() {
   let readyOrders = [];
   let workingOrders = [];
   if (arr?.orders?.length > 0) {
-    // @ts-ignore
-    const readyOrders1 = arr?.orders?.filter((el) => {
+    const readyOrders1 = arr?.orders?.filter((el: TOrder) => {
       return el.status === "done";
     });
     readyOrders = readyOrders1.slice(0, 11);
-    // @ts-ignore
-    workingOrders = arr?.orders?.filter((el) => {
+
+    workingOrders = arr?.orders?.filter((el: TOrder) => {
       return el.status === "pending";
     });
   }
 
   return (
-    <div className={currentOrders.ordersinfo}>
-      <div className={currentOrders.ordersinfocontainer}>
+    <div className={feed.ordersinfo}>
+      <div className={feed.ordersinfocontainer}>
         <div>
-          <h3 className={currentOrders.secondarytitle}>Готовы:</h3>
+          <h3 className={feed.secondarytitle}>Готовы:</h3>
           <ul>
-            {/* @ts-ignore */}
-            {readyOrders?.map((el) => {
+            {readyOrders?.map((el: TOrder) => {
               return (
-                <li className={currentOrders.readyorders} key={el.number}>
+                <li className={feed.readyorders} key={el.number}>
                   {el.number}
                 </li>
               );
@@ -167,12 +157,11 @@ export function OrdersInfo() {
           </ul>
         </div>
         <div>
-          <h3 className={currentOrders.secondarytitle}>В работе:</h3>
+          <h3 className={feed.secondarytitle}>В работе:</h3>
           <ul>
-            {/* @ts-ignore */}
-            {workingOrders?.map((el) => {
+            {workingOrders?.map((el: TOrder) => {
               return (
-                <li className={currentOrders.workingorders} key={el.number}>
+                <li className={feed.workingorders} key={el.number}>
                   {el.number}
                 </li>
               );
@@ -181,14 +170,12 @@ export function OrdersInfo() {
         </div>
       </div>
       <div>
-        <h3 className={currentOrders.secondarytitle}>
-          Выполнено за все время:
-        </h3>
-        <p className={currentOrders.fulfilledorder}>{arr?.total}</p>
+        <h3 className={feed.secondarytitle}>Выполнено за все время:</h3>
+        <p className={feed.fulfilledorder}>{arr?.total}</p>
       </div>
       <div>
-        <h3 className={currentOrders.secondarytitle}>Выполнено за сегодня:</h3>
-        <p className={currentOrders.fulfilledorder}>{arr?.totalToday}</p>
+        <h3 className={feed.secondarytitle}>Выполнено за сегодня:</h3>
+        <p className={feed.fulfilledorder}>{arr?.totalToday}</p>
       </div>
     </div>
   );

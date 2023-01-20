@@ -16,43 +16,17 @@ import {
   userExitRequest,
 } from "../../services/actions/profile-data";
 import { getRefreshToken } from "../../utils/local-storage";
-import { TCombinedReducer } from "../../types";
+import { TCombinedReducer, TOrder } from "../../types";
 import { getAccessToken } from "../../utils/local-storage";
 import { WS_URL } from "../../utils/burger-api";
-// export const ordersData: any = {
-//   success: true,
-//   orders: [
-//     {
-//       ingredients: ["60d3b41abdacab0026a733c6", "60d3b41abdacab0026a733ca"],
-//       _id: "63c18e3b936b17001be4dae9",
-//       status: "done",
-//       number: 1,
-//       name: "Space spicy флюоресцентный антарианский бургер",
-//       createdAt: "2021-06-23T20:11:01.403Z",
-//       updatedAt: "2021-06-23T20:11:01.406Z",
-//     },
-//     {
-//       ingredients: [
-//         "60d3b41abdacab0026a733ca",
-//         "60d3b41abdacab0026a733c7",
-//         "60d3b41abdacab0026a733ca",
-//         "60d3b41abdacab0026a733c7",
-//         "60d3b41abdacab0026a733ca",
-//         "60d3b41abdacab0026a733c7",
-//         "60d3b41abdacab0026a733c6",
-//       ],
-//       _id: "63c18e3b936b17001be4dae0",
-//       status: "done",
-//       number: 3,
-//       name: "Spicy краторный бургер",
-
-//       createdAt: "2021-06-23T20:13:23.654Z",
-//       updatedAt: "2021-06-23T20:13:23.657Z",
-//     },
-//   ],
-//   total: 2,
-//   totalToday: 2,
-// };
+import {
+  PROFILE_CONNECTION_INIT,
+  PROFILE_CONNECTION_CLOSE,
+} from "../../services/actions/profileWS";
+import {
+  FEED_CONNECTION_INIT,
+  FEED_CONNECTION_CLOSE,
+} from "../../services/actions/feedWS";
 
 export function Profile() {
   const refreshToken = getRefreshToken() as string;
@@ -69,12 +43,9 @@ export function Profile() {
     password: "",
   });
   const dispatch: Dispatch<any> = useDispatch();
-  /////
   const ordersData1 = useSelector((store: any) => store.reducerWS);
   const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
-  // console.log("arr", arr);
 
-  /////
   useEffect(() => {
     dispatch(profileInfoRequest());
   }, []);
@@ -89,40 +60,24 @@ export function Profile() {
     }
   }, [userInfo]);
 
-  ////////////////
-
-  // import { WS_URL } from "../../utils/burger-api";
-
-  // export function CurrentOrders() {
-  //   //wss://norma.nomoreparties.space
-  //   const socketUrl = `${WS_URL}/orders/all`;
-
   const accessToken = getAccessToken();
   const socketUrl = `${WS_URL}/orders?token=${accessToken}`;
 
   useEffect(() => {
-    const socket = new WebSocket(socketUrl);
-
-    socket.onopen = (event) => {
-      dispatch({ type: "CONNECT" });
-    };
-
-    socket.onmessage = function (event) {
-      const json = JSON.parse(event.data);
-      // console.log(json);
-
-      dispatch({ type: "UPDATE_DATA", payload: json });
-    };
+    dispatch({
+      type: FEED_CONNECTION_INIT,
+      payload: socketUrl,
+    });
+    dispatch({
+      type: PROFILE_CONNECTION_INIT,
+      payload: socketUrl,
+    });
 
     return () => {
-      if (socket.readyState === 1) {
-        dispatch({ type: "DISCONNECT" });
-        socket.close();
-      }
+      dispatch({ type: PROFILE_CONNECTION_CLOSE });
+      dispatch({ type: FEED_CONNECTION_CLOSE });
     };
-  }, [socketUrl, dispatch]);
-
-  /////////////////////////
+  }, [dispatch]);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -241,8 +196,7 @@ export function Profile() {
                   pathname: `/profile/orders/${order._id}`,
                 }}
               >
-                {/* @ts-ignore */}
-                <ProfileOrder order={order} id={order._id} />
+                <ProfileOrder order={order} />
               </Link>
             );
           })}
@@ -252,9 +206,7 @@ export function Profile() {
   );
 }
 
-export function ProfileOrder({ order }: { order: any }) {
-  // console.log("order", order);
-
+export function ProfileOrder({ order }: { order: TOrder }) {
   const ingredientsStore = useSelector(
     (store: TCombinedReducer) => store.ingredientsReducer
   );
@@ -314,7 +266,6 @@ export function ProfileOrder({ order }: { order: any }) {
       <div className={profile.status}>{orderStatus(order.status)}</div>
       <div className={profile.imgpricecontainer}>
         <div className={profile.imgswrapper}>
-          {/* @ts-ignore */}
           {orderArray.map((el, i) => {
             return (
               <img

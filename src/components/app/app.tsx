@@ -11,7 +11,7 @@ import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 import { ProtectedRoute } from "../../pages/protected-route";
 import {
   Profile,
-  CurrentOrders,
+  Feed,
   Login,
   Register,
   ForgotPassword,
@@ -30,6 +30,7 @@ import { isTokenExpired } from "../../utils/jwt-token";
 import { TRefreshToken } from "../../types/index";
 import { CurrentOrdersDetails } from "../../pages/currentOrdersDetails/current-orders-details";
 import { ProfileOrdersDetails } from "../../pages/profileOrdersDetails/profile-orders-details";
+import { useSelector } from "react-redux";
 
 interface LocationWithState<T> extends Location {
   state: T;
@@ -97,14 +98,6 @@ export function App() {
               <Profile />
             </ProtectedRoute>
 
-            {/* <ProtectedRoute
-              onlyForAuth={true}
-              path="/profile/orders/:_id"
-              exact
-            >
-              <ProfileOrdersDetails />
-            </ProtectedRoute> */}
-
             <ProtectedRoute
               onlyForAuth={true}
               path="/profile/orders/:_id"
@@ -137,7 +130,7 @@ export function App() {
             </Route>
 
             <Route path="/feed" exact>
-              <CurrentOrders />
+              <Feed />
             </Route>
 
             <Route

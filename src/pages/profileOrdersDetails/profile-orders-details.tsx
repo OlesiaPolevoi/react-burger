@@ -5,15 +5,14 @@ import {
 import profileOrdersDetails from "./profile-orders-details.module.css";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { TCombinedReducer } from "../../types";
+import { TCombinedReducer, TOrder } from "../../types";
 
 export function ProfileOrdersDetails() {
   const ordersData1 = useSelector((store: any) => store.reducerWS);
   const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
   const { _id } = useParams() as { _id: string };
 
-  // @ts-ignore
-  const orderViewing = arr.find((el) => {
+  const orderViewing = arr.find((el: TOrder) => {
     return el._id === _id;
   });
 

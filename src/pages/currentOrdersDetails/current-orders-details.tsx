@@ -5,7 +5,7 @@ import {
 import currentOrdersDetails from "./current-orders-details.module.css";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { TCombinedReducer } from "../../types";
+import { TCombinedReducer, TOrder } from "../../types";
 
 export function CurrentOrdersDetails() {
   const ordersData1 = useSelector((store: any) => store.reducerWS);
@@ -13,8 +13,7 @@ export function CurrentOrdersDetails() {
 
   const { _id } = useParams() as { _id: string };
 
-  // @ts-ignore
-  const orderViewing = arr.find((el) => {
+  const orderViewing = arr.find((el: TOrder) => {
     return el._id === _id;
   });
 
