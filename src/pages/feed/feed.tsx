@@ -6,18 +6,19 @@ import {
 import feed from "./feed.module.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { TCombinedReducer, TOrder } from "../../types";
-import { useDispatch } from "react-redux";
+import { TCombinedReducer, TOrder, TOrders } from "../../types";
 import { WS_URL } from "../../utils/burger-api";
 import {
   FEED_CONNECTION_INIT,
   FEED_CONNECTION_CLOSE,
 } from "../../services/actions/feedWS";
+import { useAppDispatch } from "../../services/hooks";
 
 export function Feed() {
   const socketUrl = `${WS_URL}/orders/all`;
-  const dispatch = useDispatch();
-  const ordersData1 = useSelector((store: any) => store.reducerWS);
+  const dispatch = useAppDispatch();
+
+  const ordersData1 = useSelector((store: TCombinedReducer) => store.reducerWS);
   const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
 
   useEffect(() => {
@@ -125,12 +126,14 @@ export function Order({ order }: { order: TOrder }) {
 }
 
 export function OrdersInfo() {
-  const ordersData1 = useSelector((store: any) => store.reducerWS);
+  const ordersData1 = useSelector((store: TCombinedReducer) => store.reducerWS);
 
   const arr = ordersData1?.data ? ordersData1?.data : null;
-  let readyOrders = [];
-  let workingOrders = [];
-  if (arr?.orders?.length > 0) {
+  let readyOrders: TOrders[] = [];
+
+  let workingOrders: TOrders[] = [];
+
+  if (arr?.orders?.length !== undefined && arr?.orders?.length > 0) {
     const readyOrders1 = arr?.orders?.filter((el: TOrder) => {
       return el.status === "done";
     });

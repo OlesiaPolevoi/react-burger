@@ -1,15 +1,16 @@
-import React, { useState, useCallback, Dispatch } from 'react';
-import login from './login.module.css';
+import React, { useState, useCallback, Dispatch } from "react";
+import login from "./login.module.css";
 import {
   EmailInput,
   PasswordInput,
   Button,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { useHistory, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { userLoginRequest } from '../../services/actions/user-data';
-import { Redirect } from 'react-router-dom';
-import { TCombinedReducer } from '../../types';
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useHistory, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { userLoginRequest } from "../../services/actions/user-data";
+import { Redirect } from "react-router-dom";
+import { TCombinedReducer } from "../../types";
+import { useAppDispatch } from "../../services/hooks";
 
 interface LocationWithState<T> extends Location {
   state: T;
@@ -22,16 +23,16 @@ export function Login() {
   const userStore = useSelector(
     (store: TCombinedReducer) => store.userDataReducer
   );
-  const isUserAuthorized = userStore.accessToken !== '';
+  const isUserAuthorized = userStore.accessToken !== "";
   const location = useLocation() as LocationWithState<LocationState>;
   const history = useHistory();
 
   const [userData, setUserData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch: Dispatch<any> = useAppDispatch();
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -41,22 +42,22 @@ export function Login() {
   };
 
   const goToRegister = useCallback(() => {
-    history.replace({ pathname: '/register' });
+    history.replace({ pathname: "/register" });
   }, [history]);
 
   const goToForgotPassword = useCallback(() => {
-    history.replace({ pathname: '/forgot-password' });
+    history.replace({ pathname: "/forgot-password" });
   }, [history]);
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     dispatch(
-      userLoginRequest(userData, () => history.replace({ pathname: '/' }))
+      userLoginRequest(userData, () => history.replace({ pathname: "/" }))
     );
   }
 
   if (isUserAuthorized) {
-    return <Redirect to={location?.state?.from || '/'} />;
+    return <Redirect to={location?.state?.from || "/"} />;
   }
   return (
     <div>
@@ -66,17 +67,17 @@ export function Login() {
         <EmailInput
           onChange={onChange}
           value={userData.email}
-          name={'email'}
+          name={"email"}
           isIcon={false}
         />
 
         <PasswordInput
           onChange={onChange}
           value={userData.password}
-          name={'password'}
-          extraClass='mb-2'
+          name={"password"}
+          extraClass="mb-2"
         />
-        <button className={login.button} type='submit'>
+        <button className={login.button} type="submit">
           Войти
         </button>
       </form>
@@ -84,9 +85,9 @@ export function Login() {
       <div className={login.info}>
         <h4>Вы — новый пользователь?</h4>
         <Button
-          htmlType='button'
-          type='secondary'
-          size='medium'
+          htmlType="button"
+          type="secondary"
+          size="medium"
           onClick={goToRegister}
         >
           Зарегистрироваться
@@ -95,9 +96,9 @@ export function Login() {
       <div className={login.info}>
         <h4>Забыли пароль?</h4>
         <Button
-          htmlType='button'
-          type='secondary'
-          size='medium'
+          htmlType="button"
+          type="secondary"
+          size="medium"
           onClick={goToForgotPassword}
         >
           Восстановить пароль

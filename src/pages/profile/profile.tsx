@@ -9,7 +9,7 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   profileInfoRequest,
   profileInfoUpdate,
@@ -27,7 +27,7 @@ import {
   FEED_CONNECTION_INIT,
   FEED_CONNECTION_CLOSE,
 } from "../../services/actions/feedWS";
-
+import { useAppDispatch } from "../../services/hooks";
 export function Profile() {
   const refreshToken = getRefreshToken() as string;
   const isProfile = !!useRouteMatch({ path: "/profile", exact: true });
@@ -42,8 +42,8 @@ export function Profile() {
     email: `${userInfo.email}`,
     password: "",
   });
-  const dispatch: Dispatch<any> = useDispatch();
-  const ordersData1 = useSelector((store: any) => store.reducerWS);
+  const dispatch: Dispatch<any> = useAppDispatch();
+  const ordersData1 = useSelector((store: TCombinedReducer) => store.reducerWS);
   const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
 
   useEffect(() => {

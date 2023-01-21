@@ -3,7 +3,6 @@ import styles from "./app.module.css";
 import { AppHeader } from "../appHeader/app-header";
 import { BurgerIngredients } from "../burgerIngredients/burger-ingredients";
 import { BurgerConstructor } from "../burgerConstructor/burger-constructor";
-import { useDispatch } from "react-redux";
 import { getIngredientsFunc } from "../../services/actions/fetch-ingredients";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -30,7 +29,7 @@ import { isTokenExpired } from "../../utils/jwt-token";
 import { TRefreshToken } from "../../types/index";
 import { CurrentOrdersDetails } from "../../pages/currentOrdersDetails/current-orders-details";
 import { ProfileOrdersDetails } from "../../pages/profileOrdersDetails/profile-orders-details";
-import { useSelector } from "react-redux";
+import { useAppDispatch } from "../../services/hooks";
 
 interface LocationWithState<T> extends Location {
   state: T;
@@ -40,7 +39,7 @@ interface LocationState {
 }
 
 export function App() {
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch: Dispatch<any> = useAppDispatch();
   const history = useHistory();
   const location = useLocation() as LocationWithState<LocationState>;
 

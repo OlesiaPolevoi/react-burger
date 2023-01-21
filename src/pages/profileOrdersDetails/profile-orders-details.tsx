@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { TCombinedReducer, TOrder } from "../../types";
 
 export function ProfileOrdersDetails() {
-  const ordersData1 = useSelector((store: any) => store.reducerWS);
+  const ordersData1 = useSelector((store: TCombinedReducer) => store.reducerWS);
   const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
   const { _id } = useParams() as { _id: string };
 
@@ -20,8 +20,11 @@ export function ProfileOrdersDetails() {
     (store: TCombinedReducer) => store.ingredientsReducer
   );
   const ingredientsArray = ingredientsStore.items;
-  const orderArray = ingredientsArray.filter((el) => {
-    return orderViewing.ingredients.includes(el._id);
+
+  const orderArray = ingredientsArray?.filter((el) => {
+    if (orderViewing !== undefined) {
+      return orderViewing.ingredients.includes(el._id);
+    }
   });
 
   const calculateSum = () => {
@@ -83,7 +86,7 @@ export function ProfileOrdersDetails() {
 
       <div className={profileOrdersDetails.footer}>
         <div className={profileOrdersDetails.date}>
-          {formatDate(orderViewing.createdAt)}
+          {orderViewing !== undefined && formatDate(orderViewing.createdAt)}
         </div>
 
         <div className={profileOrdersDetails.price}>

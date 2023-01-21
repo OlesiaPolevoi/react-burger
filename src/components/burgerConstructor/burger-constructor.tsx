@@ -26,6 +26,8 @@ import { useHistory } from "react-router-dom";
 import uuid from "react-uuid";
 import { TIngredientInfo, TCombinedReducer } from "../../types";
 import { getAccessToken } from "../../utils/local-storage";
+import { useAppDispatch } from "../../services/hooks";
+
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -42,7 +44,7 @@ export function BurgerConstructor() {
   const isUserAuthorized = userInfo.name !== "";
   const history = useHistory();
 
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch: Dispatch<any> = useAppDispatch();
 
   const outerBun = useMemo(
     () =>
@@ -152,7 +154,7 @@ function ConstructorIngredient({
   outerBun,
   setTotalPrice,
 }: TConstructorIngredientProps) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (ingredientsArray.length !== 0 || outerBun) {
       const sum = ingredientsArray.reduce(
@@ -245,7 +247,7 @@ type TInnerIngredient = {
   el: TIngredientInfo;
 };
 const InnerIngredient = ({ index, el }: TInnerIngredient) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const ref = useRef(null);
   const [{ isDrag }, drag] = useDrag({
     type: "newType",

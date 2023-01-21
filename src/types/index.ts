@@ -153,13 +153,44 @@ export type TUserDataReducerAction = {
   payload: TUserDataState | TError | TUserData | TUserSuccess | TUserToken;
 };
 
+export type TReducerWS = {
+  data: {
+    success: boolean;
+    total: number;
+    totalToday: number;
+    orders: {
+      _id: string;
+      ingredients: string[];
+      name: string;
+      number: number;
+      status: string;
+      createdAt: string;
+      updatedAt: string;
+    }[];
+  };
+  error: string;
+  isOpen: boolean;
+};
+
+export type TOrders = {
+  _id: string;
+  ingredients: string[];
+  name: string;
+  number: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+};
+// export type TprofileReducerWS = {};
+
 export type TCombinedReducer = {
   constructorReducer: TIngredientInfo[];
   ingredientDetailsReducer: TIngredientDetailsAction | null;
   ingredientsReducer: TIngredientsInitialState;
   orderDetailsReducer: TOrderDetails;
   userDataReducer: TUserDataState;
-  feedWS: any;
+  reducerWS: TReducerWS;
+  profileReducerWS: TReducerWS;
 };
 
 export type TOrder = {

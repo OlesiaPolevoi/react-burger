@@ -8,12 +8,12 @@ import { useSelector } from "react-redux";
 import { TCombinedReducer, TOrder } from "../../types";
 
 export function CurrentOrdersDetails() {
-  const ordersData1 = useSelector((store: any) => store.reducerWS);
+  const ordersData1 = useSelector((store: TCombinedReducer) => store.reducerWS);
   const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
 
   const { _id } = useParams() as { _id: string };
 
-  const orderViewing = arr.find((el: TOrder) => {
+  const orderViewing = arr?.find((el: TOrder) => {
     return el._id === _id;
   });
 
@@ -90,7 +90,7 @@ export function CurrentOrdersDetails() {
 
       <div className={currentOrdersDetails.footer}>
         <div className={currentOrdersDetails.date}>
-          {formatDate(orderViewing?.createdAt)}
+          {orderViewing !== undefined && formatDate(orderViewing?.createdAt)}
         </div>
 
         <div className={currentOrdersDetails.price}>

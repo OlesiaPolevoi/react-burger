@@ -1,27 +1,28 @@
-import React, { useState, useCallback, Dispatch } from 'react';
-import register from './register.module.css';
+import React, { useState, useCallback, Dispatch } from "react";
+import register from "./register.module.css";
 import {
   EmailInput,
   PasswordInput,
   Button,
   Input,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { useHistory, Redirect } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { userRegisterRequest } from '../../services/actions/user-data';
-import { TCombinedReducer } from '../../types';
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useHistory, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { userRegisterRequest } from "../../services/actions/user-data";
+import { TCombinedReducer } from "../../types";
+import { useAppDispatch } from "../../services/hooks";
 
 export function Register() {
   const userStore = useSelector(
     (store: TCombinedReducer) => store.userDataReducer
   );
-  const isUserAuthorized = userStore.accessToken !== '';
-  const dispatch: Dispatch<any> = useDispatch();
+  const isUserAuthorized = userStore.accessToken !== "";
+  const dispatch: Dispatch<any> = useAppDispatch();
   const history = useHistory();
   const [userData, setUserData] = useState({
-    email: '',
-    password: '',
-    name: '',
+    email: "",
+    password: "",
+    name: "",
   });
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,14 +33,14 @@ export function Register() {
   };
 
   const goToLogin = useCallback(() => {
-    history.replace({ pathname: '/login' });
+    history.replace({ pathname: "/login" });
   }, [history]);
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     dispatch(
       userRegisterRequest(userData, () =>
-        history.replace({ pathname: '/profile' })
+        history.replace({ pathname: "/profile" })
       )
     );
   }
@@ -47,7 +48,7 @@ export function Register() {
     return (
       <Redirect
         to={{
-          pathname: '/profile',
+          pathname: "/profile",
         }}
       />
     );
@@ -58,30 +59,30 @@ export function Register() {
         <h2 className={register.header}>Регистрация</h2>
 
         <Input
-          type={'text'}
-          placeholder={'Имя'}
+          type={"text"}
+          placeholder={"Имя"}
           onChange={onChange}
           value={userData.name}
-          name={'name'}
+          name={"name"}
           error={false}
-          errorText={'Ошибка'}
-          size={'default'}
+          errorText={"Ошибка"}
+          size={"default"}
         />
 
         <EmailInput
           onChange={onChange}
           value={userData.email}
-          name={'email'}
+          name={"email"}
           isIcon={false}
         />
 
         <PasswordInput
           onChange={onChange}
           value={userData.password}
-          name={'password'}
-          extraClass='mb-2'
+          name={"password"}
+          extraClass="mb-2"
         />
-        <button className={register.button} type='submit'>
+        <button className={register.button} type="submit">
           Зарегистрироваться
         </button>
       </form>
@@ -89,9 +90,9 @@ export function Register() {
       <div className={register.info}>
         <h4>Уже зарегистрированы?</h4>
         <Button
-          htmlType='button'
-          type='secondary'
-          size='medium'
+          htmlType="button"
+          type="secondary"
+          size="medium"
           onClick={goToLogin}
         >
           Войти
