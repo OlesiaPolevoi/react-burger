@@ -4,7 +4,7 @@ import {
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import feed from "./feed.module.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TCombinedReducer, TOrder, TOrders } from "../../types";
 import { WS_URL } from "../../utils/burger-api";
@@ -20,6 +20,7 @@ export function Feed() {
 
   const ordersData1 = useSelector((store: TCombinedReducer) => store.reducerWS);
   const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
+  console.log("ordersData1", ordersData1);
 
   useEffect(() => {
     dispatch({
@@ -31,6 +32,8 @@ export function Feed() {
       dispatch({ type: FEED_CONNECTION_CLOSE });
     };
   }, [dispatch]);
+
+  const location = useLocation();
 
   return (
     <div className={feed.mainwrapper}>
@@ -44,6 +47,7 @@ export function Feed() {
                 key={order._id}
                 to={{
                   pathname: `/feed/${order._id}`,
+                  state: { background: location },
                 }}
               >
                 <Order order={order} key={order._id} />

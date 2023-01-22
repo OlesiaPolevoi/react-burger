@@ -15,8 +15,9 @@ export const socketMiddleware = (wsActions: any) => {
         onMessage,
       } = wsActions;
 
-      if (type === wsInit) {
+      if (type === wsInit && socket === null) {
         socket = new WebSocket(payload);
+
         socket.onopen = (event: any) => {
           dispatch({ type: onOpen, payload: event });
         };
@@ -50,6 +51,7 @@ export const socketMiddleware = (wsActions: any) => {
       if (wsClose && type === wsClose && socket) {
         if (socket.readyState === 1) {
           socket.close();
+          socket = null;
         }
       }
 

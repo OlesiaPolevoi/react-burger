@@ -16,7 +16,7 @@ import {
   userExitRequest,
 } from "../../services/actions/profile-data";
 import { getRefreshToken } from "../../utils/local-storage";
-import { TCombinedReducer, TOrder } from "../../types";
+import { TCombinedReducer, TOrder, TOrders } from "../../types";
 import { getAccessToken } from "../../utils/local-storage";
 import { WS_URL } from "../../utils/burger-api";
 import {
@@ -28,6 +28,7 @@ import {
   FEED_CONNECTION_CLOSE,
 } from "../../services/actions/feedWS";
 import { useAppDispatch } from "../../services/hooks";
+
 export function Profile() {
   const refreshToken = getRefreshToken() as string;
   const isProfile = !!useRouteMatch({ path: "/profile", exact: true });
@@ -36,15 +37,19 @@ export function Profile() {
   const userInfo = useSelector(
     (store: TCombinedReducer) => store.userDataReducer
   );
-
   const [userData, setUserData] = useState({
     name: `${userInfo.name}`,
     email: `${userInfo.email}`,
     password: "",
   });
   const dispatch: Dispatch<any> = useAppDispatch();
-  const ordersData1 = useSelector((store: TCombinedReducer) => store.reducerWS);
-  const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
+  const ordersData = useSelector((store: TCombinedReducer) => store.reducerWS);
+  const initialOrdersArray = ordersData?.data?.orders
+    ? ordersData?.data?.orders
+    : [];
+  const ordersArray = [...initialOrdersArray].reverse();
+  const accessToken = getAccessToken();
+  const socketUrl = `${WS_URL}/orders?token=${accessToken}`;
 
   useEffect(() => {
     dispatch(profileInfoRequest());
@@ -59,9 +64,6 @@ export function Profile() {
       });
     }
   }, [userInfo]);
-
-  const accessToken = getAccessToken();
-  const socketUrl = `${WS_URL}/orders?token=${accessToken}`;
 
   useEffect(() => {
     dispatch({
@@ -85,7 +87,9 @@ export function Profile() {
       return { ...prevUserData, [name]: value };
     });
   };
+
   const inputRef = React.useRef<HTMLInputElement>(null);
+
   const onIconClick = () => {
     setTimeout(() => inputRef.current?.focus(), 0);
   };
@@ -185,9 +189,10 @@ export function Profile() {
           </div>
         </form>
       )}
+
       {isOrderHistory && (
         <div className={profile.orderswrapper}>
-          {arr.map((order: any) => {
+          {ordersArray.map((order: TOrders) => {
             return (
               <Link
                 className={profile.details}

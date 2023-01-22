@@ -25,6 +25,7 @@ export function ProfileOrdersDetails() {
     if (orderViewing !== undefined) {
       return orderViewing.ingredients.includes(el._id);
     }
+    return [];
   });
 
   const calculateSum = () => {

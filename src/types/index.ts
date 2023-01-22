@@ -181,7 +181,6 @@ export type TOrders = {
   createdAt: string;
   updatedAt: string;
 };
-// export type TprofileReducerWS = {};
 
 export type TCombinedReducer = {
   constructorReducer: TIngredientInfo[];

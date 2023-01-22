@@ -144,6 +144,7 @@ export function App() {
 
             <Route>Страница не найдена</Route>
           </Switch>
+
           {background && (
             <Route
               path="/ingredients/:_id"
@@ -151,6 +152,18 @@ export function App() {
               children={
                 <Modal onClose={handleModalClose} title="Детали ингредиента">
                   <IngredientDetails />
+                </Modal>
+              }
+            />
+          )}
+
+          {background && (
+            <Route
+              path="/feed/:_id"
+              exact
+              children={
+                <Modal onClose={handleModalClose} title="">
+                  <CurrentOrdersDetails />
                 </Modal>
               }
             />
