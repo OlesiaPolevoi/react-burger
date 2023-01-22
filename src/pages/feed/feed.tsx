@@ -20,7 +20,6 @@ export function Feed() {
 
   const ordersData1 = useSelector((store: TCombinedReducer) => store.reducerWS);
   const arr = ordersData1?.data?.orders ? ordersData1?.data?.orders : [];
-  console.log("ordersData1", ordersData1);
 
   useEffect(() => {
     dispatch({
