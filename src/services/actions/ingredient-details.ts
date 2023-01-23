@@ -1,7 +1,4 @@
-import { TIngredientInfo, IngredientInfoActions } from '../../types/index';
-
-// export const GET_INGREDIENT_INFO = 'GET_INGREDIENT_INFO';
-// export const CLEAR_INGREDIENT_INFO = 'CLEAR_INGREDIENT_INFO';
+import { TIngredientInfo, IngredientInfoActions } from "../../types/index";
 
 export const getIngredientInfo = (currentIngredient: TIngredientInfo) => {
   return {

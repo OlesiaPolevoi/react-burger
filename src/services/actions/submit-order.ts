@@ -1,11 +1,7 @@
-import axios from 'axios';
-import { BASE_URL } from '../../utils/burger-api';
-import { Dispatch } from 'react';
-import { TIngredientInfo, OrderActions } from '../../types/index';
-// export const ORDER_NUMBER_REQUEST = 'ORDER_NUMBER_REQUEST';
-// export const ORDER_NUMBER_SUCCESS = 'ORDER_NUMBER_SUCCESS';
-// export const ORDER_NUMBER_FAILURE = 'ORDER_NUMBER_FAILURE';
-// export const CLEAR_ORDER_NUMBER = 'CLEAR_ORDER_NUMBER';
+import axios from "axios";
+import { BASE_URL } from "../../utils/burger-api";
+import { Dispatch } from "react";
+import { TIngredientInfo, OrderActions } from "../../types/index";
 
 export const orderNumberRequest = () => {
   return {
@@ -37,7 +33,10 @@ export const submitOrderAndGetId = (
   dataArray: TIngredientInfo[],
   openModal: () => void,
   clearConstructor: () => void,
-  clearCounter: () => void
+  clearCounter: () => void,
+  auth: string,
+  dispayLoader: () => void,
+  removeLoader: () => void
 ) => {
   return function (dispatch: Dispatch<any>) {
     const arrayOfIds = dataArray.map((el: TIngredientInfo) => {
@@ -49,15 +48,18 @@ export const submitOrderAndGetId = (
     });
 
     const getOrderNum = {
-      method: 'post',
+      method: "post",
       url: `${BASE_URL}/orders`,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth}`,
       },
       data,
     };
 
     dispatch(orderNumberRequest());
+
+    dispayLoader();
 
     axios(getOrderNum)
       .then(function (response) {
@@ -65,6 +67,8 @@ export const submitOrderAndGetId = (
         const orderNum = order.order.number;
 
         dispatch(orderNumberSuccess(orderNum));
+        removeLoader();
+
         openModal();
         clearConstructor();
         clearCounter();

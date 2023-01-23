@@ -1,7 +1,7 @@
-import ingredientDetails from './ingredient-details.module.css';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { TCombinedReducer, TIngredientInfo } from '../../types';
+import ingredientDetails from "./ingredient-details.module.css";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { TCombinedReducer } from "../../types";
 
 export function IngredientDetails() {
   const { _id } = useParams() as { _id: string };

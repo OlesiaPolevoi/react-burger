@@ -5,30 +5,34 @@ import {
   useMemo,
   useRef,
   Dispatch,
-} from 'react';
-import burgerConstructor from './burger-constructor.module.css';
+} from "react";
+import burgerConstructor from "./burger-constructor.module.css";
 import {
   ConstructorElement,
   DragIcon,
   Button,
   CurrencyIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { Modal } from '../modal/modal';
-import { OrderDetails } from '../orderDetails/order-details';
-import { useSelector, useDispatch } from 'react-redux';
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Modal } from "../modal/modal";
+import { OrderDetails } from "../orderDetails/order-details";
+import { useSelector, useDispatch } from "react-redux";
 import {
   submitOrderAndGetId,
   clearOrderNumber,
-} from '../../services/actions/submit-order';
-import { useDrag, useDrop, XYCoord } from 'react-dnd';
-import { ConstructorActions, IngredientActions } from '../../types/index';
-import { useHistory } from 'react-router-dom';
-import uuid from 'react-uuid';
-import { TIngredientInfo, TCombinedReducer } from '../../types';
+} from "../../services/actions/submit-order";
+import { useDrag, useDrop, XYCoord } from "react-dnd";
+import { ConstructorActions, IngredientActions } from "../../types/index";
+import { useHistory } from "react-router-dom";
+import uuid from "react-uuid";
+import { TIngredientInfo, TCombinedReducer } from "../../types";
+import { getAccessToken } from "../../utils/local-storage";
+import { useAppDispatch } from "../../services/hooks";
 
 export function BurgerConstructor() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const [loaderIsOpen, setLoaderIsOpen] = useState(false);
 
   const ingredients = useSelector(
     (store: TCombinedReducer) => store.constructorReducer
@@ -37,15 +41,15 @@ export function BurgerConstructor() {
   const userInfo = useSelector(
     (store: TCombinedReducer) => store.userDataReducer
   );
-  const isUserAuthorized = userInfo.name !== '';
+  const isUserAuthorized = userInfo.name !== "";
   const history = useHistory();
 
-  const dispatch: Dispatch<any> = useDispatch();
+  const dispatch: Dispatch<any> = useAppDispatch();
 
   const outerBun = useMemo(
     () =>
       ingredients.find((el) => {
-        return el?.type === 'bun';
+        return el?.type === "bun";
       }),
     [ingredients]
   ) as TIngredientInfo;
@@ -53,7 +57,7 @@ export function BurgerConstructor() {
   const ingredientsArray = useMemo(
     () =>
       ingredients.filter((el) => {
-        return el?.type !== 'bun';
+        return el?.type !== "bun";
       }),
     [ingredients]
   );
@@ -61,31 +65,35 @@ export function BurgerConstructor() {
   const submitOrder = (ingredientsArray: TIngredientInfo[]) => {
     if (isUserAuthorized) {
       const ingredientTypes = ingredientsArray.map((el) => el.type);
-      const bunIsPresent = ingredientTypes.some((el) => el === 'bun');
-      const mainIsPresent = ingredientTypes.some((el) => el === 'main');
-      const sauceIsPresent = ingredientTypes.some((el) => el === 'sauce');
+      const bunIsPresent = ingredientTypes.some((el) => el === "bun");
+      const mainIsPresent = ingredientTypes.some((el) => el === "main");
+      const sauceIsPresent = ingredientTypes.some((el) => el === "sauce");
 
       const ingredientsArrayCopy = [...ingredientsArray];
       const bunIngredient = ingredientsArrayCopy.find(
-        (el) => el.type === 'bun'
+        (el) => el.type === "bun"
       );
       if (bunIngredient) {
         ingredientsArrayCopy.push(bunIngredient);
       }
+      const authToken = getAccessToken();
 
-      if (bunIsPresent && (mainIsPresent || sauceIsPresent)) {
+      if (bunIsPresent && (mainIsPresent || sauceIsPresent) && authToken) {
         dispatch(
           submitOrderAndGetId(
             ingredientsArrayCopy,
             () => setModalIsOpen(true),
             () => dispatch({ type: ConstructorActions.CONSTRUCTOR_CLEAR_ALL }),
-            () => dispatch({ type: IngredientActions.CLEAR_COUNTER })
+            () => dispatch({ type: IngredientActions.CLEAR_COUNTER }),
+            authToken,
+            () => setLoaderIsOpen(true),
+            () => setLoaderIsOpen(false)
           )
         );
       }
     }
     if (!isUserAuthorized) {
-      history.push({ pathname: '/login' });
+      history.push({ pathname: "/login" });
     }
   };
 
@@ -105,22 +113,29 @@ export function BurgerConstructor() {
       <div className={burgerConstructor.total}>
         <div className={burgerConstructor.ammount}>
           <div className={burgerConstructor.price}>{totalPrice}</div>
-          <CurrencyIcon type='primary' />
+          <CurrencyIcon type="primary" />
         </div>
         <Button
-          type='primary'
-          size='medium'
-          htmlType='button'
+          type="primary"
+          size="medium"
+          htmlType="button"
           onClick={() => {
             submitOrder(ingredients);
           }}
         >
           Оформить заказ
         </Button>
+        {loaderIsOpen && (
+          <Modal onClose={handleModalClose} title={""}>
+            <div className={burgerConstructor.loading}>
+              Создание заказа может занять до 15-ти секунд...
+            </div>
+          </Modal>
+        )}
       </div>
 
       {modalIsOpen && (
-        <Modal onClose={handleModalClose} title={''}>
+        <Modal onClose={handleModalClose} title={""}>
           <OrderDetails />
         </Modal>
       )}
@@ -139,7 +154,7 @@ function ConstructorIngredient({
   outerBun,
   setTotalPrice,
 }: TConstructorIngredientProps) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (ingredientsArray.length !== 0 || outerBun) {
       const sum = ingredientsArray.reduce(
@@ -160,7 +175,7 @@ function ConstructorIngredient({
   );
 
   const [{ isHover }, dropTarget] = useDrop({
-    accept: 'ingredient',
+    accept: "ingredient",
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
@@ -195,11 +210,11 @@ function ConstructorIngredient({
       {outerBun && (
         <div className={burgerConstructor.margin}>
           <ConstructorElement
-            type='top'
+            type="top"
             isLocked={true}
-            text={`${outerBun?.name ?? ''} (верх)`}
+            text={`${outerBun?.name ?? ""} (верх)`}
             price={outerBun?.price ?? 0}
-            thumbnail={outerBun?.image ?? ''}
+            thumbnail={outerBun?.image ?? ""}
           />
         </div>
       )}
@@ -216,7 +231,7 @@ function ConstructorIngredient({
       {outerBun && (
         <div className={burgerConstructor.margin}>
           <ConstructorElement
-            type='bottom'
+            type="bottom"
             isLocked={true}
             text={`${outerBun?.name} (низ)`}
             price={outerBun?.price}
@@ -232,10 +247,10 @@ type TInnerIngredient = {
   el: TIngredientInfo;
 };
 const InnerIngredient = ({ index, el }: TInnerIngredient) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const ref = useRef(null);
   const [{ isDrag }, drag] = useDrag({
-    type: 'newType',
+    type: "newType",
     item: { id: el?.uuid },
     collect: (monitor) => ({
       isDrag: monitor.isDragging(),
@@ -243,7 +258,7 @@ const InnerIngredient = ({ index, el }: TInnerIngredient) => {
   });
 
   const [{ handlerId }, drop] = useDrop({
-    accept: 'newType',
+    accept: "newType",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -305,7 +320,7 @@ const InnerIngredient = ({ index, el }: TInnerIngredient) => {
 
   return (
     <div ref={ref} className={burgerConstructor.container}>
-      <DragIcon type='primary' />
+      <DragIcon type="primary" />
       <ConstructorElement
         text={el?.name}
         price={el?.price}

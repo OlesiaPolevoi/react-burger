@@ -1,9 +1,12 @@
 .wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 60px;
+  width: 100%;
+
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  align-items: start;
+  gap: 50px;
   font-weight: 700;
   font-size: 24px;
   line-height: 30px;
@@ -19,7 +22,7 @@
   gap: 24px;
   margin-bottom: 80px;
   font-family: "JetBrains Mono";
-  margin-top: 150px;
+  margin-top: 50px;
 }
 
 .info {
@@ -96,4 +99,115 @@
   border-radius: 64px;
   border: none;
   cursor: pointer;
+}
+
+.ordercontainer {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 24px;
+  height: 246px;
+  background: #1c1c21;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06),
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+  margin-right: 10px;
+  width: 750px;
+}
+
+.ordernumbercontainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ordernumber {
+  font-family: "Iceland";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: #f2f2f3;
+}
+.burgertitle {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  color: #f2f2f3;
+}
+.imgpricecontainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pricecontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.price {
+  font-family: "Iceland";
+
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: right;
+  color: #f2f2f3;
+}
+.imgicon {
+  width: 64px;
+  height: 64px;
+  left: 0px;
+  top: 0px;
+  background: #131316;
+  border-radius: 100px;
+  border: 3px solid #801ab2;
+  margin: 5px;
+}
+.status {
+  font-family: "JetBrains Mono";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  /* color: #f2f2f3; */
+  color: #00cccc;
+}
+
+.orderswrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  gap: 20px;
+  height: 758px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  /* padding-top: 70px; */
+}
+
+.details {
+  color: #f2f2f3;
+  text-decoration: none;
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: left;
+}
+
+.imgswrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
