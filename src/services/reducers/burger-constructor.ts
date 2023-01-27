@@ -1,4 +1,4 @@
-import update from 'immutability-helper';
+import update from "immutability-helper";
 
 import {
   ConstructorActions,
@@ -6,7 +6,7 @@ import {
   TIndex,
   TChangePosition,
   TConstructorAction,
-} from '../../types/index';
+} from "../../types/index";
 
 export const constructorReducer = (
   state: TIngredientInfo[] = [],
@@ -16,24 +16,26 @@ export const constructorReducer = (
     case ConstructorActions.CONSTRUCTOR_ADD_ELEMENT: {
       const overwritePayload = action.payload as TIngredientInfo;
 
-      const isIngredientBun = overwritePayload.type === 'bun';
+      const isIngredientBun = overwritePayload.type === "bun";
 
-      const doesBunPresent = state.some((el) => el?.type === 'bun');
+      const doesBunPresent = state?.some((el) => el?.type === "bun");
+
       if (isIngredientBun && doesBunPresent) {
-        return state.map((el) => (el.type === 'bun' ? action.payload : el));
+        return state.map((el) => (el.type === "bun" ? action.payload : el));
       }
       return [...state, action.payload];
     }
     case ConstructorActions.CONSTRUCTOR_REMOVE_ELEMENT: {
       const overwritePayload = action.payload as TIndex;
 
-      if (state.some((el) => el?.type === 'bun')) {
+      if (state.some((el) => el?.type === "bun")) {
         const filtered = state.filter(
           (el, index) => index !== overwritePayload + 1
         );
         return filtered;
       }
       const filtered = state.filter((el, index) => index !== overwritePayload);
+
       return filtered;
     }
     case ConstructorActions.CONSTRUCTOR_CHANGE_ELEMENT_POSITION: {
@@ -41,7 +43,7 @@ export const constructorReducer = (
 
       const { firstElIndex, secondElIndex } = overwritePayload;
       const newArr = [...state];
-      const filtered = newArr.filter((el) => el?.type !== 'bun');
+      const filtered = newArr.filter((el) => el?.type !== "bun");
 
       const updated = update(filtered, {
         //@ts-ignore
@@ -52,7 +54,7 @@ export const constructorReducer = (
       });
 
       const bunIngredient = newArr.find((el) => {
-        return el?.type === 'bun';
+        return el?.type === "bun";
       });
 
       if (bunIngredient) {

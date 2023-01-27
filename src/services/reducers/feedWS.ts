@@ -5,7 +5,7 @@ import {
   FEED_GET_MESSAGE,
 } from "../actions/feedWS";
 
-const initialState = {
+export const initialState = {
   data: {},
   isOpen: false,
   error: null,
