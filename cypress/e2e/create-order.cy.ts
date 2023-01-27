@@ -5,7 +5,7 @@ describe("My React App", () => {
       "postOrder"
     );
 
-    cy.visit("http://localhost:3000/login");
+    cy.visit("http://localhost:3000/react-burger#/login");
   });
   it("should log in the user drag ingredients and create order", () => {
     cy.get('input[name="email"]').type("olesia.polevoi@gmail.com");
