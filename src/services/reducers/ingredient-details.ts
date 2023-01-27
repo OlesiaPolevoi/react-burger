@@ -2,9 +2,9 @@ import {
   IngredientInfoActions,
   TIngredientInfo,
   TIngredientDetailsAction,
-} from '../../types/index';
+} from "../../types/index";
 
-const defaultIngredientState = null;
+export const defaultIngredientState = null;
 
 export const ingredientDetailsReducer = (
   state: TIngredientInfo | null = defaultIngredientState,

@@ -1,6 +1,7 @@
 {
   "name": "react-burger",
   "version": "0.1.0",
+  "homepage": "https://OlesiaPolevoi.github.io/react-burger",
   "private": true,
   "dependencies": {
     "@redux-devtools/extension": "~3.2.3",
@@ -30,10 +31,13 @@
     "web-vitals": "~2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress": "cypress open cache clear"
   },
   "eslintConfig": {
     "extends": [
@@ -54,7 +58,17 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react": "^13.4.0",
+    "@types/jest": "^29.4.0",
     "@types/react-dom": "^18.0.10",
+    "@types/redux-mock-store": "^1.0.3",
+    "cypress": "^12.3.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "fetch-mock": "^9.11.0",
+    "gh-pages": "^5.0.0",
+    "jest": "^27.5.1",
+    "react-test-renderer": "^18.2.0",
+    "redux-mock-store": "^1.5.4",
     "typescript": "^4.9.4"
   }
 }

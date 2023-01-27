@@ -2,12 +2,12 @@ import {
   OrderActions,
   TOrderDetails,
   TOrderDetailsAction,
-} from '../../types/index';
+} from "../../types/index";
 
-const orderDetailsState = {
-  orderNumber: '',
+export const orderDetailsState = {
+  orderNumber: "",
   loading: false,
-  error: '',
+  error: "",
 };
 
 export const orderDetailsReducer = (
@@ -16,12 +16,12 @@ export const orderDetailsReducer = (
 ) => {
   switch (action.type) {
     case OrderActions.ORDER_NUMBER_REQUEST: {
-      return { orderNumber: '', loading: true, error: '' };
+      return { orderNumber: "", loading: true, error: "" };
     }
     case OrderActions.ORDER_NUMBER_SUCCESS: {
       return {
         loading: false,
-        error: '',
+        error: "",
         orderNumber: action.payload,
       };
     }
@@ -29,11 +29,11 @@ export const orderDetailsReducer = (
       return {
         loading: false,
         error: action.payload,
-        orderNumber: '',
+        orderNumber: "",
       };
     }
     case OrderActions.CLEAR_ORDER_NUMBER: {
-      return { orderNumber: '', loading: false, error: '' };
+      return { orderNumber: "", loading: false, error: "" };
     }
     default: {
       return state;

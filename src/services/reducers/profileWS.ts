@@ -5,7 +5,7 @@ import {
   PROFILE_GET_MESSAGE,
 } from "../actions/profileWS";
 
-const profileInitialState = {
+export const profileInitialState = {
   data: {},
   isOpen: false,
   error: null,
