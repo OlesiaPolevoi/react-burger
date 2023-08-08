@@ -66,6 +66,8 @@ export function App() {
   };
 
   useEffect(() => {
+    console.log("Application version 1.0.0");
+
     requests();
   }, []);
 
