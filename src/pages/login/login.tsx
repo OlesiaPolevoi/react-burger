@@ -62,13 +62,14 @@ export function Login() {
   return (
     <div>
       <form className={login.container} onSubmit={handleSubmit}>
-        <h2 className={login.header}>Вход</h2>
+        <h2 className={login.header}>Login</h2>
 
         <EmailInput
           onChange={onChange}
           value={userData.email}
           name={"email"}
           isIcon={false}
+          placeholder={"E-mail"}
         />
 
         <PasswordInput
@@ -76,32 +77,33 @@ export function Login() {
           value={userData.password}
           name={"password"}
           extraClass="mb-2"
+          placeholder={"Password"}
         />
         <button className={login.button} type="submit">
-          Войти
+          Login
         </button>
       </form>
 
       <div className={login.info}>
-        <h4>Вы — новый пользователь?</h4>
+        <h4>New user?</h4>
         <Button
           htmlType="button"
           type="secondary"
           size="medium"
           onClick={goToRegister}
         >
-          Зарегистрироваться
+          Register
         </Button>
       </div>
       <div className={login.info}>
-        <h4>Забыли пароль?</h4>
+        <h4>Forgot password?</h4>
         <Button
           htmlType="button"
           type="secondary"
           size="medium"
           onClick={goToForgotPassword}
         >
-          Восстановить пароль
+          Reset password
         </Button>
       </div>
     </div>

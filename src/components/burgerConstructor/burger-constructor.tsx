@@ -123,12 +123,15 @@ export function BurgerConstructor() {
             submitOrder(ingredients);
           }}
         >
-          Оформить заказ
+          Place order
         </Button>
         {loaderIsOpen && (
           <Modal onClose={handleModalClose} title={""}>
             <div className={burgerConstructor.loading}>
-              Создание заказа может занять до 15-ти секунд...
+              Creating order.. this can take up to 15 seconds...
+              <br />
+              <br />
+              Start counting the stars in the Milky Way...
             </div>
           </Modal>
         )}
@@ -204,7 +207,12 @@ function ConstructorIngredient({
   return (
     <div className={burgerConstructor.scroller} ref={dropTarget}>
       {!outerBun && ingredientsArray.length === 0 && (
-        <h3 className={burgerConstructor.empty}>Выберите ингредиенты</h3>
+        <h3 className={burgerConstructor.empty}>
+          Drag ingredients from the left & drop here
+          <br />
+          <br />
+          Add buns and at least one sauce or ingredient
+        </h3>
       )}
 
       {outerBun && (
@@ -212,7 +220,7 @@ function ConstructorIngredient({
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={`${outerBun?.name ?? ""} (верх)`}
+            text={`${outerBun?.name ?? ""} (top)`}
             price={outerBun?.price ?? 0}
             thumbnail={outerBun?.image ?? ""}
           />
@@ -233,7 +241,7 @@ function ConstructorIngredient({
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={`${outerBun?.name} (низ)`}
+            text={`${outerBun?.name} (bottom)`}
             price={outerBun?.price}
             thumbnail={outerBun?.image}
           />

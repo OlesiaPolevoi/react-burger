@@ -36,7 +36,7 @@ export function Feed() {
 
   return (
     <div className={feed.mainwrapper}>
-      <h2 className={feed.title}> Лента заказов </h2>
+      <h2 className={feed.title}> Order feed </h2>
       <div className={feed.wrapper}>
         <div className={feed.container}>
           {arr.map((order: any) => {
@@ -151,7 +151,7 @@ export function OrdersInfo() {
     <div className={feed.ordersinfo}>
       <div className={feed.ordersinfocontainer}>
         <div>
-          <h3 className={feed.secondarytitle}>Готовы:</h3>
+          <h3 className={feed.secondarytitle}>Ready:</h3>
           <ul>
             {readyOrders?.map((el: TOrder) => {
               return (
@@ -163,7 +163,7 @@ export function OrdersInfo() {
           </ul>
         </div>
         <div>
-          <h3 className={feed.secondarytitle}>В работе:</h3>
+          <h3 className={feed.secondarytitle}>In progress:</h3>
           <ul>
             {workingOrders?.map((el: TOrder) => {
               return (
@@ -176,11 +176,11 @@ export function OrdersInfo() {
         </div>
       </div>
       <div>
-        <h3 className={feed.secondarytitle}>Выполнено за все время:</h3>
+        <h3 className={feed.secondarytitle}>Orders total:</h3>
         <p className={feed.fulfilledorder}>{arr?.total}</p>
       </div>
       <div>
-        <h3 className={feed.secondarytitle}>Выполнено за сегодня:</h3>
+        <h3 className={feed.secondarytitle}>Orders completed today:</h3>
         <p className={feed.fulfilledorder}>{arr?.totalToday}</p>
       </div>
     </div>

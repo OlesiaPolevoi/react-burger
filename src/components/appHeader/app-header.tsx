@@ -1,69 +1,69 @@
-import appHeader from './app-header.module.css';
+import appHeader from "./app-header.module.css";
 import {
   Logo,
   BurgerIcon,
   ListIcon,
   ProfileIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, useRouteMatch } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { TCombinedReducer } from '../../types';
-import React from 'react';
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link, useRouteMatch } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { TCombinedReducer } from "../../types";
+import React from "react";
 
 export function AppHeader() {
   const userInfo = useSelector((store: TCombinedReducer) => {
     return store.userDataReducer;
   });
-  const isUserAuthorized = userInfo.name !== '';
+  const isUserAuthorized = userInfo.name !== "";
 
-  const isConstructor = !!useRouteMatch({ path: '/', exact: true });
-  const isCurrentOrders = !!useRouteMatch('/feed');
-  const isProfile = !!useRouteMatch('/profile');
+  const isConstructor = !!useRouteMatch({ path: "/", exact: true });
+  const isCurrentOrders = !!useRouteMatch("/feed");
+  const isProfile = !!useRouteMatch("/profile");
 
   return (
     <header className={appHeader.header}>
       <nav className={appHeader.container}>
         <div className={appHeader.elements}>
           <NavigationLink
-            text='Конструктор'
+            text="Constructor"
             icon={
               isConstructor ? (
-                <BurgerIcon type='primary' />
+                <BurgerIcon type="primary" />
               ) : (
-                <BurgerIcon type='secondary' />
+                <BurgerIcon type="secondary" />
               )
             }
             inactive={isConstructor ? false : true}
-            path='/'
+            path="/"
           />
 
           <NavigationLink
-            text='Лента заказов'
+            text="Order feed"
             icon={
               isCurrentOrders ? (
-                <ListIcon type='primary' />
+                <ListIcon type="primary" />
               ) : (
-                <ListIcon type='secondary' />
+                <ListIcon type="secondary" />
               )
             }
             inactive={isCurrentOrders ? false : true}
-            path='/feed'
+            path="/feed"
           />
         </div>
-        <Link to='/'>
+        <Link to="/">
           <Logo />
         </Link>
         <NavigationLink
-          text={isUserAuthorized ? userInfo?.name : 'Личный кабинет'}
+          text={isUserAuthorized ? userInfo?.name : "Login"}
           icon={
             isProfile ? (
-              <ProfileIcon type='primary' />
+              <ProfileIcon type="primary" />
             ) : (
-              <ProfileIcon type='secondary' />
+              <ProfileIcon type="secondary" />
             )
           }
           inactive={isProfile ? false : true}
-          path='/profile'
+          path="/profile"
         />
       </nav>
     </header>
@@ -81,7 +81,7 @@ function NavigationLink({ text, icon, inactive, path }: TNavigateProps) {
   return (
     <Link
       to={`${path}`}
-      className={`${appHeader.link} ${inactive ? appHeader.inactive : ''}`}
+      className={`${appHeader.link} ${inactive ? appHeader.inactive : ""}`}
     >
       {icon}
       <span className={appHeader.text}>{text}</span>

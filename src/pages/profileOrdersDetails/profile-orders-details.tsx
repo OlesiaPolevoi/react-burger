@@ -50,11 +50,13 @@ export function ProfileOrdersDetails() {
       <div className={profileOrdersDetails.ordernumber}>#034533</div>
 
       <div className={profileOrdersDetails.burgertitle}>
-        Black Hole Singularity острый бургер
+        Black Hole Singularity spicy burger
       </div>
 
-      <div className={profileOrdersDetails.status}>Выполнен</div>
-      <div className={profileOrdersDetails.ingredientstitle}>Состав:</div>
+      <div className={profileOrdersDetails.status}>Done</div>
+      <div className={profileOrdersDetails.ingredientstitle}>
+        All ingredients:
+      </div>
 
       {orderArray.map((el) => {
         return (

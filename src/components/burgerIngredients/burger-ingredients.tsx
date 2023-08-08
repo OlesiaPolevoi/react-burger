@@ -70,7 +70,7 @@ export function BurgerIngredients() {
 
   return (
     <section>
-      <h1 className={burgerIngredients.heading}>Соберите бургер</h1>
+      <h1 className={burgerIngredients.heading}>Build your cosmic burger</h1>
 
       <div className={burgerIngredients.tab}>
         <Tab
@@ -80,7 +80,7 @@ export function BurgerIngredients() {
             onTabClick("buns");
           }}
         >
-          Булки
+          Buns
         </Tab>
         <Tab
           value="sauce"
@@ -89,7 +89,7 @@ export function BurgerIngredients() {
             onTabClick("sauce");
           }}
         >
-          Соусы
+          Sauces
         </Tab>
         <Tab
           value="main"
@@ -98,25 +98,25 @@ export function BurgerIngredients() {
             onTabClick("main");
           }}
         >
-          Начинки
+          Ingredients
         </Tab>
       </div>
 
       <section className={burgerIngredients.scroller}>
         <IngredientsContainer
-          header="Булки"
+          header="Buns"
           id="buns"
           cardsArr={bunsArray}
           myRef={bunsRef}
         />
         <IngredientsContainer
-          header="Соусы"
+          header="Sauces"
           id="sauce"
           cardsArr={saucesArray}
           myRef={saucesRef}
         />
         <IngredientsContainer
-          header="Начинки"
+          header="Ingredients"
           id="main"
           cardsArr={mainsArray}
           myRef={mainsRef}

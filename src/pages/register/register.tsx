@@ -56,16 +56,16 @@ export function Register() {
   return (
     <div>
       <form className={register.container} onSubmit={handleSubmit}>
-        <h2 className={register.header}>Регистрация</h2>
+        <h2 className={register.header}>Register</h2>
 
         <Input
           type={"text"}
-          placeholder={"Имя"}
+          placeholder={"Name"}
           onChange={onChange}
           value={userData.name}
           name={"name"}
           error={false}
-          errorText={"Ошибка"}
+          errorText={"Error"}
           size={"default"}
         />
 
@@ -74,6 +74,7 @@ export function Register() {
           value={userData.email}
           name={"email"}
           isIcon={false}
+          placeholder={"E-mail"}
         />
 
         <PasswordInput
@@ -81,21 +82,22 @@ export function Register() {
           value={userData.password}
           name={"password"}
           extraClass="mb-2"
+          placeholder={"Password"}
         />
         <button className={register.button} type="submit">
-          Зарегистрироваться
+          Register
         </button>
       </form>
 
       <div className={register.info}>
-        <h4>Уже зарегистрированы?</h4>
+        <h4>Already registered?</h4>
         <Button
           htmlType="button"
           type="secondary"
           size="medium"
           onClick={goToLogin}
         >
-          Войти
+          Login
         </Button>
       </div>
     </div>

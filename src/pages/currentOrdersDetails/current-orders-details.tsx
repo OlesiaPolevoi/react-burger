@@ -81,9 +81,11 @@ export function CurrentOrdersDetails() {
           </div>
 
           <div className={currentOrdersDetails.status}>
-            {orderViewing?.status === "done" ? "Выполнен" : "Готовится"}
+            {orderViewing?.status === "done" ? "Done" : "In progress"}
           </div>
-          <div className={currentOrdersDetails.ingredientstitle}>Состав:</div>
+          <div className={currentOrdersDetails.ingredientstitle}>
+            All ingredients:
+          </div>
 
           {orderArray?.map((el) => {
             return (
@@ -129,7 +131,7 @@ export function CurrentOrdersDetails() {
           </div>
         </div>
       ) : (
-        <div className={currentOrdersDetails.loading}>Идёт загрузка...</div>
+        <div className={currentOrdersDetails.loading}>Loading...</div>
       )}
     </div>
   );

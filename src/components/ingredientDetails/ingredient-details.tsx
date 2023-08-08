@@ -23,19 +23,19 @@ export function IngredientDetails() {
       <h3 className={ingredientDetails.description}>{ingredient?.name}</h3>
       <div className={ingredientDetails.nutrition}>
         <div>
-          <h4 className={ingredientDetails?.name}>Калории,ккал</h4>
+          <h4 className={ingredientDetails?.name}>Calories,kcal</h4>
           <div className={ingredientDetails.number}>{ingredient?.calories}</div>
         </div>
         <div>
-          <h4 className={ingredientDetails?.name}>Белки, г</h4>
+          <h4 className={ingredientDetails?.name}>Proteins, grams</h4>
           <div className={ingredientDetails.number}>{ingredient?.proteins}</div>
         </div>
         <div>
-          <h4 className={ingredientDetails?.name}>Жиры, г</h4>
+          <h4 className={ingredientDetails?.name}>Fats, grams</h4>
           <div className={ingredientDetails.number}>{ingredient?.fat}</div>
         </div>
         <div>
-          <h4 className={ingredientDetails?.name}>Углеводы, г</h4>
+          <h4 className={ingredientDetails?.name}>Carbs, grams</h4>
           <div className={ingredientDetails?.number}>
             {ingredient?.carbohydrates}
           </div>

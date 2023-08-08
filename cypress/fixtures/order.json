@@ -1,1 +1,1 @@
-{ "success": true, "name": "Название бургера", "order": { "number": 123 } }
+{ "success": true, "name": "Burger's name", "order": { "number": 123 } }

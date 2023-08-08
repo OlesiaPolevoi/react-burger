@@ -119,13 +119,13 @@ export function Profile() {
             to="/profile"
             className={isProfile ? profile.tab : profile.tabInactive}
           >
-            Профиль
+            Profile
           </Link>
           <Link
             to="/profile/orders"
             className={isOrderHistory ? profile.tab : profile.tabInactive}
           >
-            История заказов
+            Order History{" "}
           </Link>
           <Link
             to="/profile/exit"
@@ -134,23 +134,23 @@ export function Profile() {
               userLogout(refreshToken);
             }}
           >
-            Выход
+            Sign out
           </Link>
         </div>
         <p className={profile.paragraph}>
-          В этом разделе вы можете изменить свои персональные данные
+          Here you can change your profile info
         </p>
       </div>
       {isProfile && (
         <form className={profile.container} onSubmit={submitProfileChanges}>
           <Input
             type={"text"}
-            placeholder={"Имя"}
+            placeholder={"Name"}
             onChange={onChange}
             value={userData.name}
             name={"name"}
             error={false}
-            errorText={"Ошибка"}
+            errorText={"Error"}
             size={"default"}
             icon={"EditIcon"}
             onIconClick={onIconClick}
@@ -161,7 +161,7 @@ export function Profile() {
             onChange={onChange}
             value={userData.email}
             name={"email"}
-            placeholder="Логин"
+            placeholder="E-mail"
             isIcon={true}
           />
 
@@ -170,6 +170,7 @@ export function Profile() {
             value={userData.password}
             name={"password"}
             icon="EditIcon"
+            placeholder={"Password"}
           />
 
           <div className={profile.buttons}>
@@ -181,10 +182,10 @@ export function Profile() {
                 toPreviousInput();
               }}
             >
-              Отмена
+              Cancel
             </Button>
             <button className={profile.button} type="submit">
-              Сохранить
+              Save changes
             </button>
           </div>
         </form>
@@ -242,13 +243,13 @@ export function ProfileOrder({ order }: { order: TOrder }) {
 
   const orderStatus = (status: string): string => {
     if (status === "created") {
-      return "Создан";
+      return "Created";
     }
     if (status === "pending") {
-      return "Готовится";
+      return "In progress";
     }
     if (status === "done") {
-      return "Выполнен";
+      return "Done";
     }
     return "";
   };

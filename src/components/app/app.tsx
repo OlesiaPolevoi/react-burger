@@ -141,8 +141,8 @@ export function App() {
                 </Modal>
               }
             />
-
-            <Route>Страница не найдена</Route>
+            <Route path="/profile/exit">Signed out</Route>
+            <Route>Page not found</Route>
           </Switch>
 
           {background && (
@@ -150,7 +150,7 @@ export function App() {
               path="/ingredients/:_id"
               exact
               children={
-                <Modal onClose={handleModalClose} title="Детали ингредиента">
+                <Modal onClose={handleModalClose} title="Ingredient details">
                   <IngredientDetails />
                 </Modal>
               }
