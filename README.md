@@ -2,7 +2,7 @@ Stellar React Burger Application
 
 WEBSITE 
 
-For a hands-on experience of the React Burger application, visit:** https://olesiapolevoi.github.io/react-burger/#/**
+For a hands-on experience of the React Burger application, visit: https://olesiapolevoi.github.io/react-burger/#/
 
 This application was built using React and TypeScript to create a delightful burger ordering experience.
 
@@ -29,7 +29,7 @@ Explore the burger menu, customize your order, and proceed to checkout.
 
 TECHNOLOGIES USED 
 
-**React
+React
 
 Redux
 
@@ -40,13 +40,14 @@ TypeScript
 HTML/CSS
 
 GitHub
-**
+
 
 Feel free to place your burger orders and enjoy the virtual burger feast!
 
 I hope you have a delightful time exploring the React Burger application. If you have any questions or feedback, please don't hesitate to get in touch with me.
 
-LinkedIn:** https://www.linkedin.com/in/olesia-polevoi-b41a511b9/**
+LinkedIn: https://www.linkedin.com/in/olesia-polevoi-b41a511b9/
+
 email: olesia.polevoi@gmail.com
 
 Bon appétit! 🍔🍟
